@@ -20,8 +20,8 @@ public class Logo extends HorizontalLayout
 	@PostConstruct
 	public void init()
 	{
-		Icon icon = new Icon(VaadinIcon.HOME);
-		Label label = new Label("HiMo");
+		Icon icon = new Icon(VaadinIcon.TOOLS);
+		Label label = new Label("AThink");
 		add(icon, label);
 		
 	}

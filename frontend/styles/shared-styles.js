@@ -6,15 +6,15 @@ import '@vaadin/vaadin-charts/theme/vaadin-chart-default-theme';
 const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `
-<custom-style>
+/* <custom-style>
   <style>
     html {
-    	--lumo-primary-text-color: var(--primary-color, #147843);
-        --lumo-primary-color: var(--primary-color, #147843);
+    	 --lumo-primary-text-color: var(--primary-color, #147843);
+         --lumo-primary-color: var(--primary-color, #147843);
     }
   </style>
 </custom-style>
-
+*/
 
 <custom-style>
   <style>

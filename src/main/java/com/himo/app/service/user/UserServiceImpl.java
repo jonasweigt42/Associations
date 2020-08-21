@@ -56,4 +56,22 @@ public class UserServiceImpl implements UserService
 		dao.save(newUser);
 	}
 
+	@Override
+	public int count()
+	{
+		return dao.count();
+	}
+
+	@Override
+	public void delete(User user)
+	{
+		dao.delete(user);
+	}
+
+	@Override
+	public List<User> getRandomEntries(int number)
+	{
+		return dao.getRandomEntries(number);
+	}
+
 }

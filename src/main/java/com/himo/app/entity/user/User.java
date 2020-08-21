@@ -29,21 +29,9 @@ public class User implements Serializable
 	@Column
 	private String password;
 	
-	@Column
-	private boolean isFahrer;
-	
-	
 	public int getId()
 	{
 		return id;
-	}
-	public void setFahrer(boolean isFahrer)
-	{
-		this.isFahrer = isFahrer;
-	}
-	public boolean isFahrer()
-	{
-		return isFahrer;
 	}
 	public String getMailAddress()
 	{

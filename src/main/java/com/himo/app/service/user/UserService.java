@@ -1,16 +1,9 @@
 package com.himo.app.service.user;
 
-import java.util.List;
-
 import com.himo.app.entity.user.User;
+import com.himo.app.service.AssociationService;
 
-public interface UserService
+public interface UserService extends AssociationService<User>
 {
-	List<User> findAll();
-	
 	User getUserByMailAddress(String mailAddress);
-	
-	void update(User user);
-	
-	void save(User newUser);
 }

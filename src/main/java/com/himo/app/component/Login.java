@@ -2,6 +2,7 @@ package com.himo.app.component;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,8 @@ import com.himo.app.event.UpdateLoginEvent;
 import com.himo.app.userinfo.UserInfo;
 import com.himo.app.view.ProfileView;
 import com.himo.app.view.StartView;
-import com.himo.app.view.trip.ProvideTripView;
-import com.himo.app.view.trip.SearchTripView;
+import com.himo.app.view.association.AssociationGameView;
+import com.himo.app.view.association.StartAssociationGameView;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -42,19 +43,22 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private ForgetPasswordDialog forgotPasswordDialog;
 
 	@Autowired
-	private SearchTripView searchTripView;
+	private AssociationGameView searchTripView;
 
 	@Autowired
 	private StartView startView;
 
 	@Autowired
-	private ProvideTripView provideTripView;
+	private StartAssociationGameView provideTripView;
 
 	@Autowired
 	private ProfileView profileView;
 	
 	@Autowired
 	private Register register;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -139,7 +143,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private LoginI18n prepareI18n()
 	{
 		LoginI18n i18n = LoginI18n.createDefault();
-		i18n.getForm().setTitle("Willkommen bei HiMo");
+		i18n.getForm().setTitle("Assoziativspiel");
 		i18n.getForm().setUsername(TextConstants.MAIL_ADDRESS);
 		i18n.getForm().setPassword(TextConstants.PASSWORD);
 		i18n.getForm().setForgotPassword(TextConstants.FORGET_PASSWORD);
@@ -173,7 +177,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	@Override
 	public void onApplicationEvent(UpdateLoginEvent event)
 	{
-		System.out.println("catched UpdateLoginEvent");
+		logger.info("catched UpdateLoginEvent");
 		close();
 		prepareButtonLabel();
 		updateViews();
