@@ -182,9 +182,17 @@
 				<!-- Clean build and startup time for Vaadin apps sometimes may exceed 
 					the default Spring Boot's 30sec timeout. -->
 				<configuration>
+					<mainClass>com.think.app.Application</mainClass>
 					<wait>500</wait>
 					<maxAttempts>240</maxAttempts>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Take care of synchronizing java dependencies and imports in package.json 
