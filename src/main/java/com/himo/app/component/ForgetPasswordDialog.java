@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.himo.app.constants.HTMLConstants;
 import com.himo.app.constants.TextConstants;
 import com.himo.app.entity.user.User;
 import com.himo.app.service.user.UserService;
@@ -39,16 +40,16 @@ public class ForgetPasswordDialog extends Dialog
 	public void init()
 	{
 		VerticalLayout layout = new VerticalLayout();
-		layout.addClassName("centered-content");
+		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H2 title = new H2("Neues Passwort vergeben");
+		H2 title = new H2(TextConstants.ASSIGN_NEW_PASSWORD);
 		mailAddress = prepareEMailField();
 
-		errorLabel.addClassName("text-red");
+		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		Button submit = new Button();
 		submit.addClickListener(ent -> validate(mailAddress.getValue()));
-		submit.setText("zurücksetzen");
+		submit.setText(TextConstants.RESET);
 
 		setCloseOnEsc(true);
 		setSizeFull();

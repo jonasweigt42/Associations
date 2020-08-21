@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.himo.app.component.ChangePasswordDialog;
+import com.himo.app.constants.HTMLConstants;
 import com.himo.app.constants.TextConstants;
 import com.himo.app.entity.user.User;
 import com.himo.app.service.user.UserService;
@@ -44,7 +45,7 @@ public class ProfileView extends VerticalLayout
 	@PostConstruct
 	public void init()
 	{
-		addClassName("centered-content");
+		addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		loadContent();
 	}
@@ -59,10 +60,10 @@ public class ProfileView extends VerticalLayout
 			TextField lastname = prepareLastnameTextField(user);
 			TextField mailaddress = prepareMailadressTextField(user);
 			
-			Button changePassword = new Button("Passwort Ändern");
+			Button changePassword = new Button(TextConstants.CHANGE_PASSWORD);
 			changePassword.addClickListener(evt -> changePasswordDialog.open());
 
-			Button save = new Button("Speichern");
+			Button save = new Button(TextConstants.SAVE);
 			save.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
 
 			add(firstname, lastname, mailaddress, changePassword, save);
@@ -85,7 +86,7 @@ public class ProfileView extends VerticalLayout
 	{
 		TextField lastname = new TextField();
 		lastname.setValue(user.getLastName());
-		lastname.setLabel("Nachname");
+		lastname.setLabel(TextConstants.LASTNAME);
 		return lastname;
 	}
 
@@ -93,7 +94,7 @@ public class ProfileView extends VerticalLayout
 	{
 		TextField firstname = new TextField();
 		firstname.setValue(user.getFirstName());
-		firstname.setLabel("Vorname");
+		firstname.setLabel(TextConstants.FIRSTNAME);
 		return firstname;
 	}
 

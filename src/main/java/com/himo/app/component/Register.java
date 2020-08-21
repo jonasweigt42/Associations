@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.himo.app.constants.HTMLConstants;
 import com.himo.app.constants.TextConstants;
 import com.himo.app.entity.user.User;
 import com.himo.app.event.Publisher;
@@ -39,7 +40,7 @@ public class Register extends Dialog
 	private PasswordField password = new PasswordField();
 	private PasswordField passwordRetype = new PasswordField();
 	private Label errorLabel = new Label();
-	private Button submit = new Button("Registrieren");
+	private Button submit = new Button(TextConstants.REGISTER);
 
 	@Autowired
 	private UserService userService;
@@ -57,7 +58,7 @@ public class Register extends Dialog
 	public void init()
 	{
 		VerticalLayout layout = new VerticalLayout();
-		layout.addClassName("centered-content");
+		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		H4 title = new H4("Neu hier?");
 		prepareFields();

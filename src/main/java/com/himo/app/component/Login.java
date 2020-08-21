@@ -85,7 +85,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	
 	private Button prepareRegistrationButton()
 	{
-		Button button = new Button("Registrieren");
+		Button button = new Button(TextConstants.REGISTER);
 		button.addClassName("registration-button");
 		button.addClickListener(evt -> register.open());
 		return button;

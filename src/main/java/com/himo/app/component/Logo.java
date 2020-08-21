@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
+import com.himo.app.constants.TextConstants;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,8 +21,8 @@ public class Logo extends HorizontalLayout
 	@PostConstruct
 	public void init()
 	{
-		Icon icon = new Icon(VaadinIcon.TOOLS);
-		Label label = new Label("AThink");
+		Icon icon = new Icon(VaadinIcon.CONNECT_O);
+		Label label = new Label(TextConstants.TITLE);
 		add(icon, label);
 		
 	}

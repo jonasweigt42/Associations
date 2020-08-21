@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.himo.app.constants.HTMLConstants;
 import com.himo.app.constants.TextConstants;
 import com.himo.app.entity.user.User;
 import com.himo.app.userinfo.UserInfo;
@@ -34,7 +35,7 @@ public class StartView extends VerticalLayout
 	@PostConstruct
 	public void init()
 	{
-		addClassName("centered-content");
+		addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		loadContent();
 	}
@@ -42,7 +43,7 @@ public class StartView extends VerticalLayout
 	public void loadContent()
 	{
 		removeAll();
-		H3 headline = new H3("Herzlich Willkommen bei Associative Thinking");
+		H3 headline = new H3("Herzlich Willkommen bei " + TextConstants.TITLE);
 		H4 personalLabel = preparePersonalLabel();
 
 		add(headline, personalLabel);

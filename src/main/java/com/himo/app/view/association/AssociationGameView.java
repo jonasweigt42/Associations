@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.himo.app.constants.HTMLConstants;
 import com.himo.app.constants.TextConstants;
 import com.himo.app.entity.user.User;
 import com.himo.app.service.word.WordService;
@@ -19,7 +20,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 
-@Route(value = "searchTrip", layout = MainView.class)
+@Route(value = "game", layout = MainView.class)
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @UIScope
@@ -38,7 +39,7 @@ public class AssociationGameView extends VerticalLayout
 	@PostConstruct
 	public void init()
 	{
-		addClassName("centered-content");
+		addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		loadContent();
 	}
