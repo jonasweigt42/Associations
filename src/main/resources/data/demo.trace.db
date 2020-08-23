@@ -2304,3 +2304,29 @@ Wrong user name or password [28000-199]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
 	... 54 more
+2020-08-23 20:35:38 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "CREATE TABLE ASSOCIATION (
+ ID INT AUTO_INCREMENT PRIMARY KEY,
+ USER_ID INT NOT NULL,
+ WORD VARCHAR(250) NOT NULL,
+ ASSOCIATIONS VARCHAR(250) NOT NULL,
+ ASSOCIATION_DATE DATE NOT NULL,
+ FOREIGN KEY (USER_ID) REFERENCES USER(ID) [*]"; erwartet "INDEX, ON, NOT, DEFERRABLE, NOCHECK, CHECK, ,, )"
+Syntax error in SQL statement "CREATE TABLE ASSOCIATION (
+ ID INT AUTO_INCREMENT PRIMARY KEY,
+ USER_ID INT NOT NULL,
+ WORD VARCHAR(250) NOT NULL,
+ ASSOCIATIONS VARCHAR(250) NOT NULL,
+ ASSOCIATION_DATE DATE NOT NULL,
+ FOREIGN KEY (USER_ID) REFERENCES USER(ID) [*]"; expected "INDEX, ON, NOT, DEFERRABLE, NOCHECK, CHECK, ,, )"; SQL statement:
+CREATE TABLE ASSOCIATION (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ user_id INT NOT NULL,
+ word VARCHAR(250) NOT NULL,
+ associations VARCHAR(250) NOT NULL,
+ association_date DATE NOT NULL,
+ FOREIGN KEY (user_id) REFERENCES USER(id) [42001-199]
+2020-08-23 20:35:38 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl ")[*]"
+Syntax error in SQL statement ")[*]"; SQL statement:
+) [42000-199]

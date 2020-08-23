@@ -2,8 +2,6 @@ package com.think.app.service.user;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +14,6 @@ public class UserServiceImpl implements UserService
 
 	@Autowired
 	private UserDao dao;
-
-	@PostConstruct
-	public void init()
-	{
-		dao.setClazz(User.class);
-	}
 
 	@Override
 	public List<User> findAll()
@@ -66,12 +58,6 @@ public class UserServiceImpl implements UserService
 	public void delete(User user)
 	{
 		dao.delete(user);
-	}
-
-	@Override
-	public List<User> getRandomEntries(int number)
-	{
-		return dao.getRandomEntries(number);
 	}
 
 }

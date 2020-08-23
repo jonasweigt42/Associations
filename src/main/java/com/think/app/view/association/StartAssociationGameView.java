@@ -57,11 +57,10 @@ public class StartAssociationGameView extends VerticalLayout
 
 	public void addFieldsForUser(User user)
 	{
-		H4 label = new H4("Bereit?");
-
+		H4 label = new H4("Aufgabe: Du bekommst 10 zufällige Wörter, Bitte schreibe zu allen 3 Assoziationen auf");
+		
 		Button start = new Button("Start");
 		start.addClickListener(evt -> navigate());
-		
 
 		add(label, start);
 	}

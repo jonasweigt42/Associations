@@ -2,7 +2,7 @@ package com.think.app.service;
 
 import java.util.List;
 
-public interface AssociationService<T>
+public interface Service<T>
 {
 	List<T> findAll();
 
@@ -14,5 +14,4 @@ public interface AssociationService<T>
 	
 	void delete(T entity);
 	
-	List<T> getRandomEntries(int number);
 }

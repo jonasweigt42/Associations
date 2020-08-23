@@ -1,6 +1,7 @@
 package com.think.app.view.association;
 
-import java.util.List;
+import java.sql.Date;
+import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 
@@ -9,10 +10,12 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
+import com.think.app.entity.association.Association;
 import com.think.app.entity.user.User;
-import com.think.app.service.word.WordService;
+import com.think.app.service.association.AssociationService;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -34,8 +37,13 @@ public class AssociationGameView extends VerticalLayout
 	private UserInfo userInfo;
 	
 	@Autowired
-	private WordService wordService;
-
+	private AssociationService associationService;
+	
+	private TextField ass1 = new TextField();
+	private TextField ass2 = new TextField();
+	private TextField ass3 = new TextField();
+	private H4 label = new H4();
+	
 	@PostConstruct
 	public void init()
 	{
@@ -61,18 +69,49 @@ public class AssociationGameView extends VerticalLayout
 
 	public void addFieldsForUser(User user)
 	{
-		List<String> list = wordService.getRandomNames(10);
+		if(userInfo.getWordsForAssociations().isEmpty())
+		{
+			return;
+		}
+		String word = userInfo.getWordsForAssociations().get(0);
 		
-		list.forEach(e -> System.out.println(e));
+		label.setText(word);
+
+		Button save = new Button(TextConstants.SAVE);
+		save.addClickListener(evt -> saveAndClear(word));
+
+		add(label, ass1, ass2, ass3, save);
+	}
+
+	private void saveAndClear(String word)
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append(ass1.getValue()).append(",");
+		builder.append(ass2.getValue()).append(",");
+		builder.append(ass3.getValue());
+		Association ass = new Association();
+		ass.setUserId(userInfo.getLoggedInUser().getId());
+		ass.setWord(word);
+		ass.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
+		ass.setAssociations(builder.toString());
 		
-		H4 label = new H4(list.get(0));
-
-		TextField ass1 = new TextField();
-		TextField ass2 = new TextField();
-		TextField ass3 = new TextField();
-
-
-		add(label, ass1, ass2, ass3);
+		associationService.save(ass);
+		
+		userInfo.getWordsForAssociations().remove(word);
+		if(userInfo.getWordsForAssociations().isEmpty())
+		{
+			remove(ass1, ass2, ass3);
+			label.setText("Super! :)");
+			add(label);
+		}
+		else
+		{
+			String nextWord = userInfo.getWordsForAssociations().get(0);
+			label.setText(nextWord);
+			ass1.clear();
+			ass2.clear();
+			ass3.clear();
+		}
 	}
 
 

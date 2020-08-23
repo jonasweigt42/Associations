@@ -1,6 +1,7 @@
 package com.think.app.userinfo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.entity.user.User;
 import com.think.app.service.user.UserService;
+import com.think.app.service.word.WordService;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 
@@ -20,6 +22,7 @@ public class UserInfo implements Serializable
 	private String sessionId;
 	private boolean loggedIn;
 	private User loggedInUser;
+	private List<String> wordsForAssociations;
 
 	@Autowired
 	private UserService userService;
@@ -27,6 +30,9 @@ public class UserInfo implements Serializable
 	@Autowired
 	private PasswordEncoder encoder;
 
+	@Autowired
+	private WordService wordService;
+	
 	public void login(String mailAddress, String password)
 	{
 		loggedInUser = callDbAndAuthenticateUser(mailAddress, password);
@@ -34,6 +40,7 @@ public class UserInfo implements Serializable
 		if (loggedIn)
 		{
 			sessionId = VaadinSession.getCurrent().getSession().getId();
+			wordsForAssociations = wordService.getRandomWords(10);
 		}
 	}
 
@@ -69,6 +76,16 @@ public class UserInfo implements Serializable
 	public User getLoggedInUser()
 	{
 		return loggedInUser;
+	}
+
+	public List<String> getWordsForAssociations()
+	{
+		return wordsForAssociations;
+	}
+
+	public void setWordsForAssociations(List<String> wordsForAssociations)
+	{
+		this.wordsForAssociations = wordsForAssociations;
 	}
 
 }

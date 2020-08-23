@@ -53,15 +53,9 @@ public class WordImpl implements WordService
 	}
 
 	@Override
-	public List<Word> getRandomEntries(int number)
+	public List<String> getRandomWords(int number)
 	{
-		return dao.getRandomEntries(number);
-	}
-
-	@Override
-	public List<String> getRandomNames(int number)
-	{
-		return getRandomEntries(number).stream().map(word -> word.getName()).collect(Collectors.toList());
+		return dao.getRandomEntries(number).stream().map(word -> word.getName()).collect(Collectors.toList());
 	}
 
 }
