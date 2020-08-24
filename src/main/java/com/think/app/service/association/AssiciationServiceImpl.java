@@ -3,10 +3,12 @@ package com.think.app.service.association;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.think.app.entity.association.AssocationDao;
 import com.think.app.entity.association.Association;
 
+@Service
 public class AssiciationServiceImpl implements AssociationService
 {
 	

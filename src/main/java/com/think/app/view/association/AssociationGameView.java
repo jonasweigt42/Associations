@@ -35,15 +35,15 @@ public class AssociationGameView extends VerticalLayout
 
 	@Autowired
 	private UserInfo userInfo;
-	
+
 	@Autowired
 	private AssociationService associationService;
-	
-	private TextField ass1 = new TextField();
-	private TextField ass2 = new TextField();
-	private TextField ass3 = new TextField();
+
+	private TextField associationField1 = new TextField();
+	private TextField associationField2 = new TextField();
+	private TextField associationField3 = new TextField();
 	private H4 label = new H4();
-	
+
 	@PostConstruct
 	public void init()
 	{
@@ -69,50 +69,63 @@ public class AssociationGameView extends VerticalLayout
 
 	public void addFieldsForUser(User user)
 	{
-		if(userInfo.getWordsForAssociations().isEmpty())
+		if (userInfo.getWordsForAssociations().isEmpty())
 		{
 			return;
 		}
 		String word = userInfo.getWordsForAssociations().get(0);
-		
+
 		label.setText(word);
 
 		Button save = new Button(TextConstants.SAVE);
-		save.addClickListener(evt -> saveAndClear(word));
+		save.addClickListener(evt -> saveAndClear());
 
-		add(label, ass1, ass2, ass3, save);
+		add(label, associationField1, associationField2, associationField3, save);
 	}
 
-	private void saveAndClear(String word)
+	private void saveAndClear()
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append(ass1.getValue()).append(",");
-		builder.append(ass2.getValue()).append(",");
-		builder.append(ass3.getValue());
-		Association ass = new Association();
-		ass.setUserId(userInfo.getLoggedInUser().getId());
-		ass.setWord(word);
-		ass.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
-		ass.setAssociations(builder.toString());
-		
-		associationService.save(ass);
-		
+		String word = label.getText();
+		saveNewAssociationEntity(word);
+
 		userInfo.getWordsForAssociations().remove(word);
-		if(userInfo.getWordsForAssociations().isEmpty())
+		if (userInfo.getWordsForAssociations().isEmpty())
 		{
-			remove(ass1, ass2, ass3);
-			label.setText("Super! :)");
+			removeAll();
+			label.setText("Fertig! Du kannst dir deine Assoziationen unter \"Statistik\" anschauen! :)");
 			add(label);
-		}
-		else
+		} else
 		{
 			String nextWord = userInfo.getWordsForAssociations().get(0);
 			label.setText(nextWord);
-			ass1.clear();
-			ass2.clear();
-			ass3.clear();
+			clearAssociationFields();
 		}
 	}
 
+	private void saveNewAssociationEntity(String word)
+	{
+		Association associationEntity = new Association();
+		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
+		associationEntity.setWord(word);
+		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
+		associationEntity.setAssociations(buildAssociations());
+		associationService.save(associationEntity);
+	}
+
+	private void clearAssociationFields()
+	{
+		associationField1.clear();
+		associationField2.clear();
+		associationField3.clear();
+	}
+
+	private String buildAssociations()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append(associationField1.getValue()).append(",");
+		builder.append(associationField2.getValue()).append(",");
+		builder.append(associationField3.getValue());
+		return builder.toString();
+	}
 
 }

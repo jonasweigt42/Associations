@@ -19,7 +19,7 @@ public abstract class GenericDao<T extends Serializable>
 	private Class<T> clazz;
 
 	@PersistenceContext
-	EntityManager entityManager;
+	protected EntityManager entityManager;
 
 	public void setClazz(Class<T> clazzToSet)
 	{
