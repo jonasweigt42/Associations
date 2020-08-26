@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
 import com.think.app.view.association.StartAssociationGameView;
+import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -87,6 +88,7 @@ public class MainView extends AppLayout
 		tabs.add(createTab("Willkommen", StartView.class));
 		tabs.add(createTab("Spiel",StartAssociationGameView.class));
 		tabs.add(createTab("Profil", ProfileView.class));
+		tabs.add(createTab("Statistiken", StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 

@@ -45,4 +45,10 @@ public class AssiciationServiceImpl implements AssociationService
 		dao.delete(association);
 	}
 
+	@Override
+	public List<Association> findByUserId(int userId)
+	{
+		return dao.findByUserId(userId);
+	}
+
 }

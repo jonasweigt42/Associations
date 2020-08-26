@@ -14,6 +14,7 @@ import com.think.app.view.ProfileView;
 import com.think.app.view.StartView;
 import com.think.app.view.association.AssociationGameView;
 import com.think.app.view.association.StartAssociationGameView;
+import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -53,6 +54,9 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	@Autowired
 	private ProfileView profileView;
+	
+	@Autowired
+	private StatisticView statisticsView;
 	
 	@Autowired
 	private Register register;
@@ -132,6 +136,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		startView.loadContent();
 		provideTripView.loadContent();
 		profileView.loadContent();
+		statisticsView.loadContent();
 	}
 
 	private void prepareLoginButton()
