@@ -22,4 +22,6 @@ public class TextConstants
 	public static final String FORGET_PASSWORD = "Passwort vergessen";
 	public static final String CHANGE_PASSWORD = "Passwort ändern";
 
+	
+	public static final String FILTER = "Filter";
 }

@@ -10,11 +10,6 @@ import org.springframework.stereotype.Component;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateLoginEvent;
 import com.think.app.userinfo.UserInfo;
-import com.think.app.view.ProfileView;
-import com.think.app.view.StartView;
-import com.think.app.view.association.AssociationGameView;
-import com.think.app.view.association.StartAssociationGameView;
-import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -44,22 +39,10 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private ForgetPasswordDialog forgotPasswordDialog;
 
 	@Autowired
-	private AssociationGameView searchTripView;
-
-	@Autowired
-	private StartView startView;
-
-	@Autowired
-	private StartAssociationGameView provideTripView;
-
-	@Autowired
-	private ProfileView profileView;
-	
-	@Autowired
-	private StatisticView statisticsView;
-	
-	@Autowired
 	private Register register;
+	
+	@Autowired
+	private ViewUpdater viewUpdater;
 	
 	@Autowired
 	private Logger logger;
@@ -123,20 +106,11 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 				if (userInfo.isLoggedIn())
 				{
 					prepareButtonLabel();
-					updateViews();
+					viewUpdater.updateViews();
 					close();
 				}
 			}
 		});
-	}
-
-	private void updateViews()
-	{
-		searchTripView.loadContent();
-		startView.loadContent();
-		provideTripView.loadContent();
-		profileView.loadContent();
-		statisticsView.loadContent();
 	}
 
 	private void prepareLoginButton()
@@ -185,7 +159,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		logger.info("catched UpdateLoginEvent");
 		close();
 		prepareButtonLabel();
-		updateViews();
+		viewUpdater.updateViews();
 	}
 
 }
