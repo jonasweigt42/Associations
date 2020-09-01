@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.think.app.component.Login;
 import com.think.app.component.Logo;
 import com.think.app.constants.TextConstants;
 import com.think.app.view.association.StartAssociationGameView;
@@ -58,8 +57,8 @@ public class MainView extends AppLayout
 	@Autowired
 	private Logo logo;
 
-	@Autowired
-	private Login login;
+//	@Autowired
+//	private Login login;
 
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException
@@ -67,10 +66,10 @@ public class MainView extends AppLayout
 		setPrimarySection(Section.DRAWER);
 		addToNavbar(false, new DrawerToggle());
 		addToNavbar(false, logo);
-		addToNavbar(login.getLoginButton());
+//		addToNavbar(login.getLoginButton());
 		menu = createMenuTabs();
 		addToDrawer(menu);
-		login.open();
+//		login.open();
 	}
 	
 	private Tabs createMenuTabs()

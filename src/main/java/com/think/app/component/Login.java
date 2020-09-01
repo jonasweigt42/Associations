@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateLoginEvent;
-import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -32,8 +31,8 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private Button loginButton = new Button();
 	private LoginForm loginForm = new LoginForm();
 
-	@Autowired
-	private UserInfo userInfo;
+//	@Autowired
+//	private UserInfo userInfo;
 	
 	@Autowired
 	private ForgetPasswordDialog forgotPasswordDialog;
@@ -64,10 +63,10 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	@Override
 	public void open()
 	{
-		if(!userInfo.isLoggedIn())
-		{
-			super.open();
-		}
+//		if(!userInfo.isLoggedIn())
+//		{
+//			super.open();
+//		}
 	}
 	
 	private Button prepareRegistrationButton()
@@ -102,13 +101,13 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 			@Override
 			public void onComponentEvent(LoginEvent event)
 			{
-				userInfo.login(event.getUsername(), event.getPassword());
-				if (userInfo.isLoggedIn())
-				{
-					prepareButtonLabel();
-					viewUpdater.updateViews();
-					close();
-				}
+//				userInfo.login(event.getUsername(), event.getPassword());
+//				if (userInfo.isLoggedIn())
+//				{
+//					prepareButtonLabel();
+//					viewUpdater.updateViews();
+//					close();
+//				}
 			}
 		});
 	}
@@ -131,21 +130,21 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	private void changeLoginState()
 	{
-		if (userInfo.isLoggedIn())
-		{
-			userInfo.logout();
-		} 
+//		if (userInfo.isLoggedIn())
+//		{
+//			userInfo.logout();
+//		} 
 	}
 
 	private void prepareButtonLabel()
 	{
-		if (userInfo.isLoggedIn())
-		{
-			loginButton.setText(TextConstants.LOGOUT);
-		} else
-		{
-			loginButton.setText(TextConstants.LOGIN);
-		}
+//		if (userInfo.isLoggedIn())
+//		{
+//			loginButton.setText(TextConstants.LOGOUT);
+//		} else
+//		{
+//			loginButton.setText(TextConstants.LOGIN);
+//		}
 	}
 
 	public Button getLoginButton()

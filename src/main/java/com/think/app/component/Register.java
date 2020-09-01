@@ -10,9 +10,7 @@ import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.event.Publisher;
-import com.think.app.event.UpdateLoginEvent;
 import com.think.app.service.user.UserService;
-import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -45,8 +43,8 @@ public class Register extends Dialog
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserInfo userInfo;
+//	@Autowired
+//	private UserInfo userInfo;
 
 	@Autowired
 	private Publisher publisher;
@@ -93,24 +91,24 @@ public class Register extends Dialog
 
 	private void validateRegistration()
 	{
-		User user = userService.getUserByMailAddress(mailAddress.getValue());
-
-		if (user != null)
-		{
-			errorLabel.setText("Benutzer ist schon vorhanden");
-		}
-		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
-		{
-			errorLabel.setText("Passwörter sind nicht gleich");
-		}
-		if (user == null && password.getValue().equals(passwordRetype.getValue()))
-		{
-			User newUser = createUser();
-			userService.save(newUser);
-			userInfo.login(newUser.getMailAddress(), passwordRetype.getValue());
-			close();
-			publisher.publishEvent(new UpdateLoginEvent(this));
-		}
+//		User user = userService.getUserByMailAddress(mailAddress.getValue());
+//
+//		if (user != null)
+//		{
+//			errorLabel.setText("Benutzer ist schon vorhanden");
+//		}
+//		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
+//		{
+//			errorLabel.setText("Passwörter sind nicht gleich");
+//		}
+//		if (user == null && password.getValue().equals(passwordRetype.getValue()))
+//		{
+//			User newUser = createUser();
+//			userService.save(newUser);
+//			userInfo.login(newUser.getMailAddress(), passwordRetype.getValue());
+//			close();
+//			publisher.publishEvent(new UpdateLoginEvent(this));
+//		}
 	}
 
 	public User createUser()

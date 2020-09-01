@@ -14,7 +14,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -70,21 +69,21 @@ public class ForgetPasswordDialog extends Dialog
 
 	private void validate(String mailAddress)
 	{
-		User user = userService.getUserByMailAddress(mailAddress);
-
-		if (user == null)
-		{
-			errorLabel.setText("Benutzer ist nicht registriert");
-
-		} else
-		{
+//		User user = userService.getUserByMailAddress(mailAddress);
+//
+//		if (user == null)
+//		{
+//			errorLabel.setText("Benutzer ist nicht registriert");
+//
+//		} else
+//		{
 			// TODO add send mail and generate random password
 //			user.setPassword(encoder.encode(randomPassword));
 //			userService.update(user);
 //			Notification.show("Passwort für " + user.getMailAddress() + " zurückgesetzt");
-			Notification.show("not implemented yet");
-			close();
-		}
+//			Notification.show("not implemented yet");
+//			close();
+//		}
 	}
 
 }

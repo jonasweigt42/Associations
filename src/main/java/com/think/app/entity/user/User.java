@@ -1,38 +1,16 @@
 package com.think.app.entity.user;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "USER")
-public class User implements Serializable
+public class User
 {
-
-	private static final long serialVersionUID = 2517077877917932578L;
-
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@Column
+	
 	private String firstName;
-	@Column
+
 	private String lastName;
-	@Column
+
 	private String mailAddress;
-	@Column
+
 	private String password;
 	
-	public int getId()
-	{
-		return id;
-	}
 	public String getMailAddress()
 	{
 		return mailAddress;

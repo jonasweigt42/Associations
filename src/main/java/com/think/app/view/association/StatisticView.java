@@ -1,7 +1,5 @@
 package com.think.app.view.association;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,13 +10,10 @@ import org.springframework.stereotype.Component;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.user.User;
-import com.think.app.service.association.AssociationService;
-import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
-import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -36,11 +31,11 @@ public class StatisticView extends VerticalLayout
 
 	private static final long serialVersionUID = -1660640162656141470L;
 
-	@Autowired
-	private UserInfo userInfo;
-
-	@Autowired
-	private AssociationService associationService;
+//	@Autowired
+//	private UserInfo userInfo;
+//
+//	@Autowired
+//	private AssociationService associationService;
 
 	@Autowired
 	private Logger logger;
@@ -54,27 +49,27 @@ public class StatisticView extends VerticalLayout
 	public void loadContent()
 	{
 		removeAll();
-
-		User user = userInfo.getLoggedInUser();
-		if (user != null)
-		{
-			addFieldsForUser(user);
-		} else
-		{
-			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
-			add(label);
-		}
+//
+//		User user = userInfo.getLoggedInUser();
+//		if (user != null)
+//		{
+//			addFieldsForUser(user);
+//		} else
+//		{
+//			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
+//			add(label);
+//		}
 	}
 
 	public void addFieldsForUser(User user)
 	{
-		List<Association> datalist = associationService.findByUserId(user.getId());
-		ListDataProvider<Association> dataProvider = new ListDataProvider<>(datalist);
-		logger.info("for user " + user.getMailAddress() + " exists " + datalist.size() + " associations");
-
-		Grid<Association> grid = prepareGrid(dataProvider);
-
-		add(grid);
+//		List<Association> datalist = associationService.findByUserId(user.getId());
+//		ListDataProvider<Association> dataProvider = new ListDataProvider<>(datalist);
+//		logger.info("for user " + user.getMailAddress() + " exists " + datalist.size() + " associations");
+//
+//		Grid<Association> grid = prepareGrid(dataProvider);
+//
+//		add(grid);
 	}
 
 	private Grid<Association> prepareGrid(ListDataProvider<Association> dataProvider)

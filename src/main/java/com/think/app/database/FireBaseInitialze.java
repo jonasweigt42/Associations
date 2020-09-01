@@ -15,24 +15,23 @@ import com.google.firebase.FirebaseOptions;
 @Service
 public class FireBaseInitialze
 {
-	
+
 	@Autowired
 	private Logger logger;
-	
+
 	@PostConstruct
 	public void initialize()
 	{
 		try
 		{
-			FileInputStream serviceAccount =
-					  new FileInputStream("path/to/serviceAccountKey.json");
+			FileInputStream serviceAccount = new FileInputStream(
+					"thinkconnected-ff6d2-firebase-adminsdk-y4pog-8b03ec96d8.json");
 
-					FirebaseOptions options = new FirebaseOptions.Builder()
-					  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					  .setDatabaseUrl("https://thinkconnected-9298a.firebaseio.com")
-					  .build();
+			FirebaseOptions options = new FirebaseOptions.Builder()
+					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+					.setDatabaseUrl("https://thinkconnected-ff6d2.firebaseio.com").build();
 
-					FirebaseApp.initializeApp(options);
+			FirebaseApp.initializeApp(options);
 		} catch (Exception e)
 		{
 			logger.error(e.getMessage(), e);

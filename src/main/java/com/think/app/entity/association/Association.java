@@ -1,37 +1,16 @@
 package com.think.app.entity.association;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "ASSOCIATION")
-public class Association implements Serializable
+public class Association
 {
 
-	private static final long serialVersionUID = 521930906786420024L;
-
-	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	
-	@Column
 	private int userId;
 	
-	@Column
 	private String word;
 	
-	@Column
 	private String associations;
 	
-	@Column
 	private Date associationDate;
 
 	public int getUserId()
@@ -74,10 +53,4 @@ public class Association implements Serializable
 		this.associationDate = associationDate;
 	}
 
-	public int getId()
-	{
-		return id;
-	}
-	
-	
 }
