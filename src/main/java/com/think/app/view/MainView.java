@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
+import com.think.app.constants.TextConstants;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
@@ -42,7 +43,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
  * tab/window.
  */
 
-@PWA(name = "Think Connected Game", shortName = "TCGame")
+@PWA(name = "Think Connected Game", shortName = TextConstants.TITLE)
 @JsModule("./styles/shared-styles.js")
 @CssImport("./styles/shared-styles.css")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
@@ -85,10 +86,10 @@ public class MainView extends AppLayout
 	private Tab[] getAvailableTabs()
 	{
 		final List<Tab> tabs = new ArrayList<>();
-		tabs.add(createTab("Willkommen", StartView.class));
-		tabs.add(createTab("Spiel",StartAssociationGameView.class));
-		tabs.add(createTab("Profil", ProfileView.class));
-		tabs.add(createTab("Statistiken", StatisticView.class));
+		tabs.add(createTab("Welcome", StartView.class));
+		tabs.add(createTab("Game",StartAssociationGameView.class));
+		tabs.add(createTab("Profile", ProfileView.class));
+		tabs.add(createTab("Statistics", StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 

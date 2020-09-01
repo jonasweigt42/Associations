@@ -122,7 +122,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private LoginI18n prepareI18n()
 	{
 		LoginI18n i18n = LoginI18n.createDefault();
-		i18n.getForm().setTitle("Assoziativspiel");
+		i18n.getForm().setTitle(TextConstants.TITLE);
 		i18n.getForm().setUsername(TextConstants.MAIL_ADDRESS);
 		i18n.getForm().setPassword(TextConstants.PASSWORD);
 		i18n.getForm().setForgotPassword(TextConstants.FORGET_PASSWORD);
@@ -141,10 +141,10 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	{
 		if (userInfo.isLoggedIn())
 		{
-			loginButton.setText("Logout");
+			loginButton.setText(TextConstants.LOGOUT);
 		} else
 		{
-			loginButton.setText("Login");
+			loginButton.setText(TextConstants.LOGIN);
 		}
 	}
 

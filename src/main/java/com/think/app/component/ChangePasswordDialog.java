@@ -74,17 +74,17 @@ public class ChangePasswordDialog extends Dialog
 		}
 		if (!currentPasswordMatches())
 		{
-			errorLabel.setText("aktuelles Passwort ist nicht korrekt!");
+			errorLabel.setText(TextConstants.CURRENT_PASSWORD_INCORRECT);
 		}
 		if (currentPasswordMatches() && !newPasswordsMatches())
 		{
-			errorLabel.setText("Passwörter sind nicht gleich");
+			errorLabel.setText(TextConstants.PASSWORDS_NOT_EQUAL);
 		}
 		if (currentPasswordMatches() && newPasswordsMatches())
 		{
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 			userService.update(user);
-			Notification.show("Passwort für " + user.getMailAddress() + " geändert");
+			Notification.show("Password for " + user.getMailAddress() + " changed");
 			close();
 			clearAll();
 		}
