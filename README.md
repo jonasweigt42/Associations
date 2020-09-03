@@ -11,7 +11,7 @@ You find the databasefile in the path myhimoapp/src/main/resources/data/demo, bu
 
 Run the application using `mvn spring-boot:run` or by running the `Application` class directly from your IDE.
 
-Open http://localhost:80/ in your browser.
+Open http://localhost:8080/ in your browser.
 
 If you want to run the application locally in the production mode, run `mvn spring-boot:run -Pproduction`.
 
@@ -25,6 +25,6 @@ To run Integration Tests, execute `mvn verify -Pintegration-tests`.
 ## Database
 
 The database is a local H2 database. Open the H2 console while the server is running on 
-localhost:80/h2-console
+localhost:8080/h2-console
 
 If your put a "data.sql" in src/main/resources, it will be executed every time you start the server
