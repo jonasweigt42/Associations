@@ -1,20 +1,25 @@
 package com.think.app.component;
 
+import java.util.concurrent.ExecutionException;
+
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.google.firebase.auth.UserInfo;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
-import com.think.app.service.user.UserService;
+import com.think.app.entity.user.User;
+import com.think.app.entity.user.UserService;
+import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -40,6 +45,9 @@ public class ChangePasswordDialog extends Dialog
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -65,34 +73,41 @@ public class ChangePasswordDialog extends Dialog
 
 	private void validate()
 	{
-//		User user = userInfo.getLoggedInUser();
-//		if (user == null)
-//		{
-//			throw new IllegalStateException("user should be logged in");
-//		}
-//		if (!currentPasswordMatches())
-//		{
-//			errorLabel.setText(TextConstants.CURRENT_PASSWORD_INCORRECT);
-//		}
-//		if (currentPasswordMatches() && !newPasswordsMatches())
-//		{
-//			errorLabel.setText(TextConstants.PASSWORDS_NOT_EQUAL);
-//		}
-//		if (currentPasswordMatches() && newPasswordsMatches())
-//		{
-//			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
-//			userService.update(user);
-//			Notification.show("Password for " + user.getMailAddress() + " changed");
-//			close();
-//			clearAll();
-//		}
+		User user = userInfo.getLoggedInUser();
+		if (user == null)
+		{
+			throw new IllegalStateException("user should be logged in");
+		}
+		if (!currentPasswordMatches())
+		{
+			errorLabel.setText(TextConstants.CURRENT_PASSWORD_INCORRECT);
+		}
+		if (currentPasswordMatches() && !newPasswordsMatches())
+		{
+			errorLabel.setText(TextConstants.PASSWORDS_NOT_EQUAL);
+		}
+		if (currentPasswordMatches() && newPasswordsMatches())
+		{
+			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
+			
+			try
+			{
+				userService.update(user);
+			} catch (InterruptedException | ExecutionException e)
+			{
+				errorLabel.setText(TextConstants.GENERIC_ERROR_MESSAGE);
+				logger.error(e.getMessage(), e);
+			}
+			Notification.show("Password for " + user.getMailAddress() + " changed");
+			close();
+			clearAll();
+		}
 	}
 
 	private boolean currentPasswordMatches()
 	{
-//		User user = userInfo.getLoggedInUser();
-//		return encoder.matches(currentPassword.getValue(), user.getPassword());
-		return false;
+		User user = userInfo.getLoggedInUser();
+		return encoder.matches(currentPassword.getValue(), user.getPassword());
 	}
 
 	private boolean newPasswordsMatches()

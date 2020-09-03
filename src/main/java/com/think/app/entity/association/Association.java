@@ -1,28 +1,21 @@
 package com.think.app.entity.association;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Association
+public class Association implements Serializable
 {
 
-	private int userId;
+	private static final long serialVersionUID = 8214246218864102101L;
+
+	private String userMailAddress;
 	
 	private String word;
 	
 	private String associations;
 	
 	private Date associationDate;
-
-	public int getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(int userId)
-	{
-		this.userId = userId;
-	}
-
+	
 	public String getWord()
 	{
 		return word;
@@ -51,6 +44,16 @@ public class Association
 	public void setAssociationDate(Date associationDate)
 	{
 		this.associationDate = associationDate;
+	}
+
+	public String getUserMailAddress()
+	{
+		return userMailAddress;
+	}
+
+	public void setUserMailAddress(String userMailAddress)
+	{
+		this.userMailAddress = userMailAddress;
 	}
 
 }

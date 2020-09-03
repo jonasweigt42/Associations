@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
-import com.think.app.service.user.UserService;
+import com.think.app.entity.user.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -77,7 +77,7 @@ public class ForgetPasswordDialog extends Dialog
 //
 //		} else
 //		{
-			// TODO add send mail and generate random password
+//			 TODO add send mail and generate random password
 //			user.setPassword(encoder.encode(randomPassword));
 //			userService.update(user);
 //			Notification.show("Passwort für " + user.getMailAddress() + " zurückgesetzt");

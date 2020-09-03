@@ -27,4 +27,6 @@ public class TextConstants
 	public static final String LOGIN = "Login";
 	public static final String LOGOUT = "Logout";
 	public static final String FILTER = "Filter";
+	
+	public static final String GENERIC_ERROR_MESSAGE = "something went wrong while registration, please contact the admin";
 }

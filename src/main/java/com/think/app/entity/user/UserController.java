@@ -1,4 +1,4 @@
-package com.think.app.controller;
+package com.think.app.entity.user;
 
 import java.util.concurrent.ExecutionException;
 
@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.think.app.entity.user.User;
-import com.think.app.service.user.UserService;
-
 @RestController
 public class UserController
 {
@@ -22,26 +19,26 @@ public class UserController
 	private UserService userService;
 
 	@GetMapping("/getUser")
-	public User getPatient(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
+	public User getUser(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
 	{
-		return userService.getUser(mailAddress);
+		return userService.getUserByMailAddress(mailAddress);
 	}
 
 	@PostMapping("/createUser")
-	public String createPatient(@RequestBody User user) throws InterruptedException, ExecutionException
+	public void createUser(@RequestBody User user) throws InterruptedException, ExecutionException
 	{
-		return userService.saveUser(user);
+		userService.save(user);
 	}
 
 	@PutMapping("/updateUser")
-	public String updatePatient(@RequestBody User user) throws InterruptedException, ExecutionException
+	public String updateUser(@RequestBody User user) throws InterruptedException, ExecutionException
 	{
-		return userService.updateUser(user);
+		return userService.update(user);
 	}
 
 	@DeleteMapping("/deleteUser")
-	public String deletePatient(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
+	public String deleteUser(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
 	{
-		return userService.deleteUser(mailAddress);
+		return userService.delete(mailAddress);
 	}
 }

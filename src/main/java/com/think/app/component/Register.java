@@ -1,7 +1,10 @@
 package com.think.app.component;
 
+import java.util.concurrent.ExecutionException;
+
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -9,8 +12,10 @@ import org.springframework.stereotype.Component;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
+import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
-import com.think.app.service.user.UserService;
+import com.think.app.event.UpdateLoginEvent;
+import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -43,14 +48,17 @@ public class Register extends Dialog
 	@Autowired
 	private UserService userService;
 
-//	@Autowired
-//	private UserInfo userInfo;
+	@Autowired
+	private UserInfo userInfo;
 
 	@Autowired
 	private Publisher publisher;
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -91,36 +99,47 @@ public class Register extends Dialog
 
 	private void validateRegistration()
 	{
-//		User user = userService.getUserByMailAddress(mailAddress.getValue());
-//
-//		if (user != null)
-//		{
-//			errorLabel.setText("Benutzer ist schon vorhanden");
-//		}
-//		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
-//		{
-//			errorLabel.setText("Passwörter sind nicht gleich");
-//		}
-//		if (user == null && password.getValue().equals(passwordRetype.getValue()))
-//		{
-//			User newUser = createUser();
-//			userService.save(newUser);
-//			userInfo.login(newUser.getMailAddress(), passwordRetype.getValue());
-//			close();
-//			publisher.publishEvent(new UpdateLoginEvent(this));
-//		}
+		try
+		{
+			User user = userService.getUserByMailAddress(mailAddress.getValue());
+
+			validateUser(user);
+		} catch (InterruptedException | ExecutionException e)
+		{
+			errorLabel.setText(TextConstants.GENERIC_ERROR_MESSAGE);
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+	private void validateUser(User user) throws InterruptedException, ExecutionException
+	{
+		if (user != null)
+		{
+			errorLabel.setText("Benutzer ist schon vorhanden");
+		}
+		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
+		{
+			errorLabel.setText("Passwörter sind nicht gleich");
+		}
+		if (user == null && password.getValue().equals(passwordRetype.getValue()))
+		{
+			User newUser = createUser();
+			userService.save(newUser);
+			userInfo.login(newUser.getMailAddress(), passwordRetype.getValue());
+			close();
+			publisher.publishEvent(new UpdateLoginEvent(this));
+		}
 	}
 
 	public User createUser()
 	{
+		String encodedPassword = encoder.encode(passwordRetype.getValue());
 		User newUser = new User();
 		newUser.setFirstName(firstName.getValue());
 		newUser.setLastName(lastName.getValue());
 		newUser.setMailAddress(mailAddress.getValue());
-
-		String encodedPassword = encoder.encode(passwordRetype.getValue());
-
 		newUser.setPassword(encodedPassword);
+		
 		return newUser;
 	}
 

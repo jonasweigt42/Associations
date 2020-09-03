@@ -1,6 +1,6 @@
 package com.think.app.database;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class FireBaseInitialze
@@ -24,18 +26,25 @@ public class FireBaseInitialze
 	{
 		try
 		{
-			FileInputStream serviceAccount = new FileInputStream(
-					"thinkconnected-ff6d2-firebase-adminsdk-y4pog-8b03ec96d8.json");
+			InputStream serviceAccount = this.getClass().getClassLoader()
+					.getResourceAsStream("./thinkconnected-ff6d2-firebase-adminsdk-y4pog-8b03ec96d8.json");
 
 			FirebaseOptions options = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 					.setDatabaseUrl("https://thinkconnected-ff6d2.firebaseio.com").build();
 
-			FirebaseApp.initializeApp(options);
+			if (FirebaseApp.getApps().isEmpty())
+			{
+				FirebaseApp.initializeApp(options);
+			}
 		} catch (Exception e)
 		{
 			logger.error(e.getMessage(), e);
 		}
+	}
 
+	public Firestore getFirestore()
+	{
+		return FirestoreClient.getFirestore();
 	}
 }

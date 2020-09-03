@@ -1,8 +1,11 @@
 package com.think.app.entity.word;
 
-public class Word
+import java.io.Serializable;
+
+public class Word implements Serializable
 {
-	
+
+	private static final long serialVersionUID = 6223481389027538317L;
 
 	private String name;
 	
@@ -16,6 +19,7 @@ public class Word
 	{
 		return name;
 	}
+	
 	@Override
 	public int hashCode()
 	{
@@ -24,6 +28,7 @@ public class Word
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
