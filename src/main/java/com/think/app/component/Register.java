@@ -102,8 +102,8 @@ public class Register extends Dialog
 		try
 		{
 			User user = userService.getUserByMailAddress(mailAddress.getValue());
-
 			validateUser(user);
+			
 		} catch (InterruptedException | ExecutionException e)
 		{
 			errorLabel.setText(TextConstants.GENERIC_ERROR_MESSAGE);
@@ -125,7 +125,7 @@ public class Register extends Dialog
 		{
 			User newUser = createUser();
 			userService.save(newUser);
-			userInfo.login(newUser.getMailAddress(), passwordRetype.getValue());
+			userInfo.loginAfterRegistration(newUser);
 			close();
 			publisher.publishEvent(new UpdateLoginEvent(this));
 		}

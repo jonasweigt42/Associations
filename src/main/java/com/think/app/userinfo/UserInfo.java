@@ -50,6 +50,13 @@ public class UserInfo implements Serializable
 //			wordsForAssociations = wordService.getRandomWords(10);
 		}
 	}
+	
+	public void loginAfterRegistration(User user)
+	{
+		loggedInUser = user;
+		loggedIn = true;
+		sessionId = VaadinSession.getCurrent().getSession().getId();
+	}
 
 	public void logout()
 	{
