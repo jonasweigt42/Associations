@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.component.ChangePasswordDialog;
 import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.notification.Notification;
@@ -37,10 +39,10 @@ public class ProfileView extends VerticalLayout
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ChangePasswordDialog changePasswordDialog;
-	
+
 	@Autowired
 	private Logger logger;
 
@@ -61,19 +63,31 @@ public class ProfileView extends VerticalLayout
 			TextField firstname = prepareFirstnameTextField(user);
 			TextField lastname = prepareLastnameTextField(user);
 			TextField mailaddress = prepareMailadressTextField(user);
-			
+
 			Button changePassword = new Button(TextConstants.CHANGE_PASSWORD);
 			changePassword.addClickListener(evt -> changePasswordDialog.open());
 
 			Button save = new Button(TextConstants.SAVE);
 			save.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
 
-			add(firstname, lastname, mailaddress, changePassword, save);
+			ComboBox<String> languages = prepareLanguagesComboBox(user.getLanguage());
+
+			add(firstname, lastname, mailaddress, languages, save, changePassword);
 		} else
 		{
 			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
 			add(label);
 		}
+	}
+
+	private ComboBox<String> prepareLanguagesComboBox(String defaultLanguage)
+	{
+		ComboBox<String> languages = new ComboBox<String>();
+		languages.setLabel(TextConstants.CHANGE_LANGUAGE);
+		languages.setItems(new String[]
+		{ LanguageConstants.ENGLISH, LanguageConstants.GERMAN });
+		languages.setValue(defaultLanguage);
+		return languages;
 	}
 
 	public TextField prepareMailadressTextField(User user)

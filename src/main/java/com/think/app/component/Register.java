@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -139,6 +140,7 @@ public class Register extends Dialog
 		newUser.setLastName(lastName.getValue());
 		newUser.setMailAddress(mailAddress.getValue());
 		newUser.setPassword(encodedPassword);
+		newUser.setLanguage(LanguageConstants.ENGLISH);
 		
 		return newUser;
 	}

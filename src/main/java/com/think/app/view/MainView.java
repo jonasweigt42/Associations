@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.think.app.component.ChangeLanguageButton;
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
 import com.think.app.constants.TextConstants;
@@ -21,6 +22,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -60,17 +62,27 @@ public class MainView extends AppLayout
 
 	@Autowired
 	private Login login;
-
+	
+	@Autowired
+	private ChangeLanguageButton clButton;
+	
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException
 	{
 		setPrimarySection(Section.DRAWER);
 		addToNavbar(false, new DrawerToggle());
 		addToNavbar(false, logo);
-		addToNavbar(login.getLoginButton());
+		addToNavbar(prepareButtonLayout());
 		menu = createMenuTabs();
 		addToDrawer(menu);
-		login.open();
+	}
+
+	private HorizontalLayout prepareButtonLayout()
+	{
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.add(clButton, login.getLoginButton());
+		layout.addClassName("margin-left");
+		return layout;
 	}
 	
 	private Tabs createMenuTabs()

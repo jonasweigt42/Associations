@@ -14,6 +14,8 @@ public class User implements Serializable
 
 	private String password;
 	
+	private String language;
+	
 	
 	public String getMailAddress()
 	{
@@ -53,6 +55,16 @@ public class User implements Serializable
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
+	}
+
+	public String getLanguage()
+	{
+		return language;
+	}
+
+	public void setLanguage(String language)
+	{
+		this.language = language;
 	}
 	
 }

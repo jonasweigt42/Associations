@@ -20,7 +20,6 @@ import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.spring.annotation.UIScope;
 
-
 @CssImport(value = "./styles/dialog-styles.css", themeFor = "vaadin-dialog-overlay")
 @Component
 @UIScope
@@ -34,16 +33,16 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	@Autowired
 	private UserInfo userInfo;
-	
+
 	@Autowired
 	private ForgetPasswordDialog forgotPasswordDialog;
 
 	@Autowired
 	private Register register;
-	
+
 	@Autowired
 	private ViewUpdater viewUpdater;
-	
+
 	@Autowired
 	private Logger logger;
 
@@ -56,20 +55,19 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		prepareLoginListener();
 		prepareForgetPasswordListener();
 		setCloseOnEsc(false);
-		setCloseOnOutsideClick(false);
-		
+
 		add(loginForm, prepareRegistrationButton());
 	}
-	
+
 	@Override
 	public void open()
 	{
-		if(!userInfo.isLoggedIn())
+		if (!userInfo.isLoggedIn())
 		{
 			super.open();
 		}
 	}
-	
+
 	private Button prepareRegistrationButton()
 	{
 		Button button = new Button(TextConstants.REGISTER);
@@ -116,7 +114,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private void prepareLoginButton()
 	{
 		loginButton.addClickListener(e -> changeLoginState());
-		loginButton.setClassName("login-button");
+		loginButton.addClassName("header-button");
 	}
 
 	private LoginI18n prepareI18n()
@@ -134,7 +132,10 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		if (userInfo.isLoggedIn())
 		{
 			userInfo.logout();
-		} 
+		} else
+		{
+			open();
+		}
 	}
 
 	private void prepareButtonLabel()
