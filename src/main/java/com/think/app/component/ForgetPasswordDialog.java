@@ -62,7 +62,7 @@ public class ForgetPasswordDialog extends Dialog
 	{
 		mailAddress.setLabel(TextConstants.MAIL_ADDRESS);
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator("bitte gib eine gültige E-Mail Adresse ein"))
+		binder.forField(mailAddress).withValidator(new EmailValidator(TextConstants.PLEASE_ENTER_VALID_MAIL))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}

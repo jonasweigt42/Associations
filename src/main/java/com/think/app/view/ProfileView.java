@@ -114,8 +114,8 @@ public class ProfileView extends VerticalLayout
 			logger.error(e.getMessage(), e);
 			Notification.show(TextConstants.GENERIC_ERROR_MESSAGE);
 		}
-		Notification.show("Benutzer wurde aktualisiert!");
-		logger.info("Benutzer wurde aktualisiert!");
+		Notification.show(TextConstants.USER_WAS_UPDATED);
+		logger.info(TextConstants.USER_WAS_UPDATED);
 	}
 
 }

@@ -43,7 +43,7 @@ public class StartView extends VerticalLayout
 	public void loadContent()
 	{
 		removeAll();
-		H3 headline = new H3("Herzlich Willkommen bei " + TextConstants.TITLE);
+		H3 headline = new H3(TextConstants.WELCOME + TextConstants.TITLE);
 		H4 personalLabel = preparePersonalLabel();
 
 		add(headline, personalLabel);
@@ -51,12 +51,12 @@ public class StartView extends VerticalLayout
 
 	private H4 preparePersonalLabel()
 	{
-		H4 label = new H4("Test");
+		H4 label = new H4();
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			label.setText("Hi " + user.getFirstName()
-					+ "! Mit nur 2 Minuten Übung am Tag kannst du dein assoziatives Denken und dein Gedächtnis verbessern, sowie deinen Wortschatz erweitern.");
+			label.setText(TextConstants.HI + user.getFirstName()
+					+ TextConstants.WELCOME_TEXT);
 		} else
 		{
 			label.setText(TextConstants.NOT_LOGGED_IN_MESSAGE);

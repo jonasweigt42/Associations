@@ -10,7 +10,6 @@ public class UpdateLoginEvent extends ApplicationEvent
 	public UpdateLoginEvent(Object source)
 	{
 		super(source);
-		// TODO Auto-generated constructor stub
 	}
 
 

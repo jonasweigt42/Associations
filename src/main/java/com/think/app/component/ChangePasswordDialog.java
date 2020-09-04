@@ -76,7 +76,7 @@ public class ChangePasswordDialog extends Dialog
 		User user = userInfo.getLoggedInUser();
 		if (user == null)
 		{
-			throw new IllegalStateException("user should be logged in");
+			throw new IllegalStateException(TextConstants.USER_SHOULD_BE_LOGGEDIN);
 		}
 		if (!currentPasswordMatches())
 		{
