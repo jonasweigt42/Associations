@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
@@ -32,6 +34,9 @@ public class StartView extends VerticalLayout
 	@Autowired
 	private UserInfo userInfo;
 	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
+	
 	@PostConstruct
 	public void init()
 	{
@@ -43,7 +48,7 @@ public class StartView extends VerticalLayout
 	public void loadContent()
 	{
 		removeAll();
-		H3 headline = new H3(TextConstants.WELCOME + TextConstants.TITLE);
+		H3 headline = new H3(tcResourceBundle.get(LanguageConstants.WELCOME) + TextConstants.TITLE);
 		H4 personalLabel = preparePersonalLabel();
 
 		add(headline, personalLabel);
@@ -55,11 +60,11 @@ public class StartView extends VerticalLayout
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			label.setText(TextConstants.HI + user.getFirstName()
-					+ TextConstants.WELCOME_TEXT);
+			label.setText(tcResourceBundle.get(LanguageConstants.HI) + user.getFirstName()
+					+ tcResourceBundle.get(LanguageConstants.WELCOME_TEXT));
 		} else
 		{
-			label.setText(TextConstants.NOT_LOGGED_IN_MESSAGE);
+			label.setText(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 		}
 		return label;
 	}

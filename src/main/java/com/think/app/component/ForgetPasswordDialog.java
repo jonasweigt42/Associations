@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.TextConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
+import com.think.app.textresources.TCResourceBundle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -34,6 +35,9 @@ public class ForgetPasswordDialog extends Dialog
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
 	public void init()
@@ -41,14 +45,14 @@ public class ForgetPasswordDialog extends Dialog
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H2 title = new H2(TextConstants.ASSIGN_NEW_PASSWORD);
+		H2 title = new H2(tcResourceBundle.get(LanguageConstants.ASSIGN_NEW_PASSWORD));
 		mailAddress = prepareEMailField();
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		Button submit = new Button();
 		submit.addClickListener(ent -> validate(mailAddress.getValue()));
-		submit.setText(TextConstants.RESET);
+		submit.setText(tcResourceBundle.get(LanguageConstants.RESET));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -60,9 +64,9 @@ public class ForgetPasswordDialog extends Dialog
 
 	public TextField prepareEMailField()
 	{
-		mailAddress.setLabel(TextConstants.MAIL_ADDRESS);
+		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator(TextConstants.PLEASE_ENTER_VALID_MAIL))
+		binder.forField(mailAddress).withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
-import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
 import com.think.app.event.UpdateLoginEvent;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -44,7 +44,7 @@ public class Register extends Dialog
 	private PasswordField password = new PasswordField();
 	private PasswordField passwordRetype = new PasswordField();
 	private Label errorLabel = new Label();
-	private Button submit = new Button(TextConstants.REGISTER);
+	private Button submit = new Button();
 
 	@Autowired
 	private UserService userService;
@@ -57,6 +57,9 @@ public class Register extends Dialog
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
 	
 	@Autowired
 	private Logger logger;
@@ -82,16 +85,17 @@ public class Register extends Dialog
 	{
 		mailAddress = prepareEMailField();
 		errorLabel.addClassName("text-red");
-		firstName.setLabel(TextConstants.FIRSTNAME);
-		lastName.setLabel(TextConstants.LASTNAME);
-		password.setLabel(TextConstants.PASSWORD);
-		passwordRetype.setLabel(TextConstants.PASSWORD_RETYPE);
+		firstName.setLabel(tcResourceBundle.get(LanguageConstants.FIRSTNAME));
+		lastName.setLabel(tcResourceBundle.get(LanguageConstants.LASTNAME));
+		password.setLabel(tcResourceBundle.get(LanguageConstants.PASSWORD));
+		passwordRetype.setLabel(tcResourceBundle.get(LanguageConstants.PASSWORD_RETYPE));
+		submit.setText(tcResourceBundle.get(LanguageConstants.REGISTER));
 		submit.addClickListener(evt -> validateRegistration());
 	}
 
 	public TextField prepareEMailField()
 	{
-		mailAddress.setLabel(TextConstants.MAIL_ADDRESS);
+		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
 		binder.forField(mailAddress).withValidator(new EmailValidator("bitte gib eine gültige E-Mail Adresse ein"))
 				.bind(User::getMailAddress, User::setMailAddress);
@@ -107,7 +111,7 @@ public class Register extends Dialog
 			
 		} catch (InterruptedException | ExecutionException e)
 		{
-			errorLabel.setText(TextConstants.GENERIC_ERROR_MESSAGE);
+			errorLabel.setText(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
 			logger.error(e.getMessage(), e);
 		}
 	}

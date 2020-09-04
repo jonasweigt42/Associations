@@ -10,9 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.TextConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -32,9 +33,9 @@ public class ChangePasswordDialog extends Dialog
 {
 	private static final long serialVersionUID = -4745741179152511046L;
 
-	private PasswordField currentPassword = new PasswordField(TextConstants.CURRENT_PASSWORD);
-	private PasswordField newPassword = new PasswordField(TextConstants.NEW_PASSWORD);
-	private PasswordField newPasswordRetype = new PasswordField(TextConstants.NEW_PASSWORD_RETYPE);
+	private PasswordField currentPassword = new PasswordField();
+	private PasswordField newPassword = new PasswordField();
+	private PasswordField newPasswordRetype = new PasswordField();
 	private Label errorLabel = new Label();
 
 	@Autowired
@@ -48,20 +49,26 @@ public class ChangePasswordDialog extends Dialog
 	
 	@Autowired
 	private Logger logger;
-
+	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
+	
 	@PostConstruct
 	public void init()
 	{
+		currentPassword.setLabel(tcResourceBundle.get(LanguageConstants.CURRENT_PASSWORD));
+		newPassword.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD));
+		newPasswordRetype.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD_RETYPE));
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H2 title = new H2(TextConstants.ASSIGN_NEW_PASSWORD);
+		H2 title = new H2(tcResourceBundle.get(LanguageConstants.ASSIGN_NEW_PASSWORD));
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		Button submit = new Button();
 		submit.addClickListener(ent -> validate());
-		submit.setText(TextConstants.CHANGE);
+		submit.setText(tcResourceBundle.get(LanguageConstants.CHANGE));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -76,15 +83,15 @@ public class ChangePasswordDialog extends Dialog
 		User user = userInfo.getLoggedInUser();
 		if (user == null)
 		{
-			throw new IllegalStateException(TextConstants.USER_SHOULD_BE_LOGGEDIN);
+			throw new IllegalStateException(tcResourceBundle.get(LanguageConstants.USER_SHOULD_BE_LOGGEDIN));
 		}
 		if (!currentPasswordMatches())
 		{
-			errorLabel.setText(TextConstants.CURRENT_PASSWORD_INCORRECT);
+			errorLabel.setText(tcResourceBundle.get(LanguageConstants.CURRENT_PASSWORD_INCORRECT));
 		}
 		if (currentPasswordMatches() && !newPasswordsMatches())
 		{
-			errorLabel.setText(TextConstants.PASSWORDS_NOT_EQUAL);
+			errorLabel.setText(tcResourceBundle.get(LanguageConstants.PASSWORDS_NOT_EQUAL));
 		}
 		if (currentPasswordMatches() && newPasswordsMatches())
 		{
@@ -95,7 +102,7 @@ public class ChangePasswordDialog extends Dialog
 				userService.update(user);
 			} catch (InterruptedException | ExecutionException e)
 			{
-				errorLabel.setText(TextConstants.GENERIC_ERROR_MESSAGE);
+				errorLabel.setText(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
 				logger.error(e.getMessage(), e);
 			}
 			Notification.show("Password for " + user.getMailAddress() + " changed");

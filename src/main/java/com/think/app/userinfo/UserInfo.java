@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.TextConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.entity.word.WordService;
+import com.think.app.textresources.TCResourceBundle;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
@@ -36,10 +37,13 @@ public class UserInfo implements Serializable
 
 	@Autowired
 	private WordService wordService;
+	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
 
 	@Autowired
 	private Logger logger;
-
+	
 	public void login(String mailAddress, String password)
 	{
 		loggedInUser = callDbAndAuthenticateUser(mailAddress, password);
@@ -72,6 +76,11 @@ public class UserInfo implements Serializable
 		try
 		{
 			User user = userService.getUserByMailAddress(mailAddress);
+			if(user == null)
+			{
+				Notification.show(tcResourceBundle.get(LanguageConstants.USER_NOT_REGISTERED));
+				return null;
+			}
 			if (encoder.matches(password, user.getPassword()))
 			{
 				return user;
@@ -79,7 +88,7 @@ public class UserInfo implements Serializable
 		} catch (InterruptedException | ExecutionException e)
 		{
 			logger.error(e.getMessage(), e);
-			Notification.show(TextConstants.GENERIC_ERROR_MESSAGE);
+			Notification.show(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
 		}
 		return null;
 
@@ -109,5 +118,5 @@ public class UserInfo implements Serializable
 	{
 		this.wordsForAssociations = wordsForAssociations;
 	}
-
+	
 }

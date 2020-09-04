@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateLoginEvent;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -30,7 +32,8 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	private Button loginButton = new Button();
 	private LoginForm loginForm = new LoginForm();
-
+	
+	
 	@Autowired
 	private UserInfo userInfo;
 
@@ -42,6 +45,9 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	@Autowired
 	private ViewUpdater viewUpdater;
+	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
 
 	@Autowired
 	private Logger logger;
@@ -70,7 +76,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	private Button prepareRegistrationButton()
 	{
-		Button button = new Button(TextConstants.REGISTER);
+		Button button = new Button(tcResourceBundle.get(LanguageConstants.REGISTER));
 		button.addClassName("registration-button");
 		button.addClickListener(evt -> register.open());
 		return button;
@@ -121,9 +127,9 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	{
 		LoginI18n i18n = LoginI18n.createDefault();
 		i18n.getForm().setTitle(TextConstants.TITLE);
-		i18n.getForm().setUsername(TextConstants.MAIL_ADDRESS);
-		i18n.getForm().setPassword(TextConstants.PASSWORD);
-		i18n.getForm().setForgotPassword(TextConstants.FORGET_PASSWORD);
+		i18n.getForm().setUsername(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
+		i18n.getForm().setPassword(tcResourceBundle.get(LanguageConstants.PASSWORD));
+		i18n.getForm().setForgotPassword(tcResourceBundle.get(LanguageConstants.FORGET_PASSWORD));
 		return i18n;
 	}
 
@@ -142,10 +148,10 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	{
 		if (userInfo.isLoggedIn())
 		{
-			loginButton.setText(TextConstants.LOGOUT);
+			loginButton.setText(tcResourceBundle.get(LanguageConstants.LOGOUT));
 		} else
 		{
-			loginButton.setText(TextConstants.LOGIN);
+			loginButton.setText(tcResourceBundle.get(LanguageConstants.LOGIN));
 		}
 	}
 

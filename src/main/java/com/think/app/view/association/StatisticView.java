@@ -2,22 +2,14 @@ package com.think.app.view.association;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.TextConstants;
-import com.think.app.entity.association.Association;
 import com.think.app.entity.user.User;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 
@@ -72,75 +64,75 @@ public class StatisticView extends VerticalLayout
 //		add(grid);
 	}
 
-	private Grid<Association> prepareGrid(ListDataProvider<Association> dataProvider)
-	{
-		Grid<Association> grid = new Grid<>();
-		grid.setDataProvider(dataProvider);
-		grid.setSizeUndefined();
+//	private Grid<Association> prepareGrid(ListDataProvider<Association> dataProvider)
+//	{
+//		Grid<Association> grid = new Grid<>();
+//		grid.setDataProvider(dataProvider);
+//		grid.setSizeUndefined();
+//
+//		addColumns(dataProvider, grid);
+//		
+//		return grid;
+//	}
 
-		addColumns(dataProvider, grid);
-		
-		return grid;
-	}
+//	private void addColumns(ListDataProvider<Association> dataProvider, Grid<Association> grid)
+//	{
+//		Grid.Column<Association> wordColumn = grid.addColumn(Association::getWord).setHeader("Wort");
+//
+//		Grid.Column<Association> associationsColumn = grid.addColumn(Association::getAssociations)
+//				.setHeader("Assoziationen");
+//
+//		Grid.Column<Association> dateColumn = grid.addColumn(Association::getAssociationDate).setHeader("Datum");
+//
+//		HeaderRow filterRow = grid.appendHeaderRow();
+//
+//		addWordColumn(dataProvider, grid, filterRow, wordColumn);
+//
+//		addAssociationsColumn(dataProvider, grid, filterRow, associationsColumn);
+//
+//		addDateColumn(dataProvider, grid, filterRow, dateColumn);
+//	}
 
-	private void addColumns(ListDataProvider<Association> dataProvider, Grid<Association> grid)
-	{
-		Grid.Column<Association> wordColumn = grid.addColumn(Association::getWord).setHeader("Wort");
+//	private void addDateColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
+//			Grid.Column<Association> dateColumn)
+//	{
+//		TextField dateField = new TextField();
+//		dateField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
+//				.containsIgnoreCase(association.getAssociationDate().toString(), dateField.getValue().toString())));
+//
+//		dateField.setValueChangeMode(ValueChangeMode.EAGER);
+//
+//		filterRow.getCell(dateColumn).setComponent(dateField);
+//		dateField.setSizeFull();
+//		dateField.setPlaceholder(TextConstants.FILTER);
+//	}
 
-		Grid.Column<Association> associationsColumn = grid.addColumn(Association::getAssociations)
-				.setHeader("Assoziationen");
+//	private void addAssociationsColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid,
+//			HeaderRow filterRow, Grid.Column<Association> associationsColumn)
+//	{
+//		TextField associationsField = new TextField();
+//		associationsField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
+//				.containsIgnoreCase(association.getAssociations(), associationsField.getValue())));
+//
+//		associationsField.setValueChangeMode(ValueChangeMode.EAGER);
+//
+//		filterRow.getCell(associationsColumn).setComponent(associationsField);
+//		associationsField.setSizeFull();
+//		associationsField.setPlaceholder(TextConstants.FILTER);
+//	}
 
-		Grid.Column<Association> dateColumn = grid.addColumn(Association::getAssociationDate).setHeader("Datum");
-
-		HeaderRow filterRow = grid.appendHeaderRow();
-
-		addWordColumn(dataProvider, grid, filterRow, wordColumn);
-
-		addAssociationsColumn(dataProvider, grid, filterRow, associationsColumn);
-
-		addDateColumn(dataProvider, grid, filterRow, dateColumn);
-	}
-
-	private void addDateColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
-			Grid.Column<Association> dateColumn)
-	{
-		TextField dateField = new TextField();
-		dateField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
-				.containsIgnoreCase(association.getAssociationDate().toString(), dateField.getValue().toString())));
-
-		dateField.setValueChangeMode(ValueChangeMode.EAGER);
-
-		filterRow.getCell(dateColumn).setComponent(dateField);
-		dateField.setSizeFull();
-		dateField.setPlaceholder(TextConstants.FILTER);
-	}
-
-	private void addAssociationsColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid,
-			HeaderRow filterRow, Grid.Column<Association> associationsColumn)
-	{
-		TextField associationsField = new TextField();
-		associationsField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
-				.containsIgnoreCase(association.getAssociations(), associationsField.getValue())));
-
-		associationsField.setValueChangeMode(ValueChangeMode.EAGER);
-
-		filterRow.getCell(associationsColumn).setComponent(associationsField);
-		associationsField.setSizeFull();
-		associationsField.setPlaceholder(TextConstants.FILTER);
-	}
-
-	private void addWordColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
-			Grid.Column<Association> wordColumn)
-	{
-
-		TextField wordField = new TextField();
-		wordField.addValueChangeListener(event -> dataProvider
-				.addFilter(association -> StringUtils.containsIgnoreCase(association.getWord(), wordField.getValue())));
-
-		wordField.setValueChangeMode(ValueChangeMode.EAGER);
-
-		filterRow.getCell(wordColumn).setComponent(wordField);
-		wordField.setSizeFull();
-		wordField.setPlaceholder(TextConstants.FILTER);
-	}
+//	private void addWordColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
+//			Grid.Column<Association> wordColumn)
+//	{
+//
+//		TextField wordField = new TextField();
+//		wordField.addValueChangeListener(event -> dataProvider
+//				.addFilter(association -> StringUtils.containsIgnoreCase(association.getWord(), wordField.getValue())));
+//
+//		wordField.setValueChangeMode(ValueChangeMode.EAGER);
+//
+//		filterRow.getCell(wordColumn).setComponent(wordField);
+//		wordField.setSizeFull();
+//		wordField.setPlaceholder(TextConstants.FILTER);
+//	}
 }

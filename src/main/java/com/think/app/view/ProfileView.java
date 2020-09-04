@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 import com.think.app.component.ChangePasswordDialog;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
-import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.notification.Notification;
@@ -45,6 +44,9 @@ public class ProfileView extends VerticalLayout
 
 	@Autowired
 	private Logger logger;
+	
+	private
+	@Autowired TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
 	public void init()
@@ -64,37 +66,25 @@ public class ProfileView extends VerticalLayout
 			TextField lastname = prepareLastnameTextField(user);
 			TextField mailaddress = prepareMailadressTextField(user);
 
-			Button changePassword = new Button(TextConstants.CHANGE_PASSWORD);
+			Button changePassword = new Button(tcResourceBundle.get(LanguageConstants.CHANGE_PASSWORD));
 			changePassword.addClickListener(evt -> changePasswordDialog.open());
 
-			Button save = new Button(TextConstants.SAVE);
+			Button save = new Button(tcResourceBundle.get(LanguageConstants.SAVE));
 			save.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
 
-			ComboBox<String> languages = prepareLanguagesComboBox(user.getLanguage());
-
-			add(firstname, lastname, mailaddress, languages, save, changePassword);
+			add(firstname, lastname, mailaddress, save, changePassword);
 		} else
 		{
-			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
+			H4 label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 			add(label);
 		}
-	}
-
-	private ComboBox<String> prepareLanguagesComboBox(String defaultLanguage)
-	{
-		ComboBox<String> languages = new ComboBox<String>();
-		languages.setLabel(TextConstants.CHANGE_LANGUAGE);
-		languages.setItems(new String[]
-		{ LanguageConstants.ENGLISH, LanguageConstants.GERMAN });
-		languages.setValue(defaultLanguage);
-		return languages;
 	}
 
 	public TextField prepareMailadressTextField(User user)
 	{
 		TextField mailaddress = new TextField();
 		mailaddress.setValue(user.getMailAddress());
-		mailaddress.setLabel(TextConstants.MAIL_ADDRESS);
+		mailaddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		return mailaddress;
 	}
 
@@ -102,7 +92,7 @@ public class ProfileView extends VerticalLayout
 	{
 		TextField lastname = new TextField();
 		lastname.setValue(user.getLastName());
-		lastname.setLabel(TextConstants.LASTNAME);
+		lastname.setLabel(tcResourceBundle.get(LanguageConstants.LASTNAME));
 		return lastname;
 	}
 
@@ -110,7 +100,7 @@ public class ProfileView extends VerticalLayout
 	{
 		TextField firstname = new TextField();
 		firstname.setValue(user.getFirstName());
-		firstname.setLabel(TextConstants.FIRSTNAME);
+		firstname.setLabel(tcResourceBundle.get(LanguageConstants.FIRSTNAME));
 		return firstname;
 	}
 
@@ -126,10 +116,10 @@ public class ProfileView extends VerticalLayout
 		} catch (InterruptedException | ExecutionException e)
 		{
 			logger.error(e.getMessage(), e);
-			Notification.show(TextConstants.GENERIC_ERROR_MESSAGE);
+			Notification.show(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
 		}
-		Notification.show(TextConstants.USER_WAS_UPDATED);
-		logger.info(TextConstants.USER_WAS_UPDATED);
+		Notification.show(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
+		logger.info(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
 	}
 
 }
