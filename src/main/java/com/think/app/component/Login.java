@@ -38,7 +38,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private UserInfo userInfo;
 
 	@Autowired
-	private ForgetPasswordDialog forgotPasswordDialog;
+	private ForgetPasswordDialog forgetPasswordDialog;
 
 	@Autowired
 	private Register register;
@@ -55,6 +55,12 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	@PostConstruct
 	public void init()
 	{
+		loadContent();
+	}
+	
+	public void loadContent()
+	{
+		removeAll();
 		loginForm.setI18n(prepareI18n());
 		prepareButtonLabel();
 		prepareLoginButton();
@@ -92,7 +98,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 			@Override
 			public void onComponentEvent(ForgotPasswordEvent event)
 			{
-				forgotPasswordDialog.open();
+				forgetPasswordDialog.open();
 			}
 		});
 	}
@@ -167,6 +173,13 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		close();
 		prepareButtonLabel();
 		viewUpdater.updateViews();
+	}
+	
+	public void updateUI()
+	{
+		loadContent();
+		register.loadContent();
+		forgetPasswordDialog.loadContent();
 	}
 
 }

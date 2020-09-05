@@ -67,10 +67,16 @@ public class Register extends Dialog
 	@PostConstruct
 	public void init()
 	{
+		loadContent();
+	}
+	
+	public void loadContent()
+	{
+		removeAll();
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H4 title = new H4("Neu hier?");
+		H4 title = new H4(tcResourceBundle.get(LanguageConstants.NEW_REGISTER));
 		prepareFields();
 
 		setCloseOnEsc(true);
@@ -78,7 +84,6 @@ public class Register extends Dialog
 
 		layout.add(title, firstName, lastName, mailAddress, password, passwordRetype, errorLabel, submit);
 		add(layout);
-
 	}
 
 	public void prepareFields()
@@ -97,7 +102,7 @@ public class Register extends Dialog
 	{
 		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator("bitte gib eine gültige E-Mail Adresse ein"))
+		binder.forField(mailAddress).withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}
@@ -120,11 +125,11 @@ public class Register extends Dialog
 	{
 		if (user != null)
 		{
-			errorLabel.setText("Benutzer ist schon vorhanden");
+			errorLabel.setText(tcResourceBundle.get(LanguageConstants.USER_ALREADY_REGISTERED));
 		}
 		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
 		{
-			errorLabel.setText("Passwörter sind nicht gleich");
+			errorLabel.setText(tcResourceBundle.get(LanguageConstants.PASSWORDS_NOT_EQUAL));
 		}
 		if (user == null && password.getValue().equals(passwordRetype.getValue()))
 		{

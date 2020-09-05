@@ -18,6 +18,7 @@ public class LanguageConstants
 	public static final String SAVE = "save";
 	public static final String RESET = "reset";
 	public static final String REGISTER = "register";
+	public static final String NEW_REGISTER = "newRegister";
 	
 	public static final String CURRENT_PASSWORD = "currentPassword";
 	public static final String NEW_PASSWORD = "newPassword";
@@ -35,8 +36,13 @@ public class LanguageConstants
 	public static final String FILTER = "filter";
 	
 	public static final String REGISTRATION_ERROR_MESSAGE = "registrationErrorMessage";
-	public static final String USER_SHOULD_BE_LOGGEDIN = "userShouldBeLoggedIn";
 	public static final String USER_WAS_UPDATED = "userWasUpdated";
 	public static final String PLEASE_ENTER_VALID_MAIL = "emailValidationErrorMessage";
 	public static final String USER_NOT_REGISTERED = "userNotRegistered";
+	public static final String USER_ALREADY_REGISTERED = "userAlreadyRegistered";
+	
+	public static final String WELCOME_MAIN_VIEW = "welcomeMainView";
+	public static final String GAME_MAIN_VIEW = "gameMainView";
+	public static final String PROFILE_MAIN_VIEW = "profileMainView";
+	public static final String STATISTICS_MAIN_VIEW = "statisticsMainView";
 }

@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.think.app.component.ChangeLanguageButton;
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
+import com.think.app.component.ViewUpdater;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
+import com.think.app.textresources.TCResourceBundle;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
@@ -55,7 +58,7 @@ public class MainView extends AppLayout
 
 	private static final long serialVersionUID = 8986999742090476969L;
 
-	private Tabs menu;
+	private Tabs menu = new Tabs();
 
 	@Autowired
 	private Logo logo;
@@ -66,6 +69,12 @@ public class MainView extends AppLayout
 	@Autowired
 	private ChangeLanguageButton clButton;
 	
+	@Autowired
+	private TCResourceBundle tcResourceBundle;
+	
+	@Autowired
+	private ViewUpdater viewUpdater;
+	
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException
 	{
@@ -73,35 +82,35 @@ public class MainView extends AppLayout
 		addToNavbar(false, new DrawerToggle());
 		addToNavbar(false, logo);
 		addToNavbar(prepareButtonLayout());
-		menu = createMenuTabs();
+		prepareMenuTabs();
 		addToDrawer(menu);
 	}
 
 	private HorizontalLayout prepareButtonLayout()
 	{
 		HorizontalLayout layout = new HorizontalLayout();
+		clButton.addClickListener(evt -> toggleLanguageButton());
 		layout.add(clButton, login.getLoginButton());
 		layout.addClassName("margin-left");
 		return layout;
 	}
 	
-	private Tabs createMenuTabs()
+	private void prepareMenuTabs()
 	{
-		final Tabs tabs = new Tabs();
-		tabs.setOrientation(Tabs.Orientation.VERTICAL);
-		tabs.addThemeVariants(TabsVariant.LUMO_CENTERED);
-		tabs.setId("tabs");
-		tabs.add(getAvailableTabs());
-		return tabs;
+		menu.removeAll();
+		menu.setOrientation(Tabs.Orientation.VERTICAL);
+		menu.addThemeVariants(TabsVariant.LUMO_CENTERED);
+		menu.setId("tabs");
+		menu.add(getAvailableTabs());
 	}
 
 	private Tab[] getAvailableTabs()
 	{
 		final List<Tab> tabs = new ArrayList<>();
-		tabs.add(createTab("Welcome", StartView.class));
-		tabs.add(createTab("Game",StartAssociationGameView.class));
-		tabs.add(createTab("Profile", ProfileView.class));
-		tabs.add(createTab("Statistics", StatisticView.class));
+		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.WELCOME_MAIN_VIEW), StartView.class));
+		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.GAME_MAIN_VIEW),StartAssociationGameView.class));
+		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.PROFILE_MAIN_VIEW), ProfileView.class));
+		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.STATISTICS_MAIN_VIEW), StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 
@@ -139,6 +148,19 @@ public class MainView extends AppLayout
 			return child instanceof RouterLink && ((RouterLink) child).getHref().equals(target);
 		}).findFirst();
 		tabToSelect.ifPresent(tab -> menu.setSelectedTab((Tab) tab));
+	}
+	
+	private void updateUI()
+	{
+		prepareMenuTabs();
+		login.updateUI();
+	}
+	
+	private void toggleLanguageButton()
+	{
+		clButton.toggle();
+		updateUI();
+		viewUpdater.updateViews();
 	}
 
 }

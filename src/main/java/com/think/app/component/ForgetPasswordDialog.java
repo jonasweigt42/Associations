@@ -21,7 +21,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.spring.annotation.UIScope;
 
-@CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @Component
 @UIScope
@@ -35,13 +34,19 @@ public class ForgetPasswordDialog extends Dialog
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
 	public void init()
 	{
+		loadContent();
+	}
+
+	public void loadContent()
+	{
+		removeAll();
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
@@ -59,14 +64,14 @@ public class ForgetPasswordDialog extends Dialog
 
 		layout.add(title, mailAddress, errorLabel, submit);
 		add(layout);
-
 	}
 
 	public TextField prepareEMailField()
 	{
 		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
+		binder.forField(mailAddress)
+				.withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}

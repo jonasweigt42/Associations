@@ -20,29 +20,27 @@ public class ChangeLanguageButton extends Button
 {
 
 	private static final long serialVersionUID = 4142079310923863360L;
-	
+
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
-	
+
 	@PostConstruct
 	public void init()
 	{
-		setText(LanguageConstants.ENGLISH);
-		addClickListener(evt -> toggleLanguage());
+		setText(tcResourceBundle.getSessionLocale().getLanguage());
 	}
 
-	private void toggleLanguage()
+	public void toggle()
 	{
 		if (getText().equals(LanguageConstants.ENGLISH))
 		{
 			setText(LanguageConstants.GERMAN);
 			tcResourceBundle.setSessionLocale(new Locale(LanguageConstants.GERMAN));
-			//TODO set language and throw update event
 		} else
 		{
 			setText(LanguageConstants.ENGLISH);
 			tcResourceBundle.setSessionLocale(new Locale(LanguageConstants.ENGLISH));
-			//TODO set language and throw update event
 		}
 	}
+
 }

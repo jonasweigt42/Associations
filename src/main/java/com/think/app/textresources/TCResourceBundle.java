@@ -20,7 +20,7 @@ public class TCResourceBundle
 	@PostConstruct
 	public void init()
 	{
-		sessionLocale = new Locale(LanguageConstants.ENGLISH);
+		sessionLocale = new Locale(LanguageConstants.GERMAN);
 	}
 	
 	public String get(String key)
@@ -33,5 +33,10 @@ public class TCResourceBundle
 	public void setSessionLocale(Locale sessionLocale)
 	{
 		this.sessionLocale = sessionLocale;
+	}
+	
+	public Locale getSessionLocale()
+	{
+		return sessionLocale;
 	}
 }

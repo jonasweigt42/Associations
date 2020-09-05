@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
-import com.think.app.entity.word.WordService;
 import com.think.app.textresources.TCResourceBundle;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.server.VaadinSession;
@@ -36,9 +35,6 @@ public class UserInfo implements Serializable
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private WordService wordService;
-	
-	@Autowired
 	private TCResourceBundle tcResourceBundle;
 
 	@Autowired
@@ -51,7 +47,6 @@ public class UserInfo implements Serializable
 		if (loggedIn)
 		{
 			sessionId = VaadinSession.getCurrent().getSession().getId();
-//			wordsForAssociations = wordService.getRandomWords(10);
 		}
 	}
 

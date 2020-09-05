@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
+import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.textresources.TCResourceBundle;
@@ -46,16 +47,22 @@ public class ChangePasswordDialog extends Dialog
 
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	@Autowired
 	private Logger logger;
-	
+
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
-	
+
 	@PostConstruct
 	public void init()
 	{
+		loadContent();
+	}
+
+	public void loadContent()
+	{
+		removeAll();
 		currentPassword.setLabel(tcResourceBundle.get(LanguageConstants.CURRENT_PASSWORD));
 		newPassword.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD));
 		newPasswordRetype.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD_RETYPE));
@@ -75,7 +82,6 @@ public class ChangePasswordDialog extends Dialog
 
 		layout.add(title, currentPassword, newPassword, newPasswordRetype, errorLabel, submit);
 		add(layout);
-
 	}
 
 	private void validate()
@@ -83,7 +89,7 @@ public class ChangePasswordDialog extends Dialog
 		User user = userInfo.getLoggedInUser();
 		if (user == null)
 		{
-			throw new IllegalStateException(tcResourceBundle.get(LanguageConstants.USER_SHOULD_BE_LOGGEDIN));
+			throw new IllegalStateException(tcResourceBundle.get(TextConstants.USER_SHOULD_BE_LOGGEDIN));
 		}
 		if (!currentPasswordMatches())
 		{
@@ -96,7 +102,7 @@ public class ChangePasswordDialog extends Dialog
 		if (currentPasswordMatches() && newPasswordsMatches())
 		{
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
-			
+
 			try
 			{
 				userService.update(user);

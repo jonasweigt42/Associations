@@ -38,4 +38,5 @@ public class ViewUpdater
 		profileView.loadContent();
 		statisticsView.loadContent();
 	}
+	
 }
