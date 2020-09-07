@@ -2,10 +2,14 @@ package com.think.app.view.association;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
+import com.think.app.textresources.TCResourceBundle;
+import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -26,8 +30,11 @@ public class StartAssociationGameView extends VerticalLayout
 	private static final long serialVersionUID = -6374720069983434221L;
 
 	
-//	@Autowired
-//	private UserInfo userInfo;
+	@Autowired
+	private UserInfo userInfo;
+	
+	@Autowired 
+	private TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
 	public void init()
@@ -41,18 +48,18 @@ public class StartAssociationGameView extends VerticalLayout
 	{
 		removeAll();
 
-//		User user = userInfo.getLoggedInUser();
-//		if (user != null)
-//		{
-//			addFieldsForUser(user);
-//		} else
-//		{
-//			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
-//			add(label);
-//		}
+		User user = userInfo.getLoggedInUser();
+		if (user != null)
+		{
+			addFieldsForUser();
+		} else
+		{
+			H4 label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			add(label);
+		}
 	}
 
-	public void addFieldsForUser(User user)
+	public void addFieldsForUser()
 	{
 		H4 label = new H4("Aufgabe: Du bekommst 10 zufällige Wörter, Bitte schreibe zu allen 3 Assoziationen auf");
 		

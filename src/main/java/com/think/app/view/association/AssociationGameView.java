@@ -2,10 +2,15 @@ package com.think.app.view.association;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
+import com.think.app.entity.word.WordService;
+import com.think.app.textresources.TCResourceBundle;
+import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
@@ -27,7 +32,15 @@ public class AssociationGameView extends VerticalLayout
 	private TextField associationField1 = new TextField();
 	private TextField associationField2 = new TextField();
 	private TextField associationField3 = new TextField();
-	private H4 label = new H4();
+	
+	@Autowired
+	private UserInfo userInfo;
+	
+	@Autowired 
+	private TCResourceBundle tcResourceBundle;
+	
+	@Autowired
+	private WordService wordService;
 
 	@PostConstruct
 	public void init()
@@ -41,17 +54,18 @@ public class AssociationGameView extends VerticalLayout
 	{
 		removeAll();
 
-//		User user = userInfo.getLoggedInUser();
-//		if (user != null)
-//		{
-//			addFieldsForUser(user);
-//		} else
-//		{
-//			H4 label = new H4(TextConstants.NOT_LOGGED_IN_MESSAGE);
-//			add(label);
-//		}
+		User user = userInfo.getLoggedInUser();
+		if (user != null)
+		{
+			addFieldsForUser(user);
+		} else
+		{
+			H4 label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			add(label);
+		}
 	}
 
+	//TODO association for language
 	public void addFieldsForUser(User user)
 	{
 //		if (userInfo.getWordsForAssociations().isEmpty())
@@ -60,9 +74,9 @@ public class AssociationGameView extends VerticalLayout
 //		}
 //		String word = userInfo.getWordsForAssociations().get(0);
 //
-//		label.setText(word);
+//		H4 label = new H4(word);
 //
-//		Button save = new Button(TextConstants.SAVE);
+//		Button save = new Button(tcResourceBundle.get(LanguageConstants.SAVE));
 //		save.addClickListener(evt -> saveAndClear());
 //
 //		add(label, associationField1, associationField2, associationField3, save);

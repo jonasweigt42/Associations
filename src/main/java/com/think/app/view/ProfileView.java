@@ -45,8 +45,8 @@ public class ProfileView extends VerticalLayout
 	@Autowired
 	private Logger logger;
 	
-	private
-	@Autowired TCResourceBundle tcResourceBundle;
+	@Autowired 
+	private TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
 	public void init()

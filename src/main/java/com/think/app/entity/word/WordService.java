@@ -32,7 +32,7 @@ public class WordService
 		Word alreadyExistingWord = getWord(word.getName());
 		if (alreadyExistingWord != null)
 		{
-			logger.info(word.getName() + " already exists");
+			logger.info("{} already exists", word.getName());
 		}
 
 		dbFirestore.collection(COL_NAME).document(word.getName()).set(word);
@@ -73,10 +73,10 @@ public class WordService
 		}
 	}
 
-	public String deleteWord(String wordName) throws InterruptedException, ExecutionException
+	public void deleteWord(String wordName) throws InterruptedException, ExecutionException
 	{
 		Firestore dbFirestore = fireBaseInitialize.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(wordName).delete();
-		return "Document with word " + wordName + " has been deleted:" + writeResult.get().getUpdateTime().toString();
+		logger.info("Word {} has been deleted at {}", wordName, writeResult.get().getUpdateTime());
 	}
 }

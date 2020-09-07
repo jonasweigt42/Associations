@@ -1,7 +1,6 @@
 package com.think.app.userinfo;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
@@ -26,7 +25,6 @@ public class UserInfo implements Serializable
 	private String sessionId;
 	private boolean loggedIn;
 	private User loggedInUser;
-	private List<String> wordsForAssociations;
 
 	@Autowired
 	private UserService userService;
@@ -104,14 +102,4 @@ public class UserInfo implements Serializable
 		return loggedInUser;
 	}
 
-	public List<String> getWordsForAssociations()
-	{
-		return wordsForAssociations;
-	}
-
-	public void setWordsForAssociations(List<String> wordsForAssociations)
-	{
-		this.wordsForAssociations = wordsForAssociations;
-	}
-	
 }

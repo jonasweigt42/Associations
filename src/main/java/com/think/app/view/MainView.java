@@ -1,7 +1,5 @@
 package com.think.app.view;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +74,7 @@ public class MainView extends AppLayout
 	private ViewUpdater viewUpdater;
 	
 	@PostConstruct
-	public void init() throws IOException, URISyntaxException
+	public void init()
 	{
 		setPrimarySection(Section.DRAWER);
 		addToNavbar(false, new DrawerToggle());

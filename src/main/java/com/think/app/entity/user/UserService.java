@@ -31,7 +31,7 @@ public class UserService
 		User alreadyExistingUser = getUserByMailAddress(user.getMailAddress());
 		if (alreadyExistingUser != null)
 		{
-			logger.info(user.getMailAddress() + " already exists");
+			logger.info("{} already exists", user.getMailAddress());
 		}
 
 		dbFirestore.collection(COL_NAME).document(user.getMailAddress()).set(user);
@@ -54,18 +54,19 @@ public class UserService
 		}
 	}
 
-	public String update(User user) throws InterruptedException, ExecutionException
+	public void update(User user) throws InterruptedException, ExecutionException
 	{
 		Firestore dbFirestore = fireBaseInitialize.getFirestore();
 		ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(COL_NAME).document(user.getMailAddress())
 				.set(user);
-		return collectionsApiFuture.get().getUpdateTime().toString();
+		logger.info("Document with user {} has been updated at {}", user.getMailAddress(),
+				collectionsApiFuture.get().getUpdateTime());
 	}
 
-	public String delete(String mailaddress) throws InterruptedException, ExecutionException
+	public void delete(String mailaddress) throws InterruptedException, ExecutionException
 	{
 		Firestore dbFirestore = fireBaseInitialize.getFirestore();
 		ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(mailaddress).delete();
-		return "Document with user " + mailaddress + " has been deleted" + writeResult.get().getUpdateTime().toString();
+		logger.info("Document with user {} has been deleted at {}", mailaddress, writeResult.get().getUpdateTime());
 	}
 }

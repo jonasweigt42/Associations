@@ -10,16 +10,16 @@ public class Publisher
 {
 
 	@Autowired
-	private final ApplicationEventPublisher publisher;
+	private final ApplicationEventPublisher applicationPublisher;
 
-	Publisher(ApplicationEventPublisher publisher)
+	Publisher(ApplicationEventPublisher applicationPublisher)
 	{
-		this.publisher = publisher;
+		this.applicationPublisher = applicationPublisher;
 	}
 
 	public void publishEvent(ApplicationEvent event)
 	{
-		publisher.publishEvent(event);
+		applicationPublisher.publishEvent(event);
 	}
 
 }

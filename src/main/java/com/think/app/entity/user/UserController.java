@@ -31,14 +31,14 @@ public class UserController
 	}
 
 	@PutMapping("/updateUser")
-	public String updateUser(@RequestBody User user) throws InterruptedException, ExecutionException
+	public void updateUser(@RequestBody User user) throws InterruptedException, ExecutionException
 	{
-		return userService.update(user);
+		userService.update(user);
 	}
 
 	@DeleteMapping("/deleteUser")
-	public String deleteUser(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
+	public void deleteUser(@RequestParam String mailAddress) throws InterruptedException, ExecutionException
 	{
-		return userService.delete(mailAddress);
+		userService.delete(mailAddress);
 	}
 }

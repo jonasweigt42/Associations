@@ -30,8 +30,8 @@ public class WordController
 	}
 
 	@DeleteMapping("/deleteWord")
-	public String deleteWord(@RequestParam String wordName) throws InterruptedException, ExecutionException
+	public void deleteWord(@RequestParam String wordName) throws InterruptedException, ExecutionException
 	{
-		return wordService.deleteWord(wordName);
+		wordService.deleteWord(wordName);
 	}
 }
