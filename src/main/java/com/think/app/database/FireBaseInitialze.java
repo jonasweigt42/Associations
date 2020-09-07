@@ -13,6 +13,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.think.app.constants.TextConstants;
 
 @Service
 public class FireBaseInitialze
@@ -39,7 +40,7 @@ public class FireBaseInitialze
 			}
 		} catch (Exception e)
 		{
-			logger.error(e.getMessage(), e);
+			logger.error(TextConstants.COULD_NOT_CONNECT_TO_FIREBASE, e);
 		}
 	}
 
