@@ -21,4 +21,7 @@ To run Integration Tests, execute `mvn verify -Pintegration-tests`.
 
 ## Database
 
-The database is a cloud firestore. It document based. Take a look at cloud firestore on google. 
+The database is a local H2 database. Open the H2 console while the server is running on 
+localhost:8080/h2-console
+
+If your put a "data.sql" in src/main/resources, it will be executed every time you start the server

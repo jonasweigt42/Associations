@@ -1,7 +1,5 @@
 package com.think.app.view;
 
-import java.util.concurrent.ExecutionException;
-
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -44,8 +42,8 @@ public class ProfileView extends VerticalLayout
 
 	@Autowired
 	private Logger logger;
-	
-	@Autowired 
+
+	@Autowired
 	private TCResourceBundle tcResourceBundle;
 
 	@PostConstruct
@@ -110,14 +108,8 @@ public class ProfileView extends VerticalLayout
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
 		user.setMailAddress(username);
-		try
-		{
-			userService.update(user);
-		} catch (InterruptedException | ExecutionException e)
-		{
-			logger.error(e.getMessage(), e);
-			Notification.show(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
-		}
+
+		userService.update(user);
 		Notification.show(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
 		logger.info(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
 	}

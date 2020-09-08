@@ -1,9 +1,7 @@
 package com.think.app.userinfo;
 
 import java.io.Serializable;
-import java.util.concurrent.ExecutionException;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -35,9 +33,6 @@ public class UserInfo implements Serializable
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
 
-	@Autowired
-	private Logger logger;
-	
 	public void login(String mailAddress, String password)
 	{
 		loggedInUser = callDbAndAuthenticateUser(mailAddress, password);
@@ -66,22 +61,15 @@ public class UserInfo implements Serializable
 	private User callDbAndAuthenticateUser(String mailAddress, String password)
 	{
 
-		try
+		User user = userService.getUserByMailAddress(mailAddress);
+		if (user == null)
 		{
-			User user = userService.getUserByMailAddress(mailAddress);
-			if(user == null)
-			{
-				Notification.show(tcResourceBundle.get(LanguageConstants.USER_NOT_REGISTERED));
-				return null;
-			}
-			if (encoder.matches(password, user.getPassword()))
-			{
-				return user;
-			}
-		} catch (InterruptedException | ExecutionException e)
+			Notification.show(tcResourceBundle.get(LanguageConstants.USER_NOT_REGISTERED));
+			return null;
+		}
+		if (encoder.matches(password, user.getPassword()))
 		{
-			logger.error(e.getMessage(), e);
-			Notification.show(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
+			return user;
 		}
 		return null;
 

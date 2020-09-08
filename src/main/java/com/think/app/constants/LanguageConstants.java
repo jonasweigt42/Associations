@@ -19,6 +19,7 @@ public class LanguageConstants
 	public static final String RESET = "reset";
 	public static final String REGISTER = "register";
 	public static final String NEW_REGISTER = "newRegister";
+	public static final String START = "start";
 
 	public static final String CURRENT_PASSWORD = "currentPassword";
 	public static final String NEW_PASSWORD = "newPassword";

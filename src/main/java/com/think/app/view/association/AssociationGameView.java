@@ -1,5 +1,9 @@
 package com.think.app.view.association;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +11,14 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
+import com.think.app.entity.association.Association;
+import com.think.app.entity.association.AssociationService;
 import com.think.app.entity.user.User;
 import com.think.app.entity.word.WordService;
 import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +39,7 @@ public class AssociationGameView extends VerticalLayout
 	private TextField associationField1 = new TextField();
 	private TextField associationField2 = new TextField();
 	private TextField associationField3 = new TextField();
+	private H4 label = new H4();
 	
 	@Autowired
 	private UserInfo userInfo;
@@ -41,6 +49,9 @@ public class AssociationGameView extends VerticalLayout
 	
 	@Autowired
 	private WordService wordService;
+	
+	@Autowired
+	private AssociationService associationService;
 
 	@PostConstruct
 	public void init()
@@ -60,7 +71,7 @@ public class AssociationGameView extends VerticalLayout
 			addFieldsForUser(user);
 		} else
 		{
-			H4 label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 			add(label);
 		}
 	}
@@ -68,47 +79,44 @@ public class AssociationGameView extends VerticalLayout
 	//TODO association for language
 	public void addFieldsForUser(User user)
 	{
-//		if (userInfo.getWordsForAssociations().isEmpty())
-//		{
-//			return;
-//		}
-//		String word = userInfo.getWordsForAssociations().get(0);
-//
-//		H4 label = new H4(word);
-//
-//		Button save = new Button(tcResourceBundle.get(LanguageConstants.SAVE));
-//		save.addClickListener(evt -> saveAndClear());
-//
-//		add(label, associationField1, associationField2, associationField3, save);
+		List<String> words = wordService.getRandomWords(10);
+		String word = words.get(0);
+
+		label.setText(word);
+
+		Button save = new Button(tcResourceBundle.get(LanguageConstants.SAVE));
+		save.addClickListener(evt -> saveAndClear(words));
+
+		add(label, associationField1, associationField2, associationField3, save);
 	}
 
-	private void saveAndClear()
+	private void saveAndClear(List<String> words)
 	{
-//		String word = label.getText();
-//		saveNewAssociationEntity(word);
-//
-//		userInfo.getWordsForAssociations().remove(word);
-//		if (userInfo.getWordsForAssociations().isEmpty())
-//		{
-//			removeAll();
-//			label.setText("Fertig! Du kannst dir deine Assoziationen unter \"Statistik\" anschauen! :)");
-//			add(label);
-//		} else
-//		{
-//			String nextWord = userInfo.getWordsForAssociations().get(0);
-//			label.setText(nextWord);
-//			clearAssociationFields();
-//		}
+		String word = label.getText();
+		saveNewAssociationEntity(word);
+
+		words.remove(word);
+		if (words.isEmpty())
+		{
+			removeAll();
+			label.setText("Fertig! Du kannst dir deine Assoziationen unter \"Statistik\" anschauen! :)");
+			add(label);
+		} else
+		{
+			String nextWord = words.get(0);
+			label.setText(nextWord);
+			clearAssociationFields();
+		}
 	}
 
 	private void saveNewAssociationEntity(String word)
 	{
-//		Association associationEntity = new Association();
-//		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
-//		associationEntity.setWord(word);
-//		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
-//		associationEntity.setAssociations(buildAssociations());
-//		associationService.save(associationEntity);
+		Association associationEntity = new Association();
+		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
+		associationEntity.setWord(word);
+		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
+		associationEntity.setAssociations(buildAssociations());
+		associationService.save(associationEntity);
 	}
 
 	private void clearAssociationFields()

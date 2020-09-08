@@ -149,7 +149,6 @@ public class Register extends Dialog
 		newUser.setLastName(lastName.getValue());
 		newUser.setMailAddress(mailAddress.getValue());
 		newUser.setPassword(encodedPassword);
-		newUser.setLanguage(LanguageConstants.ENGLISH);
 		
 		return newUser;
 	}

@@ -1,10 +1,7 @@
 package com.think.app.component;
 
-import java.util.concurrent.ExecutionException;
-
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -47,9 +44,6 @@ public class ChangePasswordDialog extends Dialog
 
 	@Autowired
 	private PasswordEncoder encoder;
-
-	@Autowired
-	private Logger logger;
 
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
@@ -103,14 +97,7 @@ public class ChangePasswordDialog extends Dialog
 		{
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 
-			try
-			{
-				userService.update(user);
-			} catch (InterruptedException | ExecutionException e)
-			{
-				errorLabel.setText(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
-				logger.error(e.getMessage(), e);
-			}
+			userService.update(user);
 			Notification.show("Password for " + user.getMailAddress() + " changed");
 			close();
 			clearAll();
