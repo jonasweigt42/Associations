@@ -35,6 +35,8 @@ public class LanguageConstants
 	public static final String LOGIN = "login";
 	public static final String LOGOUT = "logout";
 	public static final String FILTER = "filter";
+	public static final String LOGIN_ERROR_TITLE = "loginErrorTitle";
+	public static final String LOGIN_ERROR_MESSAGE = "loginErrorMessage";
 
 	public static final String REGISTRATION_ERROR_MESSAGE = "registrationErrorMessage";
 	public static final String USER_WAS_UPDATED = "userWasUpdated";
