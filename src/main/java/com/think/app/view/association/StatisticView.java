@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.association.AssociationService;
@@ -62,9 +63,11 @@ public class StatisticView extends VerticalLayout
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
+			removeClassName(HTMLConstants.CENTERED_CONTENT);
 			addFieldsForUser(user);
 		} else
 		{
+			addClassName(HTMLConstants.CENTERED_CONTENT);
 			H4 label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 			add(label);
 		}

@@ -2,13 +2,13 @@ package com.think.app;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InjectionPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.think.app.view.MainView;
 
 @Configuration
 @EnableScheduling
@@ -20,10 +20,11 @@ public class AppConfig
 	{
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-	public Logger myLogger()
+	@Scope("prototype")
+	public Logger logger(InjectionPoint injectionPoint)
 	{
-		return LoggerFactory.getLogger(MainView.class);
+		return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
 	}
 }
