@@ -61,7 +61,7 @@ public class StartAssociationGameView extends VerticalLayout
 
 	public void addFieldsForUser()
 	{
-		H4 label = new H4("Aufgabe: Du bekommst 10 zufällige Wörter, Bitte schreibe zu allen 3 Assoziationen auf");
+		H4 label = new H4(tcResourceBundle.get(LanguageConstants.EXERCISE));
 		
 		Button start = new Button(tcResourceBundle.get(LanguageConstants.START));
 		start.addClickListener(evt -> navigate());

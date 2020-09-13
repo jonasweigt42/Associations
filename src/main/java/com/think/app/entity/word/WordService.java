@@ -8,5 +8,5 @@ public interface WordService extends Service<Word>
 {
 	List<String> getAllNames();
 	
-	List<String> getRandomWords(int number);
+	List<String> getRandomWords(int number, String language);
 }

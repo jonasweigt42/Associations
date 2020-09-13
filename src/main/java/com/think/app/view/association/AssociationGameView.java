@@ -40,16 +40,16 @@ public class AssociationGameView extends VerticalLayout
 	private TextField associationField2 = new TextField();
 	private TextField associationField3 = new TextField();
 	private H4 label = new H4();
-	
+
 	@Autowired
 	private UserInfo userInfo;
-	
-	@Autowired 
+
+	@Autowired
 	private TCResourceBundle tcResourceBundle;
-	
+
 	@Autowired
 	private WordService wordService;
-	
+
 	@Autowired
 	private AssociationService associationService;
 
@@ -76,10 +76,13 @@ public class AssociationGameView extends VerticalLayout
 		}
 	}
 
-	//TODO association for language
 	public void addFieldsForUser(User user)
 	{
-		List<String> words = wordService.getRandomWords(10);
+		List<String> words = wordService.getRandomWords(10, user.getLanguage());
+		if(words.isEmpty())
+		{
+			return;
+		}
 		String word = words.get(0);
 
 		label.setText(word);
@@ -99,7 +102,8 @@ public class AssociationGameView extends VerticalLayout
 		if (words.isEmpty())
 		{
 			removeAll();
-			label.setText("Fertig! Du kannst dir deine Assoziationen unter \"Statistik\" anschauen! :)");
+			label.setText(tcResourceBundle.get(LanguageConstants.FINISHED_EXERCISE) + " "
+					+ tcResourceBundle.get(LanguageConstants.STATISTICS_MAIN_VIEW));
 			add(label);
 		} else
 		{

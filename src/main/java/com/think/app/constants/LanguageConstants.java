@@ -48,4 +48,7 @@ public class LanguageConstants
 	public static final String GAME_MAIN_VIEW = "gameMainView";
 	public static final String PROFILE_MAIN_VIEW = "profileMainView";
 	public static final String STATISTICS_MAIN_VIEW = "statisticsMainView";
+	
+	public static final String EXERCISE = "exercise";
+	public static final String FINISHED_EXERCISE = "finishedExercise";
 }

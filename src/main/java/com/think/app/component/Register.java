@@ -89,7 +89,7 @@ public class Register extends Dialog
 	public void prepareFields()
 	{
 		mailAddress = prepareEMailField();
-		errorLabel.addClassName("text-red");
+		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 		firstName.setLabel(tcResourceBundle.get(LanguageConstants.FIRSTNAME));
 		lastName.setLabel(tcResourceBundle.get(LanguageConstants.LASTNAME));
 		password.setLabel(tcResourceBundle.get(LanguageConstants.PASSWORD));
@@ -148,6 +148,7 @@ public class Register extends Dialog
 		newUser.setFirstName(firstName.getValue());
 		newUser.setLastName(lastName.getValue());
 		newUser.setMailAddress(mailAddress.getValue());
+		newUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
 		newUser.setPassword(encodedPassword);
 		
 		return newUser;

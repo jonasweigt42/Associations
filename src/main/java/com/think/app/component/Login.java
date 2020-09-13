@@ -1,5 +1,7 @@
 package com.think.app.component;
 
+import java.util.Locale;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
@@ -37,7 +40,6 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	private Button loginButton = new Button();
 	private LoginForm loginForm = new LoginForm();
-	private LoginI18n i18n;
 
 	@Autowired
 	private UserInfo userInfo;
@@ -73,7 +75,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	{
 		removeAll();
 		prepareI18n();
-		loginForm.setI18n(i18n);
+		loginForm.setI18n(prepareI18n());
 		prepareButtonLabel();
 		prepareLoginButton();
 		prepareLoginListener();
@@ -95,7 +97,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 	private Button prepareRegistrationButton()
 	{
 		Button button = new Button(tcResourceBundle.get(LanguageConstants.REGISTER));
-		button.addClassName("registration-button");
+		button.addClassName(HTMLConstants.REGISTRATION_BUTTON);
 		button.addClickListener(evt -> register.open());
 		return button;
 	}
@@ -152,25 +154,26 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 			loginForm.setError(true);
 			return;
 		}
-		
+		tcResourceBundle.setSessionLocale(new Locale(user.getLanguage()));
 		userInfo.setLoginData(true, user);
 	}
 	
 	private void prepareLoginButton()
 	{
 		loginButton.addClickListener(e -> changeLoginState());
-		loginButton.addClassName("header-button");
+		loginButton.addClassName(HTMLConstants.HEADER_BUTTON);
 	}
 
-	private void prepareI18n()
+	private LoginI18n prepareI18n()
 	{
-		i18n = LoginI18n.createDefault();
+		LoginI18n i18n = LoginI18n.createDefault();
 		ErrorMessage errorMessage = prepareErrorMessageI18n();
 		i18n.setErrorMessage(errorMessage);
 		i18n.getForm().setTitle(TextConstants.TITLE);
 		i18n.getForm().setUsername(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
 		i18n.getForm().setPassword(tcResourceBundle.get(LanguageConstants.PASSWORD));
 		i18n.getForm().setForgotPassword(tcResourceBundle.get(LanguageConstants.FORGET_PASSWORD));
+		return i18n;
 	}
 
 	private ErrorMessage prepareErrorMessageI18n()

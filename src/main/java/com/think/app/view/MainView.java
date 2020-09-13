@@ -14,7 +14,10 @@ import com.think.app.component.Logo;
 import com.think.app.component.ViewUpdater;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
+import com.think.app.entity.user.User;
+import com.think.app.entity.user.UserService;
 import com.think.app.textresources.TCResourceBundle;
+import com.think.app.userinfo.UserInfo;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
@@ -63,16 +66,22 @@ public class MainView extends AppLayout
 
 	@Autowired
 	private Login login;
-	
+
 	@Autowired
 	private ChangeLanguageButton clButton;
-	
+
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
-	
+
 	@Autowired
 	private ViewUpdater viewUpdater;
-	
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserInfo userInfo;
+
 	@PostConstruct
 	public void init()
 	{
@@ -92,7 +101,7 @@ public class MainView extends AppLayout
 		layout.addClassName("margin-left");
 		return layout;
 	}
-	
+
 	private void prepareMenuTabs()
 	{
 		menu.removeAll();
@@ -106,7 +115,7 @@ public class MainView extends AppLayout
 	{
 		final List<Tab> tabs = new ArrayList<>();
 		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.WELCOME_MAIN_VIEW), StartView.class));
-		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.GAME_MAIN_VIEW),StartAssociationGameView.class));
+		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.GAME_MAIN_VIEW), StartAssociationGameView.class));
 		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.PROFILE_MAIN_VIEW), ProfileView.class));
 		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.STATISTICS_MAIN_VIEW), StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
@@ -140,15 +149,14 @@ public class MainView extends AppLayout
 	private void selectTab()
 	{
 		String target = RouteConfiguration.forSessionScope().getUrl(getContent().getClass());
-		Optional<Component> tabToSelect = menu.getChildren().filter(tab ->
-		{
+		Optional<Component> tabToSelect = menu.getChildren().filter(tab -> {
 			Component child = tab.getChildren().findFirst().get();
 			return child instanceof RouterLink && ((RouterLink) child).getHref().equals(target);
 		}).findFirst();
 		tabToSelect.ifPresent(tab -> menu.setSelectedTab((Tab) tab));
 	}
-	
-	private void updateUI()
+
+	private void updateMainViewUI()
 	{
 		prepareMenuTabs();
 		login.updateUI();
@@ -157,8 +165,14 @@ public class MainView extends AppLayout
 	private void toggleLanguageButton()
 	{
 		clButton.toggle();
-		updateUI();
+		updateMainViewUI();
 		viewUpdater.updateViews();
+		User loggedInUser = userInfo.getLoggedInUser();
+		if (loggedInUser != null)
+		{
+			loggedInUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
+			userService.update(loggedInUser);
+		}
 	}
 
 }

@@ -98,7 +98,7 @@ public class ChangePasswordDialog extends Dialog
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 
 			userService.update(user);
-			Notification.show("Password for " + user.getMailAddress() + " changed");
+			Notification.show(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
 			close();
 			clearAll();
 		}

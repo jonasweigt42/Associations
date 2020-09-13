@@ -12,7 +12,7 @@ public class Publisher
 	@Autowired
 	private final ApplicationEventPublisher applicationPublisher;
 
-	Publisher(ApplicationEventPublisher applicationPublisher)
+	public Publisher(ApplicationEventPublisher applicationPublisher)
 	{
 		this.applicationPublisher = applicationPublisher;
 	}

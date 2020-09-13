@@ -23,14 +23,24 @@ public class Word implements Serializable
 	@Column
 	private String name;
 	
+	@Column
+	private String language;
+	
 	public int getId()
 	{
 		return id;
 	}
+	
 	public String getName()
 	{
 		return name;
 	}
+	
+	public String getLanguage()
+	{
+		return language;
+	}
+	
 	@Override
 	public String toString()
 	{

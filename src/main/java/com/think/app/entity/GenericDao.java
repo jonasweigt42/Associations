@@ -40,16 +40,27 @@ public abstract class GenericDao<T extends Serializable>
 				.intValue();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<T> getRandomEntries(int number)
 	{
 		List<T> list = new ArrayList<T>(number);
+		int countedObjects = count();
+		if(countedObjects <= number)
+		{
+			return findAll();
+		}
+		prepareListWithRandomElements(number, list, countedObjects);
+		return list;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void prepareListWithRandomElements(int number, List<T> list, int countedObjects)
+	{
+		Random random = new Random();
 		while (list.size() != number)
 		{
-			Random random = new Random();
-			int randomNumber = random.nextInt(count());
+			int randomNumber = random.nextInt(countedObjects);
 			Query selectQuery = entityManager.createQuery("SELECT c FROM " + clazz.getName() + " c");
 			selectQuery.setFirstResult(randomNumber);
 			selectQuery.setMaxResults(1);
@@ -59,8 +70,6 @@ public abstract class GenericDao<T extends Serializable>
 				list.add(result);
 			}
 		}
-		return list;
-
 	}
 
 	@Transactional

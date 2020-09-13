@@ -28,39 +28,59 @@ public class User implements Serializable
 	private String mailAddress;
 	@Column
 	private String password;
+	@Column
+	private String language;
+	
+	public String getLanguage()
+	{
+		return language;
+	}
+	
+	public void setLanguage(String language)
+	{
+		this.language = language;
+	}
 	
 	public int getId()
 	{
 		return id;
 	}
+	
 	public String getMailAddress()
 	{
 		return mailAddress;
 	}
+	
 	public void setMailAddress(String mailAddress)
 	{
 		this.mailAddress = mailAddress;
 	}
+	
 	public String getPassword()
 	{
 		return password;
 	}
+	
 	public void setPassword(String password)
 	{
 		this.password = password;
 	}
+	
 	public String getFirstName()
 	{
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
 	}
+	
 	public String getLastName()
 	{
 		return lastName;
 	}
+	
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
