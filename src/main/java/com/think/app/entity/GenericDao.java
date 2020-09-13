@@ -43,7 +43,7 @@ public abstract class GenericDao<T extends Serializable>
 	@Transactional
 	public List<T> getRandomEntries(int number)
 	{
-		List<T> list = new ArrayList<T>(number);
+		List<T> list = new ArrayList<>(number);
 		int countedObjects = count();
 		if(countedObjects <= number)
 		{

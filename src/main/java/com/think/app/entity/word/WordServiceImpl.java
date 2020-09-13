@@ -53,7 +53,7 @@ public class WordServiceImpl implements WordService
 	public List<String> getRandomWords(int number, String language)
 	{
 		return dao.getRandomEntries(number).stream().filter(word -> word.getLanguage().equals(language))
-				.map(word -> word.getName()).collect(Collectors.toList());
+				.map(Word::getName).collect(Collectors.toList());
 	}
 
 }
