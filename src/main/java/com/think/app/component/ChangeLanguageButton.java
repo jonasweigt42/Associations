@@ -43,4 +43,9 @@ public class ChangeLanguageButton extends Button
 		}
 	}
 
+	public void updateText()
+	{
+		setText(tcResourceBundle.getSessionLocale().getLanguage());
+	}
+
 }

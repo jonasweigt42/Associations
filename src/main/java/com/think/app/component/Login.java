@@ -6,7 +6,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,9 @@ import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
+import com.think.app.event.Publisher;
 import com.think.app.event.UpdateLoginEvent;
+import com.think.app.event.UpdateMainViewEvent;
 import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -33,7 +35,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport(value = "./styles/dialog-styles.css", themeFor = "vaadin-dialog-overlay")
 @Component
 @UIScope
-public class Login extends Dialog implements ApplicationListener<UpdateLoginEvent>
+public class Login extends Dialog
 {
 
 	private static final long serialVersionUID = -3124840772943883433L;
@@ -61,6 +63,9 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private Publisher publisher;
 
 	@Autowired
 	private Logger logger;
@@ -131,6 +136,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 				{
 					prepareButtonLabel();
 					viewUpdater.updateViews();
+					publisher.publishEvent(new UpdateMainViewEvent(this));
 					close();
 				} else
 				{
@@ -223,7 +229,7 @@ public class Login extends Dialog implements ApplicationListener<UpdateLoginEven
 		forgetPasswordDialog.loadContent();
 	}
 
-	@Override
+	@EventListener
 	public void onApplicationEvent(UpdateLoginEvent event)
 	{
 		logger.info("catched UpdateLoginEvent");

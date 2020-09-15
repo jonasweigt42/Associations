@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 
 import com.think.app.component.ChangeLanguageButton;
 import com.think.app.component.Login;
@@ -16,6 +17,7 @@ import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
+import com.think.app.event.UpdateMainViewEvent;
 import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.association.StartAssociationGameView;
@@ -37,6 +39,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+import ch.qos.logback.classic.Logger;
+
 /**
  * A sample Vaadin view class.
  * <p>
@@ -54,6 +58,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @CssImport("./styles/shared-styles.css")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @UIScope
+@org.springframework.stereotype.Component
 public class MainView extends AppLayout
 {
 
@@ -81,6 +86,9 @@ public class MainView extends AppLayout
 
 	@Autowired
 	private UserInfo userInfo;
+
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -161,7 +169,7 @@ public class MainView extends AppLayout
 		prepareMenuTabs();
 		login.updateUI();
 	}
-	
+
 	private void toggleLanguageButton()
 	{
 		clButton.toggle();
@@ -173,6 +181,14 @@ public class MainView extends AppLayout
 			loggedInUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
 			userService.update(loggedInUser);
 		}
+	}
+
+	@EventListener
+	public void onApplicationEvent(UpdateMainViewEvent event)
+	{
+		logger.info("catched UpdateMainViewEvent");
+		updateMainViewUI();
+		clButton.updateText();
 	}
 
 }
