@@ -2,6 +2,7 @@ package com.think.app.entity.user;
 
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ public class UserServiceImpl implements UserService
 
 	@Autowired
 	private UserDao dao;
+	
+	@Autowired
+	private Logger logger;
 
 	@Override
 	public List<User> findAll()
@@ -37,12 +41,14 @@ public class UserServiceImpl implements UserService
 	public void update(User user)
 	{
 		dao.update(user);
+		logger.info("updated user {}", user.getMailAddress());
 	}
 
 	@Override
 	public void save(User newUser)
 	{
 		dao.save(newUser);
+		logger.info("saved user {}", newUser.getMailAddress());
 	}
 
 	@Override
@@ -55,6 +61,7 @@ public class UserServiceImpl implements UserService
 	public void delete(User user)
 	{
 		dao.delete(user);
+		logger.info("deleted user {}", user.getMailAddress());
 	}
 
 }
