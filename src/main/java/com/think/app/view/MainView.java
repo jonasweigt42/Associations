@@ -26,9 +26,10 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -101,10 +102,11 @@ public class MainView extends AppLayout
 		addToDrawer(menu);
 	}
 
-	private HorizontalLayout prepareButtonLayout()
+	private FlexLayout prepareButtonLayout()
 	{
-		HorizontalLayout layout = new HorizontalLayout();
+		FlexLayout layout = new FlexLayout();
 		clButton.addClickListener(evt -> toggleLanguageButton());
+		clButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 		layout.add(clButton, login.getLoginButton());
 		layout.addClassName("margin-left");
 		return layout;
@@ -166,7 +168,9 @@ public class MainView extends AppLayout
 
 	private void updateMainViewUI()
 	{
+		int selectedIndex = menu.getSelectedIndex();
 		prepareMenuTabs();
+		menu.setSelectedIndex(selectedIndex);
 		login.updateUI();
 	}
 

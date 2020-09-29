@@ -46,7 +46,7 @@ public class StatisticView extends VerticalLayout
 
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
-	
+
 	@Autowired
 	private Logger logger;
 
@@ -91,29 +91,37 @@ public class StatisticView extends VerticalLayout
 		grid.setSizeUndefined();
 
 		addColumns(dataProvider, grid);
-		
+
 		return grid;
 	}
 
 	private void addColumns(ListDataProvider<Association> dataProvider, Grid<Association> grid)
 	{
-		Grid.Column<Association> wordColumn = grid.addColumn(Association::getWord).setHeader("Wort");
+		Grid.Column<Association> wordColumn = grid.addColumn(Association::getWord)
+				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_WORD));
 
-		Grid.Column<Association> associationsColumn = grid.addColumn(Association::getAssociations)
-				.setHeader("Assoziationen");
+		Grid.Column<Association> association1Column = grid.addColumn(Association::getAssociation1)
+				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_ASSOCIATION_1));
+		Grid.Column<Association> association2Column = grid.addColumn(Association::getAssociation2)
+				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_ASSOCIATION_2));
+		Grid.Column<Association> association3Column = grid.addColumn(Association::getAssociation3)
+				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_ASSOCIATION_3));
 
-		Grid.Column<Association> dateColumn = grid.addColumn(Association::getAssociationDate).setHeader("Datum");
+		Grid.Column<Association> dateColumn = grid.addColumn(Association::getAssociationDate)
+				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_DATE));
 
 		HeaderRow filterRow = grid.appendHeaderRow();
 
-		addWordColumn(dataProvider, grid, filterRow, wordColumn);
+		addWordColumn(dataProvider, filterRow, wordColumn);
 
-		addAssociationsColumn(dataProvider, grid, filterRow, associationsColumn);
+		addAssociation1Column(dataProvider, filterRow, association1Column);
+		addAssociation2Column(dataProvider, filterRow, association2Column);
+		addAssociation3Column(dataProvider, filterRow, association3Column);
 
-		addDateColumn(dataProvider, grid, filterRow, dateColumn);
+		addDateColumn(dataProvider, filterRow, dateColumn);
 	}
 
-	private void addDateColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
+	private void addDateColumn(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
 			Grid.Column<Association> dateColumn)
 	{
 		TextField dateField = new TextField();
@@ -127,12 +135,12 @@ public class StatisticView extends VerticalLayout
 		dateField.setPlaceholder(tcResourceBundle.get(LanguageConstants.FILTER));
 	}
 
-	private void addAssociationsColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid,
-			HeaderRow filterRow, Grid.Column<Association> associationsColumn)
+	private void addAssociation1Column(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
+			Grid.Column<Association> associationsColumn)
 	{
 		TextField associationsField = new TextField();
 		associationsField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
-				.containsIgnoreCase(association.getAssociations(), associationsField.getValue())));
+				.containsIgnoreCase(association.getAssociation1(), associationsField.getValue())));
 
 		associationsField.setValueChangeMode(ValueChangeMode.EAGER);
 
@@ -141,7 +149,35 @@ public class StatisticView extends VerticalLayout
 		associationsField.setPlaceholder(tcResourceBundle.get(LanguageConstants.FILTER));
 	}
 
-	private void addWordColumn(ListDataProvider<Association> dataProvider, Grid<Association> grid, HeaderRow filterRow,
+	private void addAssociation2Column(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
+			Grid.Column<Association> associationsColumn)
+	{
+		TextField associationsField = new TextField();
+		associationsField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
+				.containsIgnoreCase(association.getAssociation2(), associationsField.getValue())));
+
+		associationsField.setValueChangeMode(ValueChangeMode.EAGER);
+
+		filterRow.getCell(associationsColumn).setComponent(associationsField);
+		associationsField.setSizeFull();
+		associationsField.setPlaceholder(tcResourceBundle.get(LanguageConstants.FILTER));
+	}
+
+	private void addAssociation3Column(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
+			Grid.Column<Association> associationsColumn)
+	{
+		TextField associationsField = new TextField();
+		associationsField.addValueChangeListener(event -> dataProvider.addFilter(association -> StringUtils
+				.containsIgnoreCase(association.getAssociation3(), associationsField.getValue())));
+
+		associationsField.setValueChangeMode(ValueChangeMode.EAGER);
+
+		filterRow.getCell(associationsColumn).setComponent(associationsField);
+		associationsField.setSizeFull();
+		associationsField.setPlaceholder(tcResourceBundle.get(LanguageConstants.FILTER));
+	}
+
+	private void addWordColumn(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
 			Grid.Column<Association> wordColumn)
 	{
 

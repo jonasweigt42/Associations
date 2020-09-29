@@ -119,7 +119,9 @@ public class AssociationGameView extends VerticalLayout
 		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
 		associationEntity.setWord(word);
 		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
-		associationEntity.setAssociations(buildAssociations());
+		associationEntity.setAssociation1(associationField1.getValue());
+		associationEntity.setAssociation2(associationField2.getValue());
+		associationEntity.setAssociation3(associationField3.getValue());
 		associationService.save(associationEntity);
 	}
 
@@ -128,15 +130,6 @@ public class AssociationGameView extends VerticalLayout
 		associationField1.clear();
 		associationField2.clear();
 		associationField3.clear();
-	}
-
-	private String buildAssociations()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append(associationField1.getValue()).append(",");
-		builder.append(associationField2.getValue()).append(",");
-		builder.append(associationField3.getValue());
-		return builder.toString();
 	}
 
 }

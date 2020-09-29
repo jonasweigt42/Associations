@@ -29,7 +29,13 @@ public class Association implements Serializable
 	private String word;
 	
 	@Column
-	private String associations;
+	private String association1;
+	
+	@Column
+	private String association2;
+	
+	@Column
+	private String association3;
 	
 	@Column
 	private Date associationDate;
@@ -54,16 +60,6 @@ public class Association implements Serializable
 		this.word = word;
 	}
 
-	public String getAssociations()
-	{
-		return associations;
-	}
-
-	public void setAssociations(String associations)
-	{
-		this.associations = associations;
-	}
-
 	public Date getAssociationDate()
 	{
 		return associationDate;
@@ -79,5 +75,35 @@ public class Association implements Serializable
 		return id;
 	}
 	
+	public String getAssociation1()
+	{
+		return association1;
+	}
+
+	public void setAssociation1(String association1)
+	{
+		this.association1 = association1;
+	}
+
+	public String getAssociation2()
+	{
+		return association2;
+	}
+
+	public void setAssociation2(String association2)
+	{
+		this.association2 = association2;
+	}
+
+	public String getAssociation3()
+	{
+		return association3;
+	}
+
+	public void setAssociation3(String association3)
+	{
+		this.association3 = association3;
+	}
+
 	
 }

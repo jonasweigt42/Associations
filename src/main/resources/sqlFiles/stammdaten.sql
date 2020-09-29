@@ -28,7 +28,7 @@ values
 ('Table', 'en'),
 ('Picture', 'en'),
 ('Hair', 'en'),
-('Desc', 'en'),
+('Desk', 'en'),
 ('Politics', 'en'),
 ('Share', 'en'),
 ('Dog', 'en'),

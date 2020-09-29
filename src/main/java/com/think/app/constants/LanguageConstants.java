@@ -49,6 +49,12 @@ public class LanguageConstants
 	public static final String PROFILE_MAIN_VIEW = "profileMainView";
 	public static final String STATISTICS_MAIN_VIEW = "statisticsMainView";
 	
+	public static final String GRID_HEADER_WORD = "gridHeaderWord";
+	public static final String GRID_HEADER_ASSOCIATION_1 = "gridHeaderAssociation1";
+	public static final String GRID_HEADER_ASSOCIATION_2 = "gridHeaderAssociation2";
+	public static final String GRID_HEADER_ASSOCIATION_3 = "gridHeaderAssociation3";
+	public static final String GRID_HEADER_DATE = "gridHeaderDate";
+	
 	public static final String EXERCISE = "exercise";
 	public static final String FINISHED_EXERCISE = "finishedExercise";
 }
