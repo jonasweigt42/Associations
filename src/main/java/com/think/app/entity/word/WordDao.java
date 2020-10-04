@@ -33,7 +33,6 @@ public class WordDao extends GenericDao<Word>
 		}
 		prepareListWithRandomElements(number, list, countedObjects);
 		return list;
-
 	}
 
 	private void prepareListWithRandomElements(int number, List<Word> list, int countedObjects)
@@ -42,7 +41,7 @@ public class WordDao extends GenericDao<Word>
 		while (list.size() != number)
 		{
 			int randomNumber = random.nextInt(countedObjects);
-			Query selectQuery = entityManager.createQuery("SELECT c FROM " + Word.class.getName() + " c");
+			Query selectQuery = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w");
 			selectQuery.setFirstResult(randomNumber);
 			selectQuery.setMaxResults(1);
 			Word result = (Word) selectQuery.getSingleResult();
@@ -51,6 +50,33 @@ public class WordDao extends GenericDao<Word>
 				list.add(result);
 			}
 		}
+	}
+	
+	//TODO fix
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Word findByNameAndLanguage(String name, String language)
+	{
+		List<Word> words = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w WHERE w.name = "
+				+ name + " AND w.language = " + language).getResultList();
+		if(!words.isEmpty())
+		{
+			return words.get(0);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Word findById(int id)
+	{
+		List<Word> words = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w WHERE w.id = "
+				+ id).getResultList();
+		if(!words.isEmpty())
+		{
+			return words.get(0);
+		}
+		return null;
 	}
 
 }

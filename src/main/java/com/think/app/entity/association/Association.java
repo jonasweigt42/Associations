@@ -26,7 +26,7 @@ public class Association implements Serializable
 	private int userId;
 	
 	@Column
-	private String word;
+	private int wordId;
 	
 	@Column
 	private String association1;
@@ -50,14 +50,14 @@ public class Association implements Serializable
 		this.userId = userId;
 	}
 
-	public String getWord()
+	public int getWordId()
 	{
-		return word;
+		return wordId;
 	}
 
-	public void setWord(String word)
+	public void setWordId(int wordId)
 	{
-		this.word = word;
+		this.wordId = wordId;
 	}
 
 	public Date getAssociationDate()

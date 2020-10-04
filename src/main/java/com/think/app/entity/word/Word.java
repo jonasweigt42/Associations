@@ -20,6 +20,7 @@ public class Word implements Serializable
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	@Column
 	private String name;
 	
@@ -41,11 +42,22 @@ public class Word implements Serializable
 		return language;
 	}
 	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public void setLanguage(String language)
+	{
+		this.language = language;
+	}
+	
 	@Override
 	public String toString()
 	{
 		return name;
 	}
+	
 	@Override
 	public int hashCode()
 	{

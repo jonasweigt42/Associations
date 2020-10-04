@@ -6,7 +6,10 @@ import com.think.app.entity.Service;
 
 public interface WordService extends Service<Word>
 {
-	List<String> getAllNames();
+	List<Word> getRandomWords(int number, String language);
 	
-	List<String> getRandomWords(int number, String language);
+	Word findByNameAndLanguage(String name, String language);
+	
+	Word findById(int id);
+	
 }

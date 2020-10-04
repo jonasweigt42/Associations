@@ -1,3 +1,6 @@
+INSERT INTO USER (first_name, last_name, mail_address, password, language)
+values ('Jonas', 'Weigt', 'jonas@test.at', '$2a$10$uhLqWYxSDcY7kXycCOx17uZJuDeKsgHyk1ikT2dVGduT4DE4GDgl6', 'en');
+
 INSERT INTO WORD (name, language) 
 values 
 ('Haus', 'de'),
@@ -33,3 +36,12 @@ values
 ('Share', 'en'),
 ('Dog', 'en'),
 ('Beer', 'en');
+
+INSERT INTO ASSOCIATION(user_id, word_id, association1, association2, association3, association_date)
+values
+('1', '1', 'Tür', 'bauen', 'Dach', CURRENT_TIMESTAMP),
+('1', '2', 'Software', 'Code', 'Programm', CURRENT_TIMESTAMP),
+('1', '3', 'Obst', 'Apfel', 'gelb', CURRENT_TIMESTAMP);
+
+
+

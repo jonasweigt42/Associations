@@ -14,6 +14,7 @@ import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.association.AssociationService;
 import com.think.app.entity.user.User;
+import com.think.app.entity.word.WordService;
 import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
@@ -43,7 +44,10 @@ public class StatisticView extends VerticalLayout
 
 	@Autowired
 	private AssociationService associationService;
-
+	
+	@Autowired
+	private WordService wordService;
+	
 	@Autowired
 	private TCResourceBundle tcResourceBundle;
 
@@ -97,7 +101,7 @@ public class StatisticView extends VerticalLayout
 
 	private void addColumns(ListDataProvider<Association> dataProvider, Grid<Association> grid)
 	{
-		Grid.Column<Association> wordColumn = grid.addColumn(Association::getWord)
+		Grid.Column<Association> wordColumn = grid.addColumn(association -> wordService.findById(association.getWordId()))
 				.setHeader(tcResourceBundle.get(LanguageConstants.GRID_HEADER_WORD));
 
 		Grid.Column<Association> association1Column = grid.addColumn(Association::getAssociation1)
@@ -134,7 +138,7 @@ public class StatisticView extends VerticalLayout
 		dateField.setSizeFull();
 		dateField.setPlaceholder(tcResourceBundle.get(LanguageConstants.FILTER));
 	}
-
+	
 	private void addAssociation1Column(ListDataProvider<Association> dataProvider, HeaderRow filterRow,
 			Grid.Column<Association> associationsColumn)
 	{
@@ -183,7 +187,7 @@ public class StatisticView extends VerticalLayout
 
 		TextField wordField = new TextField();
 		wordField.addValueChangeListener(event -> dataProvider
-				.addFilter(association -> StringUtils.containsIgnoreCase(association.getWord(), wordField.getValue())));
+				.addFilter(association -> StringUtils.containsIgnoreCase(wordService.findById(association.getWordId()).getName(), wordField.getValue())));
 
 		wordField.setValueChangeMode(ValueChangeMode.EAGER);
 

@@ -177,14 +177,14 @@ public class MainView extends AppLayout
 	private void toggleLanguageButton()
 	{
 		clButton.toggle();
-		updateMainViewUI();
-		viewUpdater.updateViews();
 		User loggedInUser = userInfo.getLoggedInUser();
 		if (loggedInUser != null)
 		{
 			loggedInUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
 			userService.update(loggedInUser);
 		}
+		updateMainViewUI();
+		viewUpdater.updateViews();
 	}
 
 	@EventListener

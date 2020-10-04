@@ -38,22 +38,28 @@ public class WordServiceImpl implements WordService
 	}
 
 	@Override
-	public List<String> getAllNames()
-	{
-		return findAll().stream().map(word -> word.getName()).collect(Collectors.toList());
-	}
-
-	@Override
 	public void delete(Word word)
 	{
 		dao.delete(word);
 	}
 
 	@Override
-	public List<String> getRandomWords(int number, String language)
+	public List<Word> getRandomWords(int number, String language)
 	{
 		return dao.getRandomEntries(number).stream().filter(word -> word.getLanguage().equals(language))
-				.map(Word::getName).collect(Collectors.toList());
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Word findById(int id)
+	{
+		return dao.findById(id);
+	}
+
+	@Override
+	public Word findByNameAndLanguage(String name, String language)
+	{
+		return dao.findByNameAndLanguage(name, language);
 	}
 
 }
