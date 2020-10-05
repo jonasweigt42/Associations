@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,13 +53,13 @@ public class WordDao extends GenericDao<Word>
 		}
 	}
 	
-	//TODO fix
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public Word findByNameAndLanguage(String name, String language)
 	{
-		List<Word> words = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w WHERE w.name = "
-				+ name + " AND w.language = " + language).getResultList();
+		TypedQuery<Word> query = entityManager.createNamedQuery("Word.findbyNameAndLanguage", Word.class);
+		query.setParameter(1, name);
+		query.setParameter(2, language);
+		List<Word> words = query.getResultList();
 		if(!words.isEmpty())
 		{
 			return words.get(0);
@@ -66,17 +67,12 @@ public class WordDao extends GenericDao<Word>
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Transactional
 	public Word findById(int id)
 	{
-		List<Word> words = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w WHERE w.id = "
-				+ id).getResultList();
-		if(!words.isEmpty())
-		{
-			return words.get(0);
-		}
-		return null;
+		TypedQuery<Word> query = entityManager.createNamedQuery("Word.findbyId", Word.class);
+		query.setParameter(1, id);
+		return query.getSingleResult();
 	}
 
 }
