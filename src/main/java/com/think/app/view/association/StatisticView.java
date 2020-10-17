@@ -20,6 +20,7 @@ import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -95,6 +96,8 @@ public class StatisticView extends VerticalLayout
 		grid.setSizeUndefined();
 
 		addColumns(dataProvider, grid);
+		grid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
+		        GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
 
 		return grid;
 	}
