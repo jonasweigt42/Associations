@@ -15,7 +15,6 @@ import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
 import com.think.app.event.UpdateLoginEvent;
-import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -27,17 +26,21 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @Component
 @UIScope
-public class Register extends Dialog
+public class Register extends Dialog implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = -7750716192029688905L;
 
+	private H4 title = new H4();
 	private TextField firstName = new TextField();
 	private TextField lastName = new TextField();
 	private TextField mailAddress = new TextField();
@@ -59,9 +62,6 @@ public class Register extends Dialog
 	private PasswordEncoder encoder;
 	
 	@Autowired
-	private TCResourceBundle tcResourceBundle;
-	
-	@Autowired
 	private Logger logger;
 
 	@PostConstruct
@@ -76,7 +76,7 @@ public class Register extends Dialog
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H4 title = new H4(tcResourceBundle.get(LanguageConstants.NEW_REGISTER));
+		title.setText(getTranslation(LanguageConstants.NEW_REGISTER));
 		prepareFields();
 
 		setCloseOnEsc(true);
@@ -90,19 +90,19 @@ public class Register extends Dialog
 	{
 		mailAddress = prepareEMailField();
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
-		firstName.setLabel(tcResourceBundle.get(LanguageConstants.FIRSTNAME));
-		lastName.setLabel(tcResourceBundle.get(LanguageConstants.LASTNAME));
-		password.setLabel(tcResourceBundle.get(LanguageConstants.PASSWORD));
-		passwordRetype.setLabel(tcResourceBundle.get(LanguageConstants.PASSWORD_RETYPE));
-		submit.setText(tcResourceBundle.get(LanguageConstants.REGISTER));
+		firstName.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
+		lastName.setLabel(getTranslation(LanguageConstants.LASTNAME));
+		password.setLabel(getTranslation(LanguageConstants.PASSWORD));
+		passwordRetype.setLabel(getTranslation(LanguageConstants.PASSWORD_RETYPE));
+		submit.setText(getTranslation(LanguageConstants.REGISTER));
 		submit.addClickListener(evt -> validateRegistration());
 	}
 
-	public TextField prepareEMailField()
+	private TextField prepareEMailField()
 	{
-		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
+		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
+		binder.forField(mailAddress).withValidator(new EmailValidator(getTranslation(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}
@@ -116,7 +116,7 @@ public class Register extends Dialog
 			
 		} catch (InterruptedException | ExecutionException e)
 		{
-			errorLabel.setText(tcResourceBundle.get(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
+			errorLabel.setText(getTranslation(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
 			logger.error(e.getMessage(), e);
 		}
 	}
@@ -125,11 +125,11 @@ public class Register extends Dialog
 	{
 		if (user != null)
 		{
-			errorLabel.setText(tcResourceBundle.get(LanguageConstants.USER_ALREADY_REGISTERED));
+			errorLabel.setText(getTranslation(LanguageConstants.USER_ALREADY_REGISTERED));
 		}
 		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
 		{
-			errorLabel.setText(tcResourceBundle.get(LanguageConstants.PASSWORDS_NOT_EQUAL));
+			errorLabel.setText(getTranslation(LanguageConstants.PASSWORDS_NOT_EQUAL));
 		}
 		if (user == null && password.getValue().equals(passwordRetype.getValue()))
 		{
@@ -148,10 +148,22 @@ public class Register extends Dialog
 		newUser.setFirstName(firstName.getValue());
 		newUser.setLastName(lastName.getValue());
 		newUser.setMailAddress(mailAddress.getValue());
-		newUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
+		newUser.setLanguage(VaadinSession.getCurrent().getLocale().getLanguage());
 		newUser.setPassword(encodedPassword);
 		
 		return newUser;
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		title.setText(getTranslation(LanguageConstants.NEW_REGISTER));
+		firstName.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
+		lastName.setLabel(getTranslation(LanguageConstants.LASTNAME));
+		password.setLabel(getTranslation(LanguageConstants.PASSWORD));
+		passwordRetype.setLabel(getTranslation(LanguageConstants.PASSWORD_RETYPE));
+		submit.setText(getTranslation(LanguageConstants.REGISTER));
+		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
 	}
 
 }

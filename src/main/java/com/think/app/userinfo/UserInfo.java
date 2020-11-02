@@ -14,20 +14,13 @@ public class UserInfo implements Serializable
 {
 	private static final long serialVersionUID = -4554390157557008979L;
 
-	private String sessionId;
 	private boolean loggedIn;
 	private User loggedInUser;
-
+	
 	public void loginAfterRegistration(User user)
 	{
 		loggedInUser = user;
 		loggedIn = true;
-		sessionId = VaadinSession.getCurrent().getSession().getId();
-	}
-
-	public String getSessionId()
-	{
-		return sessionId;
 	}
 
 	public boolean isLoggedIn()
@@ -44,12 +37,10 @@ public class UserInfo implements Serializable
 	{
 		this.loggedIn = loggedIn;
 		this.loggedInUser = loggedInUser;
-		sessionId = VaadinSession.getCurrent().getSession().getId();
 	}
 	
 	public void invalidate()
 	{
-		sessionId = null;
 		loggedIn = false;
 		loggedInUser = null;
 		VaadinSession.getCurrent().getSession().invalidate();

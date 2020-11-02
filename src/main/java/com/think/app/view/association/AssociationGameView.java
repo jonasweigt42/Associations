@@ -16,7 +16,6 @@ import com.think.app.entity.association.AssociationService;
 import com.think.app.entity.user.User;
 import com.think.app.entity.word.Word;
 import com.think.app.entity.word.WordService;
-import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.button.Button;
@@ -24,6 +23,8 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 
@@ -32,7 +33,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @UIScope
 @Component
-public class AssociationGameView extends VerticalLayout
+public class AssociationGameView extends VerticalLayout implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = 4153761837545371752L;
@@ -41,12 +42,10 @@ public class AssociationGameView extends VerticalLayout
 	private TextField associationField2 = new TextField();
 	private TextField associationField3 = new TextField();
 	private H4 label = new H4();
+	private Button saveButton = new Button();
 
 	@Autowired
 	private UserInfo userInfo;
-
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
 
 	@Autowired
 	private WordService wordService;
@@ -72,7 +71,7 @@ public class AssociationGameView extends VerticalLayout
 			addFieldsForUser(user);
 		} else
 		{
-			label = new H4(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			label.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 			add(label);
 		}
 	}
@@ -89,10 +88,10 @@ public class AssociationGameView extends VerticalLayout
 
 		label.setText(word);
 
-		Button save = new Button(tcResourceBundle.get(LanguageConstants.SAVE));
-		save.addClickListener(evt -> saveAndClear(words, language));
+		saveButton.setText(getTranslation(LanguageConstants.SAVE));
+		saveButton.addClickListener(evt -> saveAndClear(words, language));
 
-		add(label, associationField1, associationField2, associationField3, save);
+		add(label, associationField1, associationField2, associationField3, saveButton);
 	}
 
 	private void saveAndClear(List<Word> words, String language)
@@ -105,8 +104,8 @@ public class AssociationGameView extends VerticalLayout
 		if (words.isEmpty())
 		{
 			removeAll();
-			label.setText(tcResourceBundle.get(LanguageConstants.FINISHED_EXERCISE) + " "
-					+ tcResourceBundle.get(LanguageConstants.STATISTICS_MAIN_VIEW));
+			label.setText(getTranslation(LanguageConstants.FINISHED_EXERCISE) + " "
+					+ getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW));
 			add(label);
 		} else
 		{
@@ -148,6 +147,15 @@ public class AssociationGameView extends VerticalLayout
 		associationField1.clear();
 		associationField2.clear();
 		associationField3.clear();
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		label.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+		saveButton.setText(getTranslation(LanguageConstants.SAVE));
+		label.setText(getTranslation(LanguageConstants.FINISHED_EXERCISE) + " "
+				+ getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW));
 	}
 
 }

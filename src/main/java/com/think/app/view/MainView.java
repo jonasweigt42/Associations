@@ -9,30 +9,25 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 
-import com.think.app.component.ChangeLanguageButton;
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
-import com.think.app.component.ViewUpdater;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
-import com.think.app.entity.user.User;
-import com.think.app.entity.user.UserService;
 import com.think.app.event.UpdateMainViewEvent;
-import com.think.app.textresources.TCResourceBundle;
-import com.think.app.userinfo.UserInfo;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
@@ -60,7 +55,7 @@ import ch.qos.logback.classic.Logger;
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @UIScope
 @org.springframework.stereotype.Component
-public class MainView extends AppLayout
+public class MainView extends AppLayout implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = 8986999742090476969L;
@@ -72,21 +67,6 @@ public class MainView extends AppLayout
 
 	@Autowired
 	private Login login;
-
-	@Autowired
-	private ChangeLanguageButton clButton;
-
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
-
-	@Autowired
-	private ViewUpdater viewUpdater;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private UserInfo userInfo;
 
 	@Autowired
 	private Logger logger;
@@ -105,9 +85,7 @@ public class MainView extends AppLayout
 	private FlexLayout prepareButtonLayout()
 	{
 		FlexLayout layout = new FlexLayout();
-		clButton.addClickListener(evt -> toggleLanguageButton());
-		clButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-		layout.add(clButton, login.getLoginButton());
+		layout.add(login.getLoginButton());
 		layout.addClassName("margin-left");
 		return layout;
 	}
@@ -124,10 +102,10 @@ public class MainView extends AppLayout
 	private Tab[] getAvailableTabs()
 	{
 		final List<Tab> tabs = new ArrayList<>();
-		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.WELCOME_MAIN_VIEW), StartView.class));
-		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.GAME_MAIN_VIEW), StartAssociationGameView.class));
-		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.PROFILE_MAIN_VIEW), ProfileView.class));
-		tabs.add(createTab(tcResourceBundle.get(LanguageConstants.STATISTICS_MAIN_VIEW), StatisticView.class));
+		tabs.add(createTab(getTranslation(LanguageConstants.WELCOME_MAIN_VIEW), StartView.class));
+		tabs.add(createTab(getTranslation(LanguageConstants.GAME_MAIN_VIEW), StartAssociationGameView.class));
+		tabs.add(createTab(getTranslation(LanguageConstants.PROFILE_MAIN_VIEW), ProfileView.class));
+		tabs.add(createTab(getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW), StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 
@@ -174,25 +152,17 @@ public class MainView extends AppLayout
 		login.updateUI();
 	}
 
-	private void toggleLanguageButton()
-	{
-		clButton.toggle();
-		User loggedInUser = userInfo.getLoggedInUser();
-		if (loggedInUser != null)
-		{
-			loggedInUser.setLanguage(tcResourceBundle.getSessionLocale().getLanguage());
-			userService.update(loggedInUser);
-		}
-		updateMainViewUI();
-		viewUpdater.updateViews();
-	}
-
 	@EventListener
 	public void onApplicationEvent(UpdateMainViewEvent event)
 	{
 		logger.info("catched UpdateMainViewEvent");
 		updateMainViewUI();
-		clButton.updateText();
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		updateMainViewUI();
 	}
 
 }

@@ -18,7 +18,6 @@ import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
 import com.think.app.event.UpdateLoginEvent;
 import com.think.app.event.UpdateMainViewEvent;
-import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -30,18 +29,24 @@ import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginI18n.ErrorMessage;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @CssImport(value = "./styles/dialog-styles.css", themeFor = "vaadin-dialog-overlay")
 @Component
 @UIScope
-public class Login extends Dialog
+public class Login extends Dialog implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = -3124840772943883433L;
 
 	private Button loginButton = new Button();
+	private Button registrationButton = new Button();
 	private LoginForm loginForm = new LoginForm();
+	private LoginI18n i18n = LoginI18n.createDefault();
+	private ErrorMessage errorMessage = new ErrorMessage();
 
 	@Autowired
 	private UserInfo userInfo;
@@ -55,9 +60,6 @@ public class Login extends Dialog
 	@Autowired
 	private ViewUpdater viewUpdater;
 
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
-	
 	@Autowired
 	private UserService userService;
 
@@ -80,14 +82,16 @@ public class Login extends Dialog
 	{
 		removeAll();
 		prepareI18n();
-		loginForm.setI18n(prepareI18n());
+		loginForm.setI18n(i18n);
 		prepareButtonLabel();
 		prepareLoginButton();
 		prepareLoginListener();
 		prepareForgetPasswordListener();
+		prepareRegistrationButton();
+		
 		setCloseOnEsc(false);
 
-		add(loginForm, prepareRegistrationButton());
+		add(loginForm, registrationButton);
 	}
 
 	@Override
@@ -99,12 +103,11 @@ public class Login extends Dialog
 		}
 	}
 
-	private Button prepareRegistrationButton()
+	private void prepareRegistrationButton()
 	{
-		Button button = new Button(tcResourceBundle.get(LanguageConstants.REGISTER));
-		button.addClassName(HTMLConstants.REGISTRATION_BUTTON);
-		button.addClickListener(evt -> register.open());
-		return button;
+		registrationButton.setText(getTranslation(LanguageConstants.REGISTER));
+		registrationButton.addClassName(HTMLConstants.REGISTRATION_BUTTON);
+		registrationButton.addClickListener(evt -> register.open());
 	}
 
 	private void prepareForgetPasswordListener()
@@ -151,7 +154,7 @@ public class Login extends Dialog
 		User user = userService.getUserByMailAddress(mailAddress);
 		if (user == null)
 		{
-			Notification.show(tcResourceBundle.get(LanguageConstants.USER_NOT_REGISTERED));			
+			Notification.show(getTranslation(LanguageConstants.USER_NOT_REGISTERED));			
 			loginForm.setError(true);
 			return;
 		}
@@ -160,7 +163,7 @@ public class Login extends Dialog
 			loginForm.setError(true);
 			return;
 		}
-		tcResourceBundle.setSessionLocale(new Locale(user.getLanguage()));
+		VaadinSession.getCurrent().setLocale(new Locale(user.getLanguage()));
 		userInfo.setLoginData(true, user);
 	}
 	
@@ -170,24 +173,20 @@ public class Login extends Dialog
 		loginButton.addClassName(HTMLConstants.HEADER_BUTTON);
 	}
 
-	private LoginI18n prepareI18n()
+	private void prepareI18n()
 	{
-		LoginI18n i18n = LoginI18n.createDefault();
-		ErrorMessage errorMessage = prepareErrorMessageI18n();
+		prepareErrorMessageI18n();
 		i18n.setErrorMessage(errorMessage);
 		i18n.getForm().setTitle(TextConstants.TITLE);
-		i18n.getForm().setUsername(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
-		i18n.getForm().setPassword(tcResourceBundle.get(LanguageConstants.PASSWORD));
-		i18n.getForm().setForgotPassword(tcResourceBundle.get(LanguageConstants.FORGET_PASSWORD));
-		return i18n;
+		i18n.getForm().setUsername(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		i18n.getForm().setPassword(getTranslation(LanguageConstants.PASSWORD));
+		i18n.getForm().setForgotPassword(getTranslation(LanguageConstants.FORGET_PASSWORD));
 	}
 
-	private ErrorMessage prepareErrorMessageI18n()
+	private void prepareErrorMessageI18n()
 	{
-		ErrorMessage errorMessage = new ErrorMessage();
-		errorMessage.setMessage(tcResourceBundle.get(LanguageConstants.LOGIN_ERROR_MESSAGE));
-		errorMessage.setTitle(tcResourceBundle.get(LanguageConstants.LOGIN_ERROR_TITLE));
-		return errorMessage;
+		errorMessage.setMessage(getTranslation(LanguageConstants.LOGIN_ERROR_MESSAGE));
+		errorMessage.setTitle(getTranslation(LanguageConstants.LOGIN_ERROR_TITLE));
 	}
 
 	private void changeLoginState()
@@ -210,10 +209,10 @@ public class Login extends Dialog
 	{
 		if (userInfo.isLoggedIn())
 		{
-			loginButton.setText(tcResourceBundle.get(LanguageConstants.LOGOUT));
+			loginButton.setText(getTranslation(LanguageConstants.LOGOUT));
 		} else
 		{
-			loginButton.setText(tcResourceBundle.get(LanguageConstants.LOGIN));
+			loginButton.setText(getTranslation(LanguageConstants.LOGIN));
 		}
 	}
 
@@ -236,6 +235,16 @@ public class Login extends Dialog
 		close();
 		prepareButtonLabel();
 		viewUpdater.updateViews();
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		registrationButton.setText(getTranslation(LanguageConstants.REGISTER));
+		i18n.getForm().setUsername(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		i18n.getForm().setPassword(getTranslation(LanguageConstants.PASSWORD));
+		i18n.getForm().setForgotPassword(getTranslation(LanguageConstants.FORGET_PASSWORD));
+		prepareButtonLabel();
 	}
 
 }

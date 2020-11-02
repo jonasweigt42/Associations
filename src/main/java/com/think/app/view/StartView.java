@@ -9,12 +9,13 @@ import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
-import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -26,17 +27,17 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport("./styles/shared-styles.css")
 @UIScope
 @Component
-public class StartView extends VerticalLayout
+public class StartView extends VerticalLayout implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = 1686035666342372757L;
 
+	private H3 headline = new H3();
+	private H4 personalLabel = new H4();
+
 	@Autowired
 	private UserInfo userInfo;
-	
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
-	
+
 	@PostConstruct
 	public void init()
 	{
@@ -48,25 +49,30 @@ public class StartView extends VerticalLayout
 	public void loadContent()
 	{
 		removeAll();
-		H3 headline = new H3(tcResourceBundle.get(LanguageConstants.WELCOME) + TextConstants.TITLE);
-		H4 personalLabel = preparePersonalLabel();
+		headline.setText(getTranslation(LanguageConstants.WELCOME) + TextConstants.TITLE);
+		preparePersonalLabel();
 
 		add(headline, personalLabel);
 	}
 
-	private H4 preparePersonalLabel()
+	private void preparePersonalLabel()
 	{
-		H4 label = new H4();
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			label.setText(tcResourceBundle.get(LanguageConstants.HI) + user.getFirstName()
-					+ tcResourceBundle.get(LanguageConstants.WELCOME_TEXT));
+			personalLabel.setText(getTranslation(LanguageConstants.HI) + user.getFirstName()
+					+ getTranslation(LanguageConstants.WELCOME_TEXT));
 		} else
 		{
-			label.setText(tcResourceBundle.get(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			personalLabel.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
 		}
-		return label;
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		headline.setText(getTranslation(LanguageConstants.WELCOME) + TextConstants.TITLE);
+		preparePersonalLabel();
 	}
 
 }

@@ -3,9 +3,6 @@ package com.think.app.constants;
 public class LanguageConstants
 {
 
-	public static final String ENGLISH = "en";
-	public static final String GERMAN = "de";
-
 	public static final String WELCOME = "welcome";
 	public static final String HI = "hi";
 	public static final String WELCOME_TEXT = "welcomeText";

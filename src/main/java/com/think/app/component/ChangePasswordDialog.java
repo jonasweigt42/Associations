@@ -11,7 +11,6 @@ import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
-import com.think.app.textresources.TCResourceBundle;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -21,13 +20,15 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @Component
 @UIScope
-public class ChangePasswordDialog extends Dialog
+public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 {
 	private static final long serialVersionUID = -4745741179152511046L;
 
@@ -35,6 +36,7 @@ public class ChangePasswordDialog extends Dialog
 	private PasswordField newPassword = new PasswordField();
 	private PasswordField newPasswordRetype = new PasswordField();
 	private Label errorLabel = new Label();
+	private H2 title = new H2();
 
 	@Autowired
 	private UserService userService;
@@ -45,9 +47,6 @@ public class ChangePasswordDialog extends Dialog
 	@Autowired
 	private PasswordEncoder encoder;
 
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
-
 	@PostConstruct
 	public void init()
 	{
@@ -57,19 +56,19 @@ public class ChangePasswordDialog extends Dialog
 	public void loadContent()
 	{
 		removeAll();
-		currentPassword.setLabel(tcResourceBundle.get(LanguageConstants.CURRENT_PASSWORD));
-		newPassword.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD));
-		newPasswordRetype.setLabel(tcResourceBundle.get(LanguageConstants.NEW_PASSWORD_RETYPE));
+		currentPassword.setLabel(getTranslation(LanguageConstants.CURRENT_PASSWORD));
+		newPassword.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD));
+		newPasswordRetype.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD_RETYPE));
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H2 title = new H2(tcResourceBundle.get(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		Button submit = new Button();
 		submit.addClickListener(ent -> validate());
-		submit.setText(tcResourceBundle.get(LanguageConstants.CHANGE));
+		submit.setText(getTranslation(LanguageConstants.CHANGE));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -83,22 +82,22 @@ public class ChangePasswordDialog extends Dialog
 		User user = userInfo.getLoggedInUser();
 		if (user == null)
 		{
-			throw new IllegalStateException(tcResourceBundle.get(TextConstants.USER_SHOULD_BE_LOGGEDIN));
+			throw new IllegalStateException(getTranslation(TextConstants.USER_SHOULD_BE_LOGGEDIN));
 		}
 		if (!currentPasswordMatches())
 		{
-			errorLabel.setText(tcResourceBundle.get(LanguageConstants.CURRENT_PASSWORD_INCORRECT));
+			errorLabel.setText(getTranslation(LanguageConstants.CURRENT_PASSWORD_INCORRECT));
 		}
 		if (currentPasswordMatches() && !newPasswordsMatches())
 		{
-			errorLabel.setText(tcResourceBundle.get(LanguageConstants.PASSWORDS_NOT_EQUAL));
+			errorLabel.setText(getTranslation(LanguageConstants.PASSWORDS_NOT_EQUAL));
 		}
 		if (currentPasswordMatches() && newPasswordsMatches())
 		{
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 
 			userService.update(user);
-			Notification.show(tcResourceBundle.get(LanguageConstants.USER_WAS_UPDATED));
+			Notification.show(getTranslation(LanguageConstants.USER_WAS_UPDATED));
 			close();
 			clearAll();
 		}
@@ -121,5 +120,14 @@ public class ChangePasswordDialog extends Dialog
 		newPassword.clear();
 		newPasswordRetype.clear();
 		errorLabel.setText("");
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		currentPassword.setLabel(getTranslation(LanguageConstants.CURRENT_PASSWORD));
+		newPassword.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD));
+		newPasswordRetype.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD_RETYPE));		
+		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
 	}
 }

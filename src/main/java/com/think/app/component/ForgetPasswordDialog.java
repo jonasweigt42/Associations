@@ -2,14 +2,11 @@ package com.think.app.component;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
-import com.think.app.entity.user.UserService;
-import com.think.app.textresources.TCResourceBundle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -19,24 +16,22 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.i18n.LocaleChangeEvent;
+import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @Component
 @UIScope
-public class ForgetPasswordDialog extends Dialog
+public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 {
 
 	private static final long serialVersionUID = 2214540533394292409L;
 
 	private TextField mailAddress = new TextField();
 	private Label errorLabel = new Label();
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private TCResourceBundle tcResourceBundle;
+	private H2 title = new H2();
+	private Button submit = new Button();
 
 	@PostConstruct
 	public void init()
@@ -50,14 +45,13 @@ public class ForgetPasswordDialog extends Dialog
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		H2 title = new H2(tcResourceBundle.get(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
 		mailAddress = prepareEMailField();
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
-		Button submit = new Button();
 		submit.addClickListener(ent -> validate(mailAddress.getValue()));
-		submit.setText(tcResourceBundle.get(LanguageConstants.RESET));
+		submit.setText(getTranslation(LanguageConstants.RESET));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -66,12 +60,12 @@ public class ForgetPasswordDialog extends Dialog
 		add(layout);
 	}
 
-	public TextField prepareEMailField()
+	private TextField prepareEMailField()
 	{
-		mailAddress.setLabel(tcResourceBundle.get(LanguageConstants.MAIL_ADDRESS));
+		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
 		Binder<User> binder = new Binder<>();
 		binder.forField(mailAddress)
-				.withValidator(new EmailValidator(tcResourceBundle.get(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
+				.withValidator(new EmailValidator(getTranslation(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}
@@ -93,6 +87,14 @@ public class ForgetPasswordDialog extends Dialog
 //			Notification.show("not implemented yet");
 //			close();
 //		}
+	}
+
+	@Override
+	public void localeChange(LocaleChangeEvent event)
+	{
+		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		submit.setText(getTranslation(LanguageConstants.RESET));
+		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
 	}
 
 }
