@@ -9,8 +9,8 @@ $_documentContainer.innerHTML = `
 <custom-style>
   <style>
     html {
-    	 --lumo-primary-text-color: var(--primary-color, #083b66);
-         --lumo-primary-color: var(--primary-color, #083b66);
+    	// --lumo-primary-text-color: var(--primary-color, #083b66);
+        // --lumo-primary-color: var(--primary-color, #083b66);
     }
   </style>
 </custom-style>
