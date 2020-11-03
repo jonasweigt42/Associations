@@ -5,7 +5,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -45,13 +44,13 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		title.setText(getTranslation("assignNewPassword"));
 		mailAddress = prepareEMailField();
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		submit.addClickListener(ent -> validate(mailAddress.getValue()));
-		submit.setText(getTranslation(LanguageConstants.RESET));
+		submit.setText(getTranslation("reset"));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -62,10 +61,10 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 
 	private TextField prepareEMailField()
 	{
-		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		mailAddress.setLabel(getTranslation("email"));
 		Binder<User> binder = new Binder<>();
 		binder.forField(mailAddress)
-				.withValidator(new EmailValidator(getTranslation(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
+				.withValidator(new EmailValidator(getTranslation("emailValidationErrorMessage")))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}
@@ -92,9 +91,9 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
-		submit.setText(getTranslation(LanguageConstants.RESET));
-		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		title.setText(getTranslation("assignNewPassword"));
+		submit.setText(getTranslation("reset"));
+		mailAddress.setLabel(getTranslation("email"));
 	}
 
 }

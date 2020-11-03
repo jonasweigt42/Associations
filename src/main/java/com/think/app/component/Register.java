@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
@@ -76,7 +75,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		title.setText(getTranslation(LanguageConstants.NEW_REGISTER));
+		title.setText(getTranslation("newRegister"));
 		prepareFields();
 
 		setCloseOnEsc(true);
@@ -90,19 +89,19 @@ public class Register extends Dialog implements LocaleChangeObserver
 	{
 		mailAddress = prepareEMailField();
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
-		firstName.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
-		lastName.setLabel(getTranslation(LanguageConstants.LASTNAME));
-		password.setLabel(getTranslation(LanguageConstants.PASSWORD));
-		passwordRetype.setLabel(getTranslation(LanguageConstants.PASSWORD_RETYPE));
-		submit.setText(getTranslation(LanguageConstants.REGISTER));
+		firstName.setLabel(getTranslation("firstname"));
+		lastName.setLabel(getTranslation("lastname"));
+		password.setLabel(getTranslation("password"));
+		passwordRetype.setLabel(getTranslation("retypePassword"));
+		submit.setText(getTranslation("register"));
 		submit.addClickListener(evt -> validateRegistration());
 	}
 
 	private TextField prepareEMailField()
 	{
-		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		mailAddress.setLabel(getTranslation("email"));
 		Binder<User> binder = new Binder<>();
-		binder.forField(mailAddress).withValidator(new EmailValidator(getTranslation(LanguageConstants.PLEASE_ENTER_VALID_MAIL)))
+		binder.forField(mailAddress).withValidator(new EmailValidator(getTranslation("emailValidationErrorMessage")))
 				.bind(User::getMailAddress, User::setMailAddress);
 		return mailAddress;
 	}
@@ -116,7 +115,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 			
 		} catch (InterruptedException | ExecutionException e)
 		{
-			errorLabel.setText(getTranslation(LanguageConstants.REGISTRATION_ERROR_MESSAGE));
+			errorLabel.setText(getTranslation("registrationErrorMessage"));
 			logger.error(e.getMessage(), e);
 		}
 	}
@@ -125,11 +124,11 @@ public class Register extends Dialog implements LocaleChangeObserver
 	{
 		if (user != null)
 		{
-			errorLabel.setText(getTranslation(LanguageConstants.USER_ALREADY_REGISTERED));
+			errorLabel.setText(getTranslation("userAlreadyRegistered"));
 		}
 		if (user == null && !password.getValue().equals(passwordRetype.getValue()))
 		{
-			errorLabel.setText(getTranslation(LanguageConstants.PASSWORDS_NOT_EQUAL));
+			errorLabel.setText(getTranslation("passwordsNotEqual"));
 		}
 		if (user == null && password.getValue().equals(passwordRetype.getValue()))
 		{
@@ -157,13 +156,12 @@ public class Register extends Dialog implements LocaleChangeObserver
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		title.setText(getTranslation(LanguageConstants.NEW_REGISTER));
-		firstName.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
-		lastName.setLabel(getTranslation(LanguageConstants.LASTNAME));
-		password.setLabel(getTranslation(LanguageConstants.PASSWORD));
-		passwordRetype.setLabel(getTranslation(LanguageConstants.PASSWORD_RETYPE));
-		submit.setText(getTranslation(LanguageConstants.REGISTER));
-		mailAddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		firstName.setLabel(getTranslation("firstname"));
+		lastName.setLabel(getTranslation("lastname"));
+		password.setLabel(getTranslation("password"));
+		passwordRetype.setLabel(getTranslation("retypePassword"));
+		submit.setText(getTranslation("register"));
+		mailAddress.setLabel(getTranslation("email"));
 	}
 
 }

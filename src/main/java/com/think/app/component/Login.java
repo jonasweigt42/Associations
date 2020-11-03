@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -105,7 +104,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private void prepareRegistrationButton()
 	{
-		registrationButton.setText(getTranslation(LanguageConstants.REGISTER));
+		registrationButton.setText(getTranslation("register"));
 		registrationButton.addClassName(HTMLConstants.REGISTRATION_BUTTON);
 		registrationButton.addClickListener(evt -> register.open());
 	}
@@ -154,7 +153,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 		User user = userService.getUserByMailAddress(mailAddress);
 		if (user == null)
 		{
-			Notification.show(getTranslation(LanguageConstants.USER_NOT_REGISTERED));			
+			Notification.show(getTranslation("userNotRegistered"));			
 			loginForm.setError(true);
 			return;
 		}
@@ -178,15 +177,15 @@ public class Login extends Dialog implements LocaleChangeObserver
 		prepareErrorMessageI18n();
 		i18n.setErrorMessage(errorMessage);
 		i18n.getForm().setTitle(TextConstants.TITLE);
-		i18n.getForm().setUsername(getTranslation(LanguageConstants.MAIL_ADDRESS));
-		i18n.getForm().setPassword(getTranslation(LanguageConstants.PASSWORD));
-		i18n.getForm().setForgotPassword(getTranslation(LanguageConstants.FORGET_PASSWORD));
+		i18n.getForm().setUsername(getTranslation("email"));
+		i18n.getForm().setPassword(getTranslation("password"));
+		i18n.getForm().setForgotPassword(getTranslation("forgotPassword"));
 	}
 
 	private void prepareErrorMessageI18n()
 	{
-		errorMessage.setMessage(getTranslation(LanguageConstants.LOGIN_ERROR_MESSAGE));
-		errorMessage.setTitle(getTranslation(LanguageConstants.LOGIN_ERROR_TITLE));
+		errorMessage.setMessage(getTranslation("loginErrorMessage"));
+		errorMessage.setTitle(getTranslation("loginErrorTitle"));
 	}
 
 	private void changeLoginState()
@@ -209,10 +208,10 @@ public class Login extends Dialog implements LocaleChangeObserver
 	{
 		if (userInfo.isLoggedIn())
 		{
-			loginButton.setText(getTranslation(LanguageConstants.LOGOUT));
+			loginButton.setText(getTranslation("logout"));
 		} else
 		{
-			loginButton.setText(getTranslation(LanguageConstants.LOGIN));
+			loginButton.setText(getTranslation("login"));
 		}
 	}
 
@@ -240,10 +239,11 @@ public class Login extends Dialog implements LocaleChangeObserver
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		registrationButton.setText(getTranslation(LanguageConstants.REGISTER));
-		i18n.getForm().setUsername(getTranslation(LanguageConstants.MAIL_ADDRESS));
-		i18n.getForm().setPassword(getTranslation(LanguageConstants.PASSWORD));
-		i18n.getForm().setForgotPassword(getTranslation(LanguageConstants.FORGET_PASSWORD));
+		registrationButton.setText(getTranslation("register"));
+		i18n.getForm().setUsername(getTranslation("email"));
+		i18n.getForm().setPassword(getTranslation("password"));
+		i18n.getForm().setForgotPassword(getTranslation("forgotPassword"));
+		prepareErrorMessageI18n();
 		prepareButtonLabel();
 	}
 

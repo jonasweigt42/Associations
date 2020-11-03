@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.component.ChangePasswordDialog;
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.userinfo.UserInfo;
@@ -78,7 +77,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 			add(firstname, lastname, mailaddress, saveButton, changePasswordButton, clCombobox);
 		} else
 		{
-			H4 label = new H4(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			H4 label = new H4(getTranslation("notLoggedInMessage"));
 			add(label);
 		}
 	}
@@ -100,33 +99,33 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 
 	private void prepareSaveButton()
 	{
-		saveButton.setText(getTranslation(LanguageConstants.SAVE));
+		saveButton.setText(getTranslation("save"));
 		saveButton
 				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
 	}
 
 	private void prepareChangePasswordButton()
 	{
-		changePasswordButton.setText(getTranslation(LanguageConstants.CHANGE_PASSWORD));
+		changePasswordButton.setText(getTranslation("changePassword"));
 		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
 	}
 
 	private void prepareMailadressTextField(User user)
 	{
 		mailaddress.setValue(user.getMailAddress());
-		mailaddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
+		mailaddress.setLabel(getTranslation("email"));
 	}
 
 	private void prepareLastnameTextField(User user)
 	{
 		lastname.setValue(user.getLastName());
-		lastname.setLabel(getTranslation(LanguageConstants.LASTNAME));
+		lastname.setLabel(getTranslation("lastname"));
 	}
 
 	private void prepareFirstnameTextField(User user)
 	{
 		firstname.setValue(user.getFirstName());
-		firstname.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
+		firstname.setLabel(getTranslation("firstname"));
 	}
 
 	private void updateUser(String firstname, String lastname, String username)
@@ -137,18 +136,18 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		user.setMailAddress(username);
 
 		userService.update(user);
-		Notification.show(getTranslation(LanguageConstants.USER_WAS_UPDATED));
+		Notification.show(getTranslation("userWasUpdated"));
 		logger.info("user was updated");
 	}
 
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		changePasswordButton.setText(getTranslation(LanguageConstants.CHANGE_PASSWORD));
-		saveButton.setText(getTranslation(LanguageConstants.SAVE));
-		mailaddress.setLabel(getTranslation(LanguageConstants.MAIL_ADDRESS));
-		firstname.setLabel(getTranslation(LanguageConstants.FIRSTNAME));
-		lastname.setLabel(getTranslation(LanguageConstants.LASTNAME));
+		changePasswordButton.setText(getTranslation("changePassword"));
+		saveButton.setText(getTranslation("save"));
+		mailaddress.setLabel(getTranslation("email"));
+		firstname.setLabel(getTranslation("firstname"));
+		lastname.setLabel(getTranslation("lastname"));
 	}
 
 }

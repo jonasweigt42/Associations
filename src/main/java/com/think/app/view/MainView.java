@@ -11,7 +11,6 @@ import org.springframework.context.event.EventListener;
 
 import com.think.app.component.Login;
 import com.think.app.component.Logo;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
 import com.think.app.view.association.StartAssociationGameView;
@@ -37,19 +36,8 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 import ch.qos.logback.classic.Logger;
 
-/**
- * A sample Vaadin view class.
- * <p>
- * To implement a Vaadin view just extend any Vaadin component and use @Route
- * annotation to announce it in a URL as a Spring managed bean. Use the @PWA
- * annotation make the application installable on phones, tablets and some
- * desktop browsers.
- * <p>
- * A new instance of this class is created for every new user and every browser
- * tab/window.
- */
 
-@PWA(name = "Think Connected Game", shortName = TextConstants.TITLE)
+@PWA(name = "Linkapse", shortName = TextConstants.TITLE)
 @JsModule("./styles/shared-styles.js")
 @CssImport("./styles/shared-styles.css")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
@@ -102,10 +90,10 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 	private Tab[] getAvailableTabs()
 	{
 		final List<Tab> tabs = new ArrayList<>();
-		tabs.add(createTab(getTranslation(LanguageConstants.WELCOME_MAIN_VIEW), StartView.class));
-		tabs.add(createTab(getTranslation(LanguageConstants.GAME_MAIN_VIEW), StartAssociationGameView.class));
-		tabs.add(createTab(getTranslation(LanguageConstants.PROFILE_MAIN_VIEW), ProfileView.class));
-		tabs.add(createTab(getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW), StatisticView.class));
+		tabs.add(createTab(getTranslation("welcomeMainView"), StartView.class));
+		tabs.add(createTab(getTranslation("gameMainView"), StartAssociationGameView.class));
+		tabs.add(createTab(getTranslation("profileMainView"), ProfileView.class));
+		tabs.add(createTab(getTranslation("statisticsMainView"), StatisticView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 

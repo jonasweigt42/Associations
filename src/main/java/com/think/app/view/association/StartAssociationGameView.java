@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
@@ -55,16 +54,16 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 			addFieldsForUser();
 		} else
 		{
-			notLoggedInLabel.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
 			add(notLoggedInLabel);
 		}
 	}
 
 	public void addFieldsForUser()
 	{
-		startExerciseLabel.setText(getTranslation(LanguageConstants.EXERCISE));
+		startExerciseLabel.setText(getTranslation("exercise"));
 
-		startButton.setText(getTranslation(LanguageConstants.START));
+		startButton.setText(getTranslation("start"));
 		startButton.addClickListener(evt -> navigate());
 
 		add(startExerciseLabel, startButton);
@@ -78,9 +77,9 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		notLoggedInLabel.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
-		startExerciseLabel.setText(getTranslation(LanguageConstants.EXERCISE));
-		startButton.setText(getTranslation(LanguageConstants.START));
+		notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
+		startExerciseLabel.setText(getTranslation("exercise"));
+		startButton.setText(getTranslation("start"));
 	}
 
 }

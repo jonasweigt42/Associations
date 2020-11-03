@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -56,19 +55,19 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 	public void loadContent()
 	{
 		removeAll();
-		currentPassword.setLabel(getTranslation(LanguageConstants.CURRENT_PASSWORD));
-		newPassword.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD));
-		newPasswordRetype.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD_RETYPE));
+		currentPassword.setLabel(getTranslation("currentPassword"));
+		newPassword.setLabel(getTranslation("newPassword"));
+		newPasswordRetype.setLabel(getTranslation("newPasswordRetype"));
 		VerticalLayout layout = new VerticalLayout();
 		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
-		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		title.setText(getTranslation("assignNewPassword"));
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
 		Button submit = new Button();
 		submit.addClickListener(ent -> validate());
-		submit.setText(getTranslation(LanguageConstants.CHANGE));
+		submit.setText(getTranslation("change"));
 
 		setCloseOnEsc(true);
 		setSizeFull();
@@ -86,18 +85,18 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 		}
 		if (!currentPasswordMatches())
 		{
-			errorLabel.setText(getTranslation(LanguageConstants.CURRENT_PASSWORD_INCORRECT));
+			errorLabel.setText(getTranslation("currentPasswordIncorrect"));
 		}
 		if (currentPasswordMatches() && !newPasswordsMatches())
 		{
-			errorLabel.setText(getTranslation(LanguageConstants.PASSWORDS_NOT_EQUAL));
+			errorLabel.setText(getTranslation("passwordsNotEqual"));
 		}
 		if (currentPasswordMatches() && newPasswordsMatches())
 		{
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 
 			userService.update(user);
-			Notification.show(getTranslation(LanguageConstants.USER_WAS_UPDATED));
+			Notification.show(getTranslation("userWasUpdated"));
 			close();
 			clearAll();
 		}
@@ -125,9 +124,9 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		currentPassword.setLabel(getTranslation(LanguageConstants.CURRENT_PASSWORD));
-		newPassword.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD));
-		newPasswordRetype.setLabel(getTranslation(LanguageConstants.NEW_PASSWORD_RETYPE));		
-		title.setText(getTranslation(LanguageConstants.ASSIGN_NEW_PASSWORD));
+		currentPassword.setLabel(getTranslation("currentPassword"));
+		newPassword.setLabel(getTranslation("newPassword"));
+		newPasswordRetype.setLabel(getTranslation("newPasswordRetype"));		
+		title.setText(getTranslation("assignNewPassword"));
 	}
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
@@ -49,7 +48,7 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 	public void loadContent()
 	{
 		removeAll();
-		headline.setText(getTranslation(LanguageConstants.WELCOME) + TextConstants.TITLE);
+		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
 		preparePersonalLabel();
 
 		add(headline, personalLabel);
@@ -60,18 +59,18 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			personalLabel.setText(getTranslation(LanguageConstants.HI) + user.getFirstName()
-					+ getTranslation(LanguageConstants.WELCOME_TEXT));
+			personalLabel.setText(getTranslation("hi") + user.getFirstName()
+					+ getTranslation("welcomeText"));
 		} else
 		{
-			personalLabel.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
+			personalLabel.setText(getTranslation("notLoggedInMessage"));
 		}
 	}
 
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		headline.setText(getTranslation(LanguageConstants.WELCOME) + TextConstants.TITLE);
+		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
 		preparePersonalLabel();
 	}
 

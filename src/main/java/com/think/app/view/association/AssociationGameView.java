@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.think.app.constants.HTMLConstants;
-import com.think.app.constants.LanguageConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.association.AssociationService;
 import com.think.app.entity.user.User;
@@ -41,7 +40,8 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	private TextField associationField1 = new TextField();
 	private TextField associationField2 = new TextField();
 	private TextField associationField3 = new TextField();
-	private H4 label = new H4();
+	private H4 loggedInLabel = new H4();
+	private H4 notLoggedInLabel = new H4();
 	private Button saveButton = new Button();
 
 	@Autowired
@@ -71,8 +71,8 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 			addFieldsForUser(user);
 		} else
 		{
-			label.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
-			add(label);
+			notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
+			add(notLoggedInLabel);
 		}
 	}
 
@@ -86,17 +86,17 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		String word = words.get(0).getName();
 		String language = words.get(0).getLanguage();
 
-		label.setText(word);
+		loggedInLabel.setText(word);
 
-		saveButton.setText(getTranslation(LanguageConstants.SAVE));
+		saveButton.setText(getTranslation("save"));
 		saveButton.addClickListener(evt -> saveAndClear(words, language));
 
-		add(label, associationField1, associationField2, associationField3, saveButton);
+		add(loggedInLabel, associationField1, associationField2, associationField3, saveButton);
 	}
 
 	private void saveAndClear(List<Word> words, String language)
 	{
-		String wordString = label.getText();
+		String wordString = loggedInLabel.getText();
 		Word word = wordService.findByNameAndLanguage(wordString, language);
 		saveNewAssociationEntity(word);
 
@@ -104,13 +104,13 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		if (words.isEmpty())
 		{
 			removeAll();
-			label.setText(getTranslation(LanguageConstants.FINISHED_EXERCISE) + " "
-					+ getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW));
-			add(label);
+			loggedInLabel.setText(getTranslation("finishedExercise") + " "
+					+ getTranslation("statisticsMainView"));
+			add(loggedInLabel);
 		} else
 		{
 			String nextWord = words.get(0).getName();
-			label.setText(nextWord);
+			loggedInLabel.setText(nextWord);
 			clearAssociationFields();
 		}
 	}
@@ -152,10 +152,8 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		label.setText(getTranslation(LanguageConstants.NOT_LOGGED_IN_MESSAGE));
-		saveButton.setText(getTranslation(LanguageConstants.SAVE));
-		label.setText(getTranslation(LanguageConstants.FINISHED_EXERCISE) + " "
-				+ getTranslation(LanguageConstants.STATISTICS_MAIN_VIEW));
+		notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
+		saveButton.setText(getTranslation("save"));
 	}
 
 }
