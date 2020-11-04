@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.stereotype.Component;
 
 import com.think.app.entity.user.User;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 
@@ -41,6 +42,7 @@ public class UserInfo implements Serializable
 	
 	public void invalidate()
 	{
+		UI.getCurrent().getPage().executeJs("location.assign('')");
 		loggedIn = false;
 		loggedInUser = null;
 		VaadinSession.getCurrent().getSession().invalidate();
