@@ -36,6 +36,7 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 	private PasswordField newPasswordRetype = new PasswordField();
 	private Label errorLabel = new Label();
 	private H2 title = new H2();
+	private Button submit = new Button();
 
 	@Autowired
 	private UserService userService;
@@ -52,7 +53,7 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 		loadUi();
 	}
 
-	public void loadUi()
+	private void loadUi()
 	{
 		removeAll();
 		currentPassword.setLabel(getTranslation("currentPassword"));
@@ -65,12 +66,10 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 
 		errorLabel.addClassName(HTMLConstants.TEXT_RED);
 
-		Button submit = new Button();
 		submit.addClickListener(ent -> validate());
 		submit.setText(getTranslation("change"));
 
 		setCloseOnEsc(true);
-		setSizeFull();
 
 		layout.add(title, currentPassword, newPassword, newPasswordRetype, errorLabel, submit);
 		add(layout);
@@ -128,5 +127,6 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 		newPassword.setLabel(getTranslation("newPassword"));
 		newPasswordRetype.setLabel(getTranslation("newPasswordRetype"));		
 		title.setText(getTranslation("assignNewPassword"));
+		submit.setText(getTranslation("change"));
 	}
 }
