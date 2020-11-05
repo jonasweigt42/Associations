@@ -1,7 +1,5 @@
 package com.think.app.view;
 
-import java.util.Locale;
-
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.notification.Notification;
@@ -23,7 +20,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Route(value = "profile", layout = MainView.class)
@@ -40,7 +36,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	private TextField mailaddress = new TextField();
 	private Button changePasswordButton = new Button();
 	private Button saveButton = new Button();
-	private ComboBox<Locale> clCombobox = new ComboBox<>();
+	
 
 	@Autowired
 	private UserInfo userInfo;
@@ -61,7 +57,6 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
 		saveButton
 				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
-		updateChangeLanguageBox();
 		updateUi();
 	}
 
@@ -76,9 +71,8 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 			updateMailadressTextField(user);
 			updateChangePasswordButton();
 			updateSaveButton();
-			clCombobox.setValue(VaadinSession.getCurrent().getLocale());
 			
-			add(firstname, lastname, mailaddress, saveButton, changePasswordButton, clCombobox);
+			add(firstname, lastname, mailaddress, saveButton, changePasswordButton);
 		} else
 		{
 			H4 label = new H4(getTranslation("notLoggedInMessage"));
@@ -86,18 +80,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		}
 	}
 
-	private void updateChangeLanguageBox()
-	{
-		clCombobox.setItems(Locale.ENGLISH, Locale.GERMAN);
-		clCombobox.addValueChangeListener(event -> {
-			VaadinSession.getCurrent().setLocale(event.getValue());
-			User user = userInfo.getLoggedInUser();
-			user.setLanguage(event.getValue().getLanguage());
-			logger.info("changed language to {}", event.getValue().getLanguage());
-			userService.update(user);
-		});
-	}
-
+	
 	private void updateSaveButton()
 	{
 		saveButton.setText(getTranslation("save"));

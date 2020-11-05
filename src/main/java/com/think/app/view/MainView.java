@@ -21,6 +21,8 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -73,7 +75,9 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 	private FlexLayout prepareButtonLayout()
 	{
 		FlexLayout layout = new FlexLayout();
-		layout.add(login.getLoginButton());
+		Icon icon = new Icon(VaadinIcon.FLAG_O);
+		icon.setClassName("flag-icon");
+		layout.add(icon, login.getClComboBox(), login.getLoginButton());
 		layout.addClassName("margin-left");
 		return layout;
 	}
