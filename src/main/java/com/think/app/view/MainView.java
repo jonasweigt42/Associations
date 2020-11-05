@@ -39,7 +39,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import ch.qos.logback.classic.Logger;
 
 
-@PWA(name = "Worzz", shortName = TextConstants.TITLE)
+@PWA(name = "Worzz", shortName = TextConstants.TITLE, iconPath = "/icons/icon-512x512.png")
 @JsModule("./styles/shared-styles.js")
 @CssImport("./styles/shared-styles.css")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
