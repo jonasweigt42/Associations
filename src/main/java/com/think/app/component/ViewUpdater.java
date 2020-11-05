@@ -33,7 +33,7 @@ public class ViewUpdater
 	public void updateViews()
 	{
 		searchTripView.updateUi();
-		startView.loadContent();
+		startView.updateUi();
 		provideTripView.updateUi();
 		profileView.updateUi();
 		statisticsView.updateUi();

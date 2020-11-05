@@ -80,8 +80,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		logger.info("--init--" + Login.class.getName() + "--");
-
 		prepareLoginListener();
 		prepareLoginButton();
 		prepareForgetPasswordListener();
@@ -93,7 +91,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 	public void updateUi()
 	{
 		clCombobox.setValue(VaadinSession.getCurrent().getLocale());
-		logger.info("--updateUi--" + Login.class.getName() + "--");
 		removeAll();
 		updateI18n();
 		loginForm.setI18n(i18n);

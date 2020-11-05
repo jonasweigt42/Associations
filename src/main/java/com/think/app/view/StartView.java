@@ -2,7 +2,6 @@ package com.think.app.view;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +9,9 @@ import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
+import com.think.app.view.association.StartAssociationGameView;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
@@ -34,30 +36,30 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 
 	private H3 headline = new H3();
 	private H4 personalLabel = new H4();
+	private Button button = new Button();
 
 	@Autowired
 	private UserInfo userInfo;
 	
-	@Autowired
-	private Logger logger;
-
 	@PostConstruct
 	public void init()
 	{
-		logger.info("--init--" + StartView.class.getName() + "--");
 		addClassName(HTMLConstants.CENTERED_CONTENT);
-
-		loadContent();
+		
+		button.addClickListener(event -> UI.getCurrent().navigate(StartAssociationGameView.class));
+		
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
-		logger.info("--loadContent--" + StartView.class.getName() + "--");
 		removeAll();
 		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
+		button.setText(getTranslation("start"));
+		
 		preparePersonalLabel();
 
-		add(headline, personalLabel);
+		add(headline, personalLabel, button);
 	}
 
 	private void preparePersonalLabel()
@@ -77,6 +79,7 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 	public void localeChange(LocaleChangeEvent event)
 	{
 		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
+		button.setText(getTranslation("start"));
 		preparePersonalLabel();
 	}
 

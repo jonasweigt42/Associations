@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,20 +59,15 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	@Autowired
 	private AssociationService associationService;
 	
-	@Autowired
-	private Logger logger;
-
 	@PostConstruct
 	public void init()
 	{
-		logger.info("--init--" + AssociationGameView.class.getName() + "--");
 		addClassName(HTMLConstants.CENTERED_CONTENT);
 		updateUi();
 	}
 
 	public void updateUi()
 	{
-		logger.info("--loadContent--" + AssociationGameView.class.getName() + "--");
 		removeAll();
 
 		User user = userInfo.getLoggedInUser();
