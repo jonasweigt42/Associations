@@ -40,11 +40,11 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 	public void init()
 	{
 		addClassName(HTMLConstants.CENTERED_CONTENT);
-
-		loadContent();
+		startButton.addClickListener(evt -> navigate());
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
 		removeAll();
 
@@ -64,7 +64,6 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 		startExerciseLabel.setText(getTranslation("exercise"));
 
 		startButton.setText(getTranslation("start"));
-		startButton.addClickListener(evt -> navigate());
 
 		add(startExerciseLabel, startButton);
 	}

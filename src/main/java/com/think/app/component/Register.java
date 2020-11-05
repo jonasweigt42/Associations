@@ -47,6 +47,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 	private PasswordField passwordRetype = new PasswordField();
 	private Label errorLabel = new Label();
 	private Button submit = new Button();
+	private VerticalLayout layout = new VerticalLayout();
 
 	@Autowired
 	private UserService userService;
@@ -66,14 +67,15 @@ public class Register extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		loadContent();
+		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
+		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		submit.addClickListener(evt -> validateRegistration());
+		updateUi();
 	}
 	
-	public void loadContent()
+	public void updateUi()
 	{
 		removeAll();
-		VerticalLayout layout = new VerticalLayout();
-		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		title.setText(getTranslation("newRegister"));
 		prepareFields();
@@ -87,23 +89,20 @@ public class Register extends Dialog implements LocaleChangeObserver
 
 	public void prepareFields()
 	{
-		mailAddress = prepareEMailField();
-		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		prepareEMailField();
 		firstName.setLabel(getTranslation("firstname"));
 		lastName.setLabel(getTranslation("lastname"));
 		password.setLabel(getTranslation("password"));
 		passwordRetype.setLabel(getTranslation("retypePassword"));
 		submit.setText(getTranslation("register"));
-		submit.addClickListener(evt -> validateRegistration());
 	}
 
-	private TextField prepareEMailField()
+	private void prepareEMailField()
 	{
 		mailAddress.setLabel(getTranslation("email"));
 		Binder<User> binder = new Binder<>();
 		binder.forField(mailAddress).withValidator(new EmailValidator(getTranslation("emailValidationErrorMessage")))
 				.bind(User::getMailAddress, User::setMailAddress);
-		return mailAddress;
 	}
 
 	private void validateRegistration()

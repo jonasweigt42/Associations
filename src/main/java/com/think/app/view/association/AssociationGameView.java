@@ -1,11 +1,13 @@
 package com.think.app.view.association;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +26,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Route(value = "game", layout = MainView.class)
@@ -32,7 +37,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @UIScope
 @Component
-public class AssociationGameView extends VerticalLayout implements LocaleChangeObserver
+public class AssociationGameView extends VerticalLayout implements LocaleChangeObserver, BeforeEnterObserver
 {
 
 	private static final long serialVersionUID = 4153761837545371752L;
@@ -43,6 +48,8 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	private H4 loggedInLabel = new H4();
 	private H4 notLoggedInLabel = new H4();
 	private Button saveButton = new Button();
+	private List<Word> words = new ArrayList<>();
+	private Registration clickListenerRegistration;
 
 	@Autowired
 	private UserInfo userInfo;
@@ -52,17 +59,21 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	@Autowired
 	private AssociationService associationService;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
 	{
+		logger.info("--init--" + AssociationGameView.class.getName() + "--");
 		addClassName(HTMLConstants.CENTERED_CONTENT);
-
-		loadContent();
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
+		logger.info("--loadContent--" + AssociationGameView.class.getName() + "--");
 		removeAll();
 
 		User user = userInfo.getLoggedInUser();
@@ -78,23 +89,20 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	public void addFieldsForUser(User user)
 	{
-		List<Word> words = wordService.getRandomWords(10, user.getLanguage());
 		if(words.isEmpty())
 		{
 			return;
 		}
 		String word = words.get(0).getName();
-		String language = words.get(0).getLanguage();
 
 		loggedInLabel.setText(word);
 
 		saveButton.setText(getTranslation("save"));
-		saveButton.addClickListener(evt -> saveAndClear(words, language));
 
 		add(loggedInLabel, associationField1, associationField2, associationField3, saveButton);
 	}
 
-	private void saveAndClear(List<Word> words, String language)
+	private void saveAndClear(String language)
 	{
 		String wordString = loggedInLabel.getText();
 		Word word = wordService.findByNameAndLanguage(wordString, language);
@@ -154,6 +162,21 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	{
 		notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
 		saveButton.setText(getTranslation("save"));
+	}
+
+	@Override
+	public void beforeEnter(BeforeEnterEvent event)
+	{
+		User user = userInfo.getLoggedInUser();
+		if (user != null)
+		{
+			if(clickListenerRegistration == null)
+			{
+				clickListenerRegistration = saveButton.addClickListener(evt -> saveAndClear(user.getLanguage()));
+			}
+			words = wordService.getRandomWords(10, user.getLanguage());
+		}
+		updateUi();
 	}
 
 }

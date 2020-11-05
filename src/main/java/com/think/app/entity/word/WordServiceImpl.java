@@ -1,7 +1,6 @@
 package com.think.app.entity.word;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +45,7 @@ public class WordServiceImpl implements WordService
 	@Override
 	public List<Word> getRandomWords(int number, String language)
 	{
-		return dao.getRandomEntries(number).stream().filter(word -> word.getLanguage().equals(language))
-				.collect(Collectors.toList());
+		return dao.getRandomWords(number, language);
 	}
 
 	@Override

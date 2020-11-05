@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "ASSOCIATION")
@@ -28,12 +29,15 @@ public class Association implements Serializable
 	@Column
 	private int wordId;
 	
+	@NotEmpty
 	@Column
 	private String association1;
 	
+	@NotEmpty
 	@Column
 	private String association2;
 	
+	@NotEmpty
 	@Column
 	private String association3;
 	

@@ -31,25 +31,25 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 	private Label errorLabel = new Label();
 	private H2 title = new H2();
 	private Button submit = new Button();
+	private VerticalLayout layout = new VerticalLayout();
 
 	@PostConstruct
 	public void init()
 	{
-		loadContent();
+		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
+		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		submit.addClickListener(ent -> validate(mailAddress.getValue()));
+		
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
 		removeAll();
-		VerticalLayout layout = new VerticalLayout();
-		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		title.setText(getTranslation("assignNewPassword"));
-		mailAddress = prepareEMailField();
-
-		errorLabel.addClassName(HTMLConstants.TEXT_RED);
-
-		submit.addClickListener(ent -> validate(mailAddress.getValue()));
+		updateEMailField();
+		
 		submit.setText(getTranslation("reset"));
 
 		setCloseOnEsc(true);
@@ -59,14 +59,13 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 		add(layout);
 	}
 
-	private TextField prepareEMailField()
+	private void updateEMailField()
 	{
 		mailAddress.setLabel(getTranslation("email"));
 		Binder<User> binder = new Binder<>();
 		binder.forField(mailAddress)
 				.withValidator(new EmailValidator(getTranslation("emailValidationErrorMessage")))
 				.bind(User::getMailAddress, User::setMailAddress);
-		return mailAddress;
 	}
 
 	private void validate(String mailAddress)

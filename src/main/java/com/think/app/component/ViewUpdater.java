@@ -32,11 +32,11 @@ public class ViewUpdater
 	
 	public void updateViews()
 	{
-		searchTripView.loadContent();
+		searchTripView.updateUi();
 		startView.loadContent();
-		provideTripView.loadContent();
-		profileView.loadContent();
-		statisticsView.loadContent();
+		provideTripView.updateUi();
+		profileView.updateUi();
+		statisticsView.updateUi();
 	}
 	
 }

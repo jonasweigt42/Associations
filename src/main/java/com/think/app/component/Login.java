@@ -74,22 +74,25 @@ public class Login extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		loadContent();
-	}
-
-	public void loadContent()
-	{
-		removeAll();
-		prepareI18n();
-		loginForm.setI18n(i18n);
-		prepareButtonLabel();
-		prepareLoginButton();
+		logger.info("--init--" + Login.class.getName() + "--");
+		
 		prepareLoginListener();
+		prepareLoginButton();
 		prepareForgetPasswordListener();
 		prepareRegistrationButton();
 		
-		setCloseOnEsc(false);
+		updateUi();
+	}
 
+	public void updateUi()
+	{
+		logger.info("--updateUi--" + Login.class.getName() + "--");
+		removeAll();
+		updateI18n();
+		loginForm.setI18n(i18n);
+		updateButtonLabel();
+		registrationButton.setText(getTranslation("register"));
+		setCloseOnEsc(false);
 		add(loginForm, registrationButton);
 	}
 
@@ -104,7 +107,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private void prepareRegistrationButton()
 	{
-		registrationButton.setText(getTranslation("register"));
 		registrationButton.addClassName(HTMLConstants.REGISTRATION_BUTTON);
 		registrationButton.addClickListener(evt -> register.open());
 	}
@@ -136,7 +138,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 				login(event.getUsername(), event.getPassword());
 				if (userInfo.isLoggedIn())
 				{
-					prepareButtonLabel();
+					updateButtonLabel();
 					viewUpdater.updateViews();
 					publisher.publishEvent(new UpdateMainViewEvent(this));
 					close();
@@ -172,9 +174,9 @@ public class Login extends Dialog implements LocaleChangeObserver
 		loginButton.addClassName(HTMLConstants.HEADER_BUTTON);
 	}
 
-	private void prepareI18n()
+	private void updateI18n()
 	{
-		prepareErrorMessageI18n();
+		updateErrorMessageI18n();
 		i18n.setErrorMessage(errorMessage);
 		i18n.getForm().setTitle(TextConstants.TITLE);
 		i18n.getForm().setUsername(getTranslation("email"));
@@ -182,7 +184,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 		i18n.getForm().setForgotPassword(getTranslation("forgotPassword"));
 	}
 
-	private void prepareErrorMessageI18n()
+	private void updateErrorMessageI18n()
 	{
 		errorMessage.setMessage(getTranslation("loginErrorMessage"));
 		errorMessage.setTitle(getTranslation("loginErrorTitle"));
@@ -204,7 +206,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 		userInfo.invalidate();
 	}
 
-	private void prepareButtonLabel()
+	private void updateButtonLabel()
 	{
 		if (userInfo.isLoggedIn())
 		{
@@ -222,9 +224,9 @@ public class Login extends Dialog implements LocaleChangeObserver
 	
 	public void updateUI()
 	{
-		loadContent();
-		register.loadContent();
-		forgetPasswordDialog.loadContent();
+		updateUi();
+		register.updateUi();
+		forgetPasswordDialog.updateUi();
 	}
 
 	@EventListener
@@ -232,7 +234,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 	{
 		logger.info("catched UpdateLoginEvent");
 		close();
-		prepareButtonLabel();
+		updateButtonLabel();
 		viewUpdater.updateViews();
 	}
 
@@ -243,8 +245,8 @@ public class Login extends Dialog implements LocaleChangeObserver
 		i18n.getForm().setUsername(getTranslation("email"));
 		i18n.getForm().setPassword(getTranslation("password"));
 		i18n.getForm().setForgotPassword(getTranslation("forgotPassword"));
-		prepareErrorMessageI18n();
-		prepareButtonLabel();
+		updateErrorMessageI18n();
+		updateButtonLabel();
 	}
 
 }

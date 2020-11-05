@@ -2,6 +2,7 @@ package com.think.app.view;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,10 +37,14 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 
 	@Autowired
 	private UserInfo userInfo;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
 	{
+		logger.info("--init--" + StartView.class.getName() + "--");
 		addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		loadContent();
@@ -47,6 +52,7 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 
 	public void loadContent()
 	{
+		logger.info("--loadContent--" + StartView.class.getName() + "--");
 		removeAll();
 		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
 		preparePersonalLabel();

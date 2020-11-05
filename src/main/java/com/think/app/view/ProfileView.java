@@ -40,6 +40,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	private TextField mailaddress = new TextField();
 	private Button changePasswordButton = new Button();
 	private Button saveButton = new Button();
+	private ComboBox<Locale> clCombobox = new ComboBox<>();
 
 	@Autowired
 	private UserInfo userInfo;
@@ -57,23 +58,26 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	public void init()
 	{
 		addClassName(HTMLConstants.CENTERED_CONTENT);
-
-		loadContent();
+		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
+		saveButton
+				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
+		updateChangeLanguageBox();
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
 		removeAll();
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			prepareFirstnameTextField(user);
-			prepareLastnameTextField(user);
-			prepareMailadressTextField(user);
-			prepareChangePasswordButton();
-			prepareSaveButton();
-			ComboBox<Locale> clCombobox = prepareChangeLanguageBox();
-
+			updateFirstnameTextField(user);
+			updateLastnameTextField(user);
+			updateMailadressTextField(user);
+			updateChangePasswordButton();
+			updateSaveButton();
+			clCombobox.setValue(VaadinSession.getCurrent().getLocale());
+			
 			add(firstname, lastname, mailaddress, saveButton, changePasswordButton, clCombobox);
 		} else
 		{
@@ -82,47 +86,41 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		}
 	}
 
-	private ComboBox<Locale> prepareChangeLanguageBox()
+	private void updateChangeLanguageBox()
 	{
-		ComboBox<Locale> localeCombobox = new ComboBox<>();
-		localeCombobox.setItems(Locale.ENGLISH, Locale.GERMAN);
-		localeCombobox.setValue(VaadinSession.getCurrent().getLocale());
-		localeCombobox.addValueChangeListener(event -> {
+		clCombobox.setItems(Locale.ENGLISH, Locale.GERMAN);
+		clCombobox.addValueChangeListener(event -> {
 			VaadinSession.getCurrent().setLocale(event.getValue());
 			User user = userInfo.getLoggedInUser();
 			user.setLanguage(event.getValue().getLanguage());
 			logger.info("changed language to {}", event.getValue().getLanguage());
 			userService.update(user);
 		});
-		return localeCombobox;
 	}
 
-	private void prepareSaveButton()
+	private void updateSaveButton()
 	{
 		saveButton.setText(getTranslation("save"));
-		saveButton
-				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
 	}
 
-	private void prepareChangePasswordButton()
+	private void updateChangePasswordButton()
 	{
 		changePasswordButton.setText(getTranslation("changePassword"));
-		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
 	}
 
-	private void prepareMailadressTextField(User user)
+	private void updateMailadressTextField(User user)
 	{
 		mailaddress.setValue(user.getMailAddress());
 		mailaddress.setLabel(getTranslation("email"));
 	}
 
-	private void prepareLastnameTextField(User user)
+	private void updateLastnameTextField(User user)
 	{
 		lastname.setValue(user.getLastName());
 		lastname.setLabel(getTranslation("lastname"));
 	}
 
-	private void prepareFirstnameTextField(User user)
+	private void updateFirstnameTextField(User user)
 	{
 		firstname.setValue(user.getFirstName());
 		firstname.setLabel(getTranslation("firstname"));

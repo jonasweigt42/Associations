@@ -3,9 +3,9 @@ package com.think.app.entity.word;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -22,37 +22,46 @@ public class WordDao extends GenericDao<Word>
 	{
 		setClazz(Word.class);
 	}
-	
+
 	@Transactional
-	public List<Word> getRandomEntries(int number)
+	public List<Word> getRandomWords(int number, String language)
 	{
-		List<Word> list = new ArrayList<>(number);
-		int countedObjects = count();
-		if(countedObjects <= number)
+		int countedObjects = countByLanguage(language);
+		if (countedObjects <= number)
 		{
 			return findAll();
 		}
-		prepareListWithRandomElements(number, list, countedObjects);
-		return list;
+		return prepareListWithRandomElements(number, language);
 	}
 
-	private void prepareListWithRandomElements(int number, List<Word> list, int countedObjects)
+	private int countByLanguage(String language)
 	{
+		return findAll().stream().filter(w -> w.getLanguage().equals(language)).collect(Collectors.toList()).size();
+	}
+
+	private List<Word> prepareListWithRandomElements(int number, String language)
+	{
+		List<Word> result = new ArrayList<>();
 		Random random = new Random();
-		while (list.size() != number)
+
+		TypedQuery<Word> query = entityManager.createNamedQuery("Word.findByLanguage", Word.class);
+		query.setParameter(1, language);
+		List<Word> words = query.getResultList();
+
+		while (result.size() != number)
 		{
-			int randomNumber = random.nextInt(countedObjects);
-			Query selectQuery = entityManager.createQuery("SELECT w FROM " + Word.class.getName() + " w");
-			selectQuery.setFirstResult(randomNumber);
-			selectQuery.setMaxResults(1);
-			Word result = (Word) selectQuery.getSingleResult();
-			if (!list.contains(result))
+			int randomNumber = random.nextInt(words.size());
+			Word wordToAdd = words.get(randomNumber);
+
+			if (!result.contains(wordToAdd))
 			{
-				list.add(result);
+				result.add(words.get(randomNumber));
+				words.remove(wordToAdd);
 			}
 		}
+		return result;
 	}
-	
+
 	@Transactional
 	public Word findByNameAndLanguage(String name, String language)
 	{
@@ -60,13 +69,13 @@ public class WordDao extends GenericDao<Word>
 		query.setParameter(1, name);
 		query.setParameter(2, language);
 		List<Word> words = query.getResultList();
-		if(!words.isEmpty())
+		if (!words.isEmpty())
 		{
 			return words.get(0);
 		}
 		return null;
 	}
-	
+
 	@Transactional
 	public Word findById(int id)
 	{

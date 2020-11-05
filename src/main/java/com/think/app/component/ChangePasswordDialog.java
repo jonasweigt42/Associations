@@ -49,10 +49,10 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		loadContent();
+		loadUi();
 	}
 
-	public void loadContent()
+	public void loadUi()
 	{
 		removeAll();
 		currentPassword.setLabel(getTranslation("currentPassword"));

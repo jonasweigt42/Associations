@@ -57,10 +57,10 @@ public class StatisticView extends VerticalLayout implements LocaleChangeObserve
 	@PostConstruct
 	public void init()
 	{
-		loadContent();
+		updateUi();
 	}
 
-	public void loadContent()
+	public void updateUi()
 	{
 		removeAll();
 
@@ -201,6 +201,6 @@ public class StatisticView extends VerticalLayout implements LocaleChangeObserve
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
-		loadContent();
+		updateUi();
 	}
 }
