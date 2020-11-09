@@ -119,18 +119,31 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	private void saveNewAssociationEntity(Word word)
 	{
+		Association associationEntity1 = createAssocitaion(word);
+		associationEntity1.setAssociation(associationField1.getValue());
+		
+		Association associationEntity2 = createAssocitaion(word);
+		associationEntity2.setAssociation(associationField2.getValue());
+		
+		Association associationEntity3 = createAssocitaion(word);
+		associationEntity3.setAssociation(associationField3.getValue());
+		
+		associationService.save(associationEntity1);
+		associationService.save(associationEntity2);
+		associationService.save(associationEntity3);
+
+		addAssociationAsWord(associationField1.getValue(), word.getLanguage());
+		addAssociationAsWord(associationField2.getValue(), word.getLanguage());
+		addAssociationAsWord(associationField3.getValue(), word.getLanguage());
+	}
+	
+	private Association createAssocitaion(Word word)
+	{
 		Association associationEntity = new Association();
 		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
 		associationEntity.setWordId(word.getId());
 		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
-		associationEntity.setAssociation1(associationField1.getValue());
-		associationEntity.setAssociation2(associationField2.getValue());
-		associationEntity.setAssociation3(associationField3.getValue());
-		associationService.save(associationEntity);
-		
-		addAssociationAsWord(associationField1.getValue(), word.getLanguage());
-		addAssociationAsWord(associationField2.getValue(), word.getLanguage());
-		addAssociationAsWord(associationField3.getValue(), word.getLanguage());
+		return associationEntity;
 	}
 	
 	private void addAssociationAsWord(String association, String language)

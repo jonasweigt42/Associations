@@ -31,15 +31,7 @@ public class Association implements Serializable
 	
 	@NotEmpty
 	@Column
-	private String association1;
-	
-	@NotEmpty
-	@Column
-	private String association2;
-	
-	@NotEmpty
-	@Column
-	private String association3;
+	private String association;
 	
 	@Column
 	private Date associationDate;
@@ -79,35 +71,14 @@ public class Association implements Serializable
 		return id;
 	}
 	
-	public String getAssociation1()
+	public String getAssociation()
 	{
-		return association1;
+		return association;
 	}
 
-	public void setAssociation1(String association1)
+	public void setAssociation(String association)
 	{
-		this.association1 = association1;
+		this.association = association;
 	}
 
-	public String getAssociation2()
-	{
-		return association2;
-	}
-
-	public void setAssociation2(String association2)
-	{
-		this.association2 = association2;
-	}
-
-	public String getAssociation3()
-	{
-		return association3;
-	}
-
-	public void setAssociation3(String association3)
-	{
-		this.association3 = association3;
-	}
-
-	
 }

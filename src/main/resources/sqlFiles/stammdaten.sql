@@ -37,11 +37,17 @@ values
 ('Dog', 'en'),
 ('Beer', 'en');
 
-INSERT INTO ASSOCIATION(user_id, word_id, association1, association2, association3, association_date)
+INSERT INTO ASSOCIATION(user_id, word_id, association, association_date)
 values
-('1', '1', 'Tür', 'bauen', 'Dach', CURRENT_TIMESTAMP),
-('1', '2', 'Software', 'Code', 'Programm', CURRENT_TIMESTAMP),
-('1', '3', 'Obst', 'Apfel', 'gelb', CURRENT_TIMESTAMP);
+('1', '1', 'Tür', CURRENT_TIMESTAMP),
+('1', '1', 'bauen', CURRENT_TIMESTAMP),
+('1', '1', 'Dach', CURRENT_TIMESTAMP),
+('1', '2', 'Software', CURRENT_TIMESTAMP),
+('1', '2', 'Code', CURRENT_TIMESTAMP),
+('1', '2', 'Programm', CURRENT_TIMESTAMP),
+('1', '3', 'Obst', CURRENT_TIMESTAMP),
+('1', '3', 'Apfel', CURRENT_TIMESTAMP),
+('1', '3', 'gelb', CURRENT_TIMESTAMP);
 
 
 
