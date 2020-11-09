@@ -9,10 +9,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 
-import com.think.app.component.Login;
 import com.think.app.component.Logo;
+import com.think.app.component.login.Login;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
+import com.think.app.view.association.AssociationCanvasView;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
@@ -98,6 +99,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 		tabs.add(createTab(getTranslation("gameMainView"), StartAssociationGameView.class));
 		tabs.add(createTab(getTranslation("profileMainView"), ProfileView.class));
 		tabs.add(createTab(getTranslation("statisticsMainView"), StatisticView.class));
+		tabs.add(createTab("canvas", AssociationCanvasView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 

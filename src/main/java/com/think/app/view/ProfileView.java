@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.think.app.component.ChangePasswordDialog;
+import com.think.app.component.login.ChangePasswordDialog;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;

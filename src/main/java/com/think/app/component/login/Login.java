@@ -1,4 +1,4 @@
-package com.think.app.component;
+package com.think.app.component.login;
 
 import java.util.Locale;
 
@@ -10,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.think.app.component.ViewUpdater;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;

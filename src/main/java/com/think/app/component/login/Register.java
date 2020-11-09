@@ -1,4 +1,4 @@
-package com.think.app.component;
+package com.think.app.component.login;
 
 import java.util.concurrent.ExecutionException;
 

@@ -3,7 +3,7 @@ package com.think.app.constants;
 public class TextConstants
 {
 
-	public static final String TITLE = "Worzz";
+	public static final String TITLE = "worzz";
 	
 	//error messages
 	public static final String USER_SHOULD_BE_LOGGEDIN = "user should be logged in";
