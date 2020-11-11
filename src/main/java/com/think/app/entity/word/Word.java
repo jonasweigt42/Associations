@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @NamedQuery(query = "SELECT w FROM Word w WHERE w.name = ?1 AND w.language = ?2", name = "Word.findbyNameAndLanguage")
 @NamedQuery(query = "SELECT w FROM Word w WHERE w.id = ?1", name = "Word.findbyId")
 @NamedQuery(query = "SELECT w FROM Word w WHERE w.language = ?1", name = "Word.findByLanguage")
+@NamedQuery(query = "SELECT w FROM Word w WHERE w.id = ?1 AND w.language = ?2", name = "Word.findbyIdAndLanguage")
 public class Word implements Serializable
 {
 

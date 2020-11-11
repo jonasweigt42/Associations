@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.view.ProfileView;
 import com.think.app.view.StartView;
+import com.think.app.view.association.AssociationCanvasView;
 import com.think.app.view.association.AssociationGameView;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
@@ -30,6 +31,9 @@ public class ViewUpdater
 	@Autowired
 	private StatisticView statisticsView;
 	
+	@Autowired
+	private AssociationCanvasView canvasView;
+	
 	public void updateViews()
 	{
 		searchTripView.updateUi();
@@ -37,6 +41,7 @@ public class ViewUpdater
 		provideTripView.updateUi();
 		profileView.updateUi();
 		statisticsView.updateUi();
+		canvasView.updateUi();
 	}
 	
 }
