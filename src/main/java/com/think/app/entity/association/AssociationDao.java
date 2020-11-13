@@ -25,4 +25,12 @@ public class AssociationDao extends GenericDao<Association>
 		return entityManager.createQuery("SELECT a FROM " + Association.class.getName() + " a WHERE a.userId = "
 				+ userId).getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Association> findByWordId(int wordId)
+	{
+		return entityManager.createQuery("SELECT a FROM " + Association.class.getName() + " a WHERE a.wordId = "
+				+ wordId).getResultList();
+	}
 }

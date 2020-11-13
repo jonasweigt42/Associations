@@ -40,14 +40,14 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 
 	@Autowired
 	private UserInfo userInfo;
-	
+
 	@PostConstruct
 	public void init()
 	{
 		addClassName(HTMLConstants.CENTERED_CONTENT);
-		
+
 		button.addClickListener(event -> UI.getCurrent().navigate(StartAssociationGameView.class));
-		
+
 		updateUi();
 	}
 
@@ -55,11 +55,10 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 	{
 		removeAll();
 		headline.setText(getTranslation("welcome") + TextConstants.TITLE);
-		button.setText(getTranslation("start"));
+
+		add(headline, personalLabel);
 		
 		preparePersonalLabel();
-
-		add(headline, personalLabel, button);
 	}
 
 	private void preparePersonalLabel()
@@ -67,8 +66,9 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			personalLabel.setText(getTranslation("hi") + user.getFirstName()
-					+ getTranslation("welcomeText"));
+			personalLabel.setText(getTranslation("hi") + user.getFirstName() + getTranslation("welcomeText"));
+			button.setText(getTranslation("start"));
+			add(button);
 		} else
 		{
 			personalLabel.setText(getTranslation("notLoggedInMessage"));

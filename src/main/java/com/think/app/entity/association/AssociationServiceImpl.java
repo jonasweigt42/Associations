@@ -49,4 +49,10 @@ public class AssociationServiceImpl implements AssociationService
 		return dao.findByUserId(userId);
 	}
 
+	@Override
+	public List<Association> findByWordId(int wordId)
+	{
+		return dao.findByWordId(wordId);
+	}
+
 }

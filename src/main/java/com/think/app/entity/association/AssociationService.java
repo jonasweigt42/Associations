@@ -8,4 +8,6 @@ public interface AssociationService extends Service<Association>
 {
 
 	List<Association> findByUserId(int userId);
+	
+	List<Association> findByWordId(int wordId);
 }

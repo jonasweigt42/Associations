@@ -13,7 +13,7 @@ import com.think.app.component.Logo;
 import com.think.app.component.login.Login;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
-import com.think.app.view.association.AssociationCanvasView;
+import com.think.app.view.association.AssociationWordsView;
 import com.think.app.view.association.StartAssociationGameView;
 import com.think.app.view.association.StatisticView;
 import com.vaadin.flow.component.Component;
@@ -30,6 +30,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
@@ -99,7 +100,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 		tabs.add(createTab(getTranslation("gameMainView"), StartAssociationGameView.class));
 		tabs.add(createTab(getTranslation("profileMainView"), ProfileView.class));
 		tabs.add(createTab(getTranslation("statisticsMainView"), StatisticView.class));
-		tabs.add(createTab("canvas", AssociationCanvasView.class));
+		tabs.add(createTab("canvas", AssociationWordsView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 
@@ -130,6 +131,10 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private void selectTab()
 	{
+		if(HasUrlParameter.class.isAssignableFrom(getContent().getClass()))
+		{
+			return;
+		}
 		String target = RouteConfiguration.forSessionScope().getUrl(getContent().getClass());
 		Optional<Component> tabToSelect = menu.getChildren().filter(tab -> {
 			Component child = tab.getChildren().findFirst().get();

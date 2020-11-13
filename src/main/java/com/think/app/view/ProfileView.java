@@ -54,6 +54,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	public void init()
 	{
 		addClassName(HTMLConstants.CENTERED_CONTENT);
+		
 		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
 		saveButton
 				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
