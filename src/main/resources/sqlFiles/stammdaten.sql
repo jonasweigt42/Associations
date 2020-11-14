@@ -17,6 +17,33 @@ values
 ('Politik', 'de'),
 ('Aktie', 'de'),
 ('Schrank', 'de'),
+('Tür', 'de'),
+('bauen', 'de'),
+('Dach', 'de'),
+('Software', 'de'),
+('Code', 'de'),
+('Programm', 'de'),
+('Obst', 'de'),
+('gelb', 'de'),
+('spontan', 'de'),
+('vergesslich', 'de'),
+('schön', 'de'),
+('fröhlich', 'de'),
+('Mann', 'de'),
+('Garage', 'de'),
+('Teich', 'de'),
+('Fisch', 'de'),
+('Giraffe', 'de'),
+('Baum', 'de'),
+('Schornstein', 'de'),
+('Zoo', 'de'),
+('Schubkarre', 'de'),
+('Auto', 'de'),
+('Holz', 'de'),
+('Leiter', 'de'),
+('Bank', 'de'),
+('Couch', 'de'),
+('Bauernhof', 'de'),
 ('Bier', 'de');
 
 INSERT INTO WORD (name, language) 
@@ -47,7 +74,10 @@ values
 ('1', '2', 'Programm', CURRENT_TIMESTAMP),
 ('1', '3', 'Obst', CURRENT_TIMESTAMP),
 ('1', '3', 'Apfel', CURRENT_TIMESTAMP),
-('1', '3', 'gelb', CURRENT_TIMESTAMP);
+('1', '3', 'gelb', CURRENT_TIMESTAMP),
+('1', '4', 'süß', CURRENT_TIMESTAMP),
+('1', '4', 'Kerne', CURRENT_TIMESTAMP),
+('1', '4', 'Baum', CURRENT_TIMESTAMP);
 
 
 

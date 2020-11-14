@@ -6,8 +6,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vaadin.pekkam.Canvas;
 
+import com.think.app.component.buttons.CanvasButton;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.association.AssociationService;
@@ -16,9 +16,9 @@ import com.think.app.entity.word.Word;
 import com.think.app.entity.word.WordService;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -38,13 +38,11 @@ public class AssociationCanvasView extends VerticalLayout implements HasUrlParam
 	@Autowired
 	private UserInfo userInfo;
 
-	private Canvas canvas;
-
 	private H4 label = new H4();
-	
+
 	@Autowired
 	private WordService wordService;
-	
+
 	@Autowired
 	private AssociationService associationService;
 
@@ -77,8 +75,6 @@ public class AssociationCanvasView extends VerticalLayout implements HasUrlParam
 	public void setParameter(BeforeEvent event, String parameter)
 	{
 		removeAll();
-//		CanvasRenderingContext2D ctx = canvas.getContext();
-//		ctx.fillText(parameter, 50, 50);
 		label.setText(parameter);
 		add(label);
 		addAssociations(parameter);
@@ -87,15 +83,28 @@ public class AssociationCanvasView extends VerticalLayout implements HasUrlParam
 	private void addAssociations(String wordText)
 	{
 		Word word = wordService.findByNameAndLanguage(wordText, VaadinSession.getCurrent().getLocale().getLanguage());
-		List<Association> associations = associationService.findByWordId(word.getId());
-		for(Association association : associations)
+		if (word == null)
 		{
-			Button button = new Button(association.getAssociation());
-			button.getElement().setProperty("title", association.getAssociationDate().toString());
-			add(button);
+			return;
+		}
+		List<Association> associations = associationService.findByWordId(word.getId());
+		for (Association association : associations)
+		{
+			Word associatedWord = wordService.findByNameAndLanguage(association.getAssociation(),
+					VaadinSession.getCurrent().getLocale().getLanguage());
+			if (associatedWord == null || associationService.findByWordId(associatedWord.getId()).isEmpty())
+			{
+				Label wordLabel = new Label(association.getAssociation());
+				add(wordLabel);
+			} else
+			{
+				CanvasButton button = new CanvasButton(association.getAssociation());
+				button.getElement().setProperty("title", association.getAssociationDate().toString());
+				add(button);
+			}
 		}
 	}
-	
+
 //	private void prepareCanvas()
 //	{
 //		canvas = new Canvas(400, 400);
