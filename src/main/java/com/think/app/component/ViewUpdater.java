@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.view.ProfileView;
 import com.think.app.view.StartView;
-import com.think.app.view.association.AssociationWordsView;
-import com.think.app.view.association.AssociationGameView;
-import com.think.app.view.association.StartAssociationGameView;
-import com.think.app.view.association.StatisticView;
+import com.think.app.view.association.game.AssociationGameView;
+import com.think.app.view.association.game.StartAssociationGameView;
+import com.think.app.view.association.stats.AssociationWordsView;
+import com.think.app.view.association.stats.StatisticView;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Component

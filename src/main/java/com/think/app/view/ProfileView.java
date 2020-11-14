@@ -36,7 +36,6 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	private TextField mailaddress = new TextField();
 	private Button changePasswordButton = new Button();
 	private Button saveButton = new Button();
-	
 
 	@Autowired
 	private UserInfo userInfo;
@@ -80,7 +79,6 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 			add(label);
 		}
 	}
-
 	
 	private void updateSaveButton()
 	{

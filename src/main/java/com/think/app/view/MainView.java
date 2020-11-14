@@ -13,9 +13,9 @@ import com.think.app.component.Logo;
 import com.think.app.component.login.Login;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
-import com.think.app.view.association.AssociationWordsView;
-import com.think.app.view.association.StartAssociationGameView;
-import com.think.app.view.association.StatisticView;
+import com.think.app.view.association.game.StartAssociationGameView;
+import com.think.app.view.association.stats.AssociationWordsView;
+import com.think.app.view.association.stats.StatisticView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -53,6 +53,8 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 	private static final long serialVersionUID = 8986999742090476969L;
 
 	private Tabs menu = new Tabs();
+	private FlexLayout navbarLayout = new FlexLayout();
+	private Icon icon = new Icon(VaadinIcon.FLAG_O);
 
 	@Autowired
 	private Logo logo;
@@ -69,19 +71,17 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 		setPrimarySection(Section.DRAWER);
 		addToNavbar(false, new DrawerToggle());
 		addToNavbar(false, logo);
-		addToNavbar(prepareButtonLayout());
+		prepareNavbarLayout();
+		addToNavbar(navbarLayout);
 		prepareMenuTabs();
 		addToDrawer(menu);
 	}
 
-	private FlexLayout prepareButtonLayout()
+	private void prepareNavbarLayout()
 	{
-		FlexLayout layout = new FlexLayout();
-		Icon icon = new Icon(VaadinIcon.FLAG_O);
 		icon.setClassName("flag-icon");
-		layout.add(icon, login.getClComboBox(), login.getLoginButton());
-		layout.addClassName("margin-left");
-		return layout;
+		navbarLayout.add(icon, login.getClComboBox(), login.getLoginButton());
+		navbarLayout.addClassName("margin-left");
 	}
 
 	private void prepareMenuTabs()
@@ -156,6 +156,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 	{
 		logger.info("catched UpdateMainViewEvent");
 		updateMainViewUI();
+//		navbarLayout.remove(icon, login.getClComboBox());
 	}
 
 	@Override

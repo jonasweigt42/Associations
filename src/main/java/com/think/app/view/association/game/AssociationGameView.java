@@ -1,4 +1,4 @@
-package com.think.app.view.association;
+package com.think.app.view.association.game;
 
 import java.sql.Date;
 import java.util.ArrayList;

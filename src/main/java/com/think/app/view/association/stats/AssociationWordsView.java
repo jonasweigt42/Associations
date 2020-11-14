@@ -1,4 +1,4 @@
-package com.think.app.view.association;
+package com.think.app.view.association.stats;
 
 import java.util.Set;
 import java.util.stream.Collectors;

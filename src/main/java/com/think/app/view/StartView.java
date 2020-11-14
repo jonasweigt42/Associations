@@ -9,7 +9,7 @@ import com.think.app.constants.HTMLConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
-import com.think.app.view.association.StartAssociationGameView;
+import com.think.app.view.association.game.StartAssociationGameView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
