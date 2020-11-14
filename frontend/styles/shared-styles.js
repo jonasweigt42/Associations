@@ -24,6 +24,10 @@ $_documentContainer.innerHTML = `
     vaadin-app-layout vaadin-tab a:hover {
       text-decoration: none;
     }
+    
+    vaadin-app-layout {
+ 	background-image: url("images/bild2.png");    
+    }
   </style>
 </custom-style>
 
@@ -33,7 +37,6 @@ $_documentContainer.innerHTML = `
       [part="drawer"] {
 		max-width: 150px;
       }
-      
      </style>
   </template>
 </dom-module>
