@@ -18,11 +18,10 @@ import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
 import com.think.app.event.UpdateLoginEvent;
 import com.think.app.event.UpdateMainViewEvent;
-import com.think.app.translation.TranslationProvider;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.login.AbstractLogin.ForgotPasswordEvent;
@@ -49,7 +48,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 	private LoginForm loginForm = new LoginForm();
 	private LoginI18n i18n = LoginI18n.createDefault();
 	private ErrorMessage errorMessage = new ErrorMessage();
-	private ComboBox<Locale> clCombobox = new ComboBox<>();
 
 	@Autowired
 	private UserInfo userInfo;
@@ -73,9 +71,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 	private Publisher publisher;
 
 	@Autowired
-	private TranslationProvider translationProvider;
-
-	@Autowired
 	private Logger logger;
 
 	@PostConstruct
@@ -85,13 +80,11 @@ public class Login extends Dialog implements LocaleChangeObserver
 		prepareLoginButton();
 		prepareForgetPasswordListener();
 		prepareRegistrationButton();
-		updateChangeLanguageBox();
 		updateUi();
 	}
 
 	public void updateUi()
 	{
-		clCombobox.setValue(VaadinSession.getCurrent().getLocale());
 		removeAll();
 		updateI18n();
 		loginForm.setI18n(i18n);
@@ -99,22 +92,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 		registrationButton.setText(getTranslation("register"));
 		setCloseOnEsc(false);
 		add(loginForm, registrationButton);
-	}
-
-	private void updateChangeLanguageBox()
-	{
-		clCombobox.setWidth("72px");
-		clCombobox.setItems(translationProvider.getProvidedLocales());
-		clCombobox.addValueChangeListener(event -> {
-			VaadinSession.getCurrent().setLocale(event.getValue());
-			User user = userInfo.getLoggedInUser();
-			if (user != null)
-			{
-				user.setLanguage(event.getValue().getLanguage());
-				logger.info("changed language to {}", event.getValue().getLanguage());
-				userService.update(user);
-			}
-		});
 	}
 
 	@Override
@@ -193,6 +170,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 	{
 		loginButton.addClickListener(e -> changeLoginState());
 		loginButton.addClassName(HTMLConstants.HEADER_BUTTON);
+		loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 	}
 
 	private void updateI18n()
@@ -241,11 +219,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 	public Button getLoginButton()
 	{
 		return loginButton;
-	}
-
-	public ComboBox<Locale> getClComboBox()
-	{
-		return clCombobox;
 	}
 
 	public void updateUI()

@@ -26,7 +26,7 @@ $_documentContainer.innerHTML = `
     }
     
     vaadin-app-layout {
- 	background-image: url("images/bild2.png");    
+ 	background-image: url("images/background.png");    
     }
   </style>
 </custom-style>

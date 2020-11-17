@@ -6,15 +6,18 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.think.app.component.ChangeLanguageComponent;
 import com.think.app.component.login.ChangePasswordDialog;
 import com.think.app.constants.HTMLConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
@@ -36,6 +39,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	private TextField mailaddress = new TextField();
 	private Button changePasswordButton = new Button();
 	private Button saveButton = new Button();
+	private H4 notLoggedInLabel = new H4();
 
 	@Autowired
 	private UserInfo userInfo;
@@ -45,6 +49,9 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 
 	@Autowired
 	private ChangePasswordDialog changePasswordDialog;
+	
+	@Autowired
+	private ChangeLanguageComponent clComponent;
 
 	@Autowired
 	private Logger logger;
@@ -55,8 +62,10 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		addClassName(HTMLConstants.CENTERED_CONTENT);
 		
 		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
+		changePasswordButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		saveButton
 				.addClickListener(evt -> updateUser(firstname.getValue(), lastname.getValue(), mailaddress.getValue()));
+		saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		updateUi();
 	}
 
@@ -71,12 +80,14 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 			updateMailadressTextField(user);
 			updateChangePasswordButton();
 			updateSaveButton();
+			FlexLayout layout = new FlexLayout();
+			layout.add(clComponent.getIcon(), clComponent.getClCombobox());
 			
-			add(firstname, lastname, mailaddress, saveButton, changePasswordButton);
+			add(firstname, lastname, mailaddress, saveButton, changePasswordButton, layout);
 		} else
 		{
-			H4 label = new H4(getTranslation("notLoggedInMessage"));
-			add(label);
+			notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
+			add(notLoggedInLabel);
 		}
 	}
 	
@@ -128,6 +139,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		mailaddress.setLabel(getTranslation("email"));
 		firstname.setLabel(getTranslation("firstname"));
 		lastname.setLabel(getTranslation("lastname"));
+		notLoggedInLabel.setText(getTranslation("notLoggedInMessage"));
 	}
 
 }

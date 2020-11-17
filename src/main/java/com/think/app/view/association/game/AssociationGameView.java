@@ -19,6 +19,7 @@ import com.think.app.entity.word.WordService;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -92,6 +93,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		loggedInLabel.setText(word);
 
 		saveButton.setText(getTranslation("save"));
+		saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 		add(loggedInLabel, associationField1, associationField2, associationField3, saveButton);
 	}

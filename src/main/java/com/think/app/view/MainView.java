@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 
+import com.think.app.component.ChangeLanguageComponent;
 import com.think.app.component.Logo;
 import com.think.app.component.login.Login;
 import com.think.app.constants.TextConstants;
@@ -22,8 +23,6 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -34,6 +33,7 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -54,13 +54,15 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private Tabs menu = new Tabs();
 	private FlexLayout navbarLayout = new FlexLayout();
-	private Icon icon = new Icon(VaadinIcon.FLAG_O);
 
 	@Autowired
 	private Logo logo;
 
 	@Autowired
 	private Login login;
+	
+	@Autowired
+	private ChangeLanguageComponent clComponent;
 
 	@Autowired
 	private Logger logger;
@@ -79,8 +81,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private void prepareNavbarLayout()
 	{
-		icon.setClassName("flag-icon");
-		navbarLayout.add(icon, login.getClComboBox(), login.getLoginButton());
+		navbarLayout.add(clComponent , login.getLoginButton());
 		navbarLayout.addClassName("margin-left");
 	}
 
@@ -156,13 +157,14 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 	{
 		logger.info("catched UpdateMainViewEvent");
 		updateMainViewUI();
-//		navbarLayout.remove(icon, login.getClComboBox());
+		remove(clComponent);
 	}
 
 	@Override
 	public void localeChange(LocaleChangeEvent event)
 	{
 		updateMainViewUI();
+		clComponent.setValue(VaadinSession.getCurrent().getLocale());
 	}
 
 }

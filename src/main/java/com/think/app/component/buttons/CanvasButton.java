@@ -3,6 +3,7 @@ package com.think.app.component.buttons;
 import com.think.app.view.association.stats.AssociationCycleView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 
 public class CanvasButton extends Button
 {
@@ -13,5 +14,6 @@ public class CanvasButton extends Button
 	{
 		setText(wordName);
 		addClickListener(event -> UI.getCurrent().navigate(AssociationCycleView.class, wordName));
+		addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 	}
 }

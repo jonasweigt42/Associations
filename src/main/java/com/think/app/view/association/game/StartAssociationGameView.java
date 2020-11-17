@@ -11,6 +11,7 @@ import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -64,6 +65,7 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 		startExerciseLabel.setText(getTranslation("exercise"));
 
 		startButton.setText(getTranslation("start"));
+		startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 		add(startExerciseLabel, startButton);
 	}

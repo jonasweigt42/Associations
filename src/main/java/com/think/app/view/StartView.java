@@ -12,6 +12,7 @@ import com.think.app.userinfo.UserInfo;
 import com.think.app.view.association.game.StartAssociationGameView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
@@ -47,6 +48,7 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 		addClassName(HTMLConstants.CENTERED_CONTENT);
 
 		button.addClickListener(event -> UI.getCurrent().navigate(StartAssociationGameView.class));
+		button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
 		updateUi();
 	}
