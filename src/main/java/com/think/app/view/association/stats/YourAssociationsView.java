@@ -29,7 +29,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport("./styles/shared-styles.css")
 @UIScope
 @Component
-public class AssociationWordsView extends VerticalLayout implements LocaleChangeObserver
+public class YourAssociationsView extends VerticalLayout implements LocaleChangeObserver
 {
 	private static final long serialVersionUID = -4004779308081980602L;
 

@@ -15,8 +15,7 @@ import com.think.app.component.login.Login;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
 import com.think.app.view.association.game.StartAssociationGameView;
-import com.think.app.view.association.stats.AssociationWordsView;
-import com.think.app.view.association.stats.StatisticView;
+import com.think.app.view.association.stats.YourAssociationsView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -100,8 +99,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 		tabs.add(createTab(getTranslation("welcomeMainView"), StartView.class));
 		tabs.add(createTab(getTranslation("gameMainView"), StartAssociationGameView.class));
 		tabs.add(createTab(getTranslation("profileMainView"), ProfileView.class));
-		tabs.add(createTab(getTranslation("statisticsMainView"), StatisticView.class));
-		tabs.add(createTab("canvas", AssociationWordsView.class));
+		tabs.add(createTab(getTranslation("yourAssociationsView"), YourAssociationsView.class));
 		return tabs.toArray(new Tab[tabs.size()]);
 	}
 

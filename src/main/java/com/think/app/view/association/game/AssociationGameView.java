@@ -82,14 +82,15 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		}
 	}
 
-	public void addFieldsForUser(User user)
+	private void addFieldsForUser(User user)
 	{
 		if(words.isEmpty())
 		{
 			return;
 		}
 		String word = words.get(0).getName();
-
+		
+		
 		loggedInLabel.setText(word);
 
 		saveButton.setText(getTranslation("save"));
@@ -109,7 +110,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		{
 			removeAll();
 			loggedInLabel.setText(getTranslation("finishedExercise") + " "
-					+ getTranslation("statisticsMainView"));
+					+ getTranslation("yourAssociationsView"));
 			add(loggedInLabel);
 		} else
 		{

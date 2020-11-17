@@ -68,12 +68,12 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			personalLabel.setText(getTranslation("hi") + user.getFirstName() + getTranslation("welcomeText"));
+			personalLabel.setText(getTranslation("hi") + user.getFirstName() + "! " + getTranslation("welcomeText"));
 			button.setText(getTranslation("start"));
 			add(button);
 		} else
 		{
-			personalLabel.setText(getTranslation("notLoggedInMessage"));
+			personalLabel.setText(getTranslation("welcomeText"));
 		}
 	}
 

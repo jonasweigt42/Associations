@@ -28,7 +28,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport("./styles/shared-styles.css")
 @UIScope
 @Component
-public class AssociationCycleView extends VerticalLayout implements HasUrlParameter<String>
+public class YourAssociationsCycleView extends VerticalLayout implements HasUrlParameter<String>
 {
 
 	private static final long serialVersionUID = 1005150066090728627L;
