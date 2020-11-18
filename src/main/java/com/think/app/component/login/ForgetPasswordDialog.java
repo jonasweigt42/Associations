@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.user.User;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -36,8 +36,8 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
-		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		layout.addClassName(CSSConstants.CENTERED_CONTENT);
+		errorLabel.addClassName(CSSConstants.TEXT_RED);
 		submit.addClickListener(ent -> validate(mailAddress.getValue()));
 		
 		updateUi();

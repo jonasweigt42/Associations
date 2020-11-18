@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
@@ -45,7 +45,7 @@ public class StartView extends VerticalLayout implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		addClassName(HTMLConstants.CENTERED_CONTENT);
+		addClassName(CSSConstants.CENTERED_CONTENT);
 
 		button.addClickListener(event -> UI.getCurrent().navigate(StartAssociationGameView.class));
 		button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

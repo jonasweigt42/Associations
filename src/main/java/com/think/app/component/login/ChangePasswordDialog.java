@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -60,11 +60,11 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 		newPassword.setLabel(getTranslation("newPassword"));
 		newPasswordRetype.setLabel(getTranslation("newPasswordRetype"));
 		VerticalLayout layout = new VerticalLayout();
-		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
+		layout.addClassName(CSSConstants.CENTERED_CONTENT);
 
 		title.setText(getTranslation("assignNewPassword"));
 
-		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		errorLabel.addClassName(CSSConstants.TEXT_RED);
 
 		submit.addClickListener(ent -> validate());
 		submit.setText(getTranslation("change"));

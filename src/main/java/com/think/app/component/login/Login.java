@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.think.app.component.ViewUpdater;
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -105,7 +105,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private void prepareRegistrationButton()
 	{
-		registrationButton.addClassName(HTMLConstants.REGISTRATION_BUTTON);
+		registrationButton.addClassName(CSSConstants.REGISTRATION_BUTTON);
 		registrationButton.addClickListener(evt -> register.open());
 	}
 
@@ -169,8 +169,9 @@ public class Login extends Dialog implements LocaleChangeObserver
 	private void prepareLoginButton()
 	{
 		loginButton.addClickListener(e -> changeLoginState());
-		loginButton.addClassName(HTMLConstants.HEADER_BUTTON);
+		loginButton.addClassName(CSSConstants.HEADER_BUTTON);
 		loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		loginButton.setId("login-button");
 	}
 
 	private void updateI18n()

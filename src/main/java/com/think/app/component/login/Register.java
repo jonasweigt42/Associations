@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.event.Publisher;
@@ -67,8 +67,8 @@ public class Register extends Dialog implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		layout.addClassName(HTMLConstants.CENTERED_CONTENT);
-		errorLabel.addClassName(HTMLConstants.TEXT_RED);
+		layout.addClassName(CSSConstants.CENTERED_CONTENT);
+		errorLabel.addClassName(CSSConstants.TEXT_RED);
 		submit.addClickListener(evt -> validateRegistration());
 		updateUi();
 	}

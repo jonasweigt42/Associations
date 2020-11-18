@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.association.Association;
 import com.think.app.entity.association.AssociationService;
 import com.think.app.entity.user.User;
@@ -63,7 +63,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	@PostConstruct
 	public void init()
 	{
-		addClassName(HTMLConstants.CENTERED_CONTENT);
+		addClassName(CSSConstants.CENTERED_CONTENT);
 		updateUi();
 	}
 

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.translation.TranslationProvider;
@@ -45,8 +46,8 @@ public class ChangeLanguageComponent extends FlexLayout
 	@PostConstruct
 	public void init()
 	{
-		icon.setClassName("flag-icon");
-		addClassName("margin-left");
+		icon.setClassName(CSSConstants.FLAG_ICON);
+		addClassName(CSSConstants.MARGIN_LEFT);
 		updateChangeLanguageBox();
 		add(icon, clCombobox);
 	}

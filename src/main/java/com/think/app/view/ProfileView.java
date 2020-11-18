@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.component.ChangeLanguageComponent;
 import com.think.app.component.login.ChangePasswordDialog;
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
 import com.think.app.userinfo.UserInfo;
@@ -59,7 +59,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 	@PostConstruct
 	public void init()
 	{
-		addClassName(HTMLConstants.CENTERED_CONTENT);
+		addClassName(CSSConstants.CENTERED_CONTENT);
 		
 		changePasswordButton.addClickListener(evt -> changePasswordDialog.open());
 		changePasswordButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

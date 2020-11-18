@@ -5,7 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.think.app.constants.HTMLConstants;
+import com.think.app.constants.CSSConstants;
 import com.think.app.entity.user.User;
 import com.think.app.userinfo.UserInfo;
 import com.think.app.view.MainView;
@@ -40,7 +40,7 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 	@PostConstruct
 	public void init()
 	{
-		addClassName(HTMLConstants.CENTERED_CONTENT);
+		addClassName(CSSConstants.CENTERED_CONTENT);
 		startButton.addClickListener(evt -> navigate());
 		updateUi();
 	}
