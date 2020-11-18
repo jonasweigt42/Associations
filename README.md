@@ -1,5 +1,8 @@
 # Project Base with Vaadin and Spring Boot
 
+Daily association training for improving associative thinking, your memory and your vocabulary.
+
+Write down your associations for random words, click through your associations, compare your associations with other users.
 
 ## Running the Application
 
