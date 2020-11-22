@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.think.app.component.ViewUpdater;
 import com.think.app.constants.CSSConstants;
+import com.think.app.constants.ComponentIdConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.entity.user.User;
 import com.think.app.entity.user.UserService;
@@ -43,7 +44,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private static final long serialVersionUID = -3124840772943883433L;
 
-	private Button loginButton = new Button();
+	private Button mainViewloginButton = new Button();
 	private Button registrationButton = new Button();
 	private LoginForm loginForm = new LoginForm();
 	private LoginI18n i18n = LoginI18n.createDefault();
@@ -168,10 +169,10 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private void prepareLoginButton()
 	{
-		loginButton.addClickListener(e -> changeLoginState());
-		loginButton.addClassName(CSSConstants.HEADER_BUTTON);
-		loginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-		loginButton.setId("login-button");
+		mainViewloginButton.addClickListener(e -> changeLoginState());
+		mainViewloginButton.addClassName(CSSConstants.HEADER_BUTTON);
+		mainViewloginButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		mainViewloginButton.setId(ComponentIdConstants.LOGIN_BUTTON);
 	}
 
 	private void updateI18n()
@@ -210,16 +211,16 @@ public class Login extends Dialog implements LocaleChangeObserver
 	{
 		if (userInfo.isLoggedIn())
 		{
-			loginButton.setText(getTranslation("logout"));
+			mainViewloginButton.setText(getTranslation("logout"));
 		} else
 		{
-			loginButton.setText(getTranslation("login"));
+			mainViewloginButton.setText(getTranslation("login"));
 		}
 	}
 
-	public Button getLoginButton()
+	public Button getMainViewLoginButton()
 	{
-		return loginButton;
+		return mainViewloginButton;
 	}
 
 	public void updateUI()
