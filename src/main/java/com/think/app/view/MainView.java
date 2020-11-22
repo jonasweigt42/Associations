@@ -12,6 +12,7 @@ import org.springframework.context.event.EventListener;
 import com.think.app.component.ChangeLanguageComponent;
 import com.think.app.component.Logo;
 import com.think.app.component.login.Login;
+import com.think.app.constants.CSSConstants;
 import com.think.app.constants.TextConstants;
 import com.think.app.event.UpdateMainViewEvent;
 import com.think.app.view.association.game.StartAssociationGameView;
@@ -40,7 +41,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import ch.qos.logback.classic.Logger;
 
 
-@PWA(name = "Worzz", shortName = TextConstants.TITLE, iconPath = "/icons/icon-512x512.png")
+@PWA(name = TextConstants.TITLE, shortName = TextConstants.TITLE, iconPath = "/icons/icon-512x512.png")
 @JsModule("./styles/shared-styles.js")
 @CssImport("./styles/shared-styles.css")
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
@@ -80,8 +81,8 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private void prepareNavbarLayout()
 	{
-		navbarLayout.add(clComponent , login.getLoginButton());
-		navbarLayout.addClassName("margin-left");
+		navbarLayout.add(clComponent , login.getMainViewLoginButton());
+		navbarLayout.addClassName(CSSConstants.MARGIN_LEFT);
 	}
 
 	private void prepareMenuTabs()
