@@ -24,6 +24,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -59,7 +60,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	@Autowired
 	private AssociationService associationService;
-	
+
 	@PostConstruct
 	public void init()
 	{
@@ -84,19 +85,40 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	private void addFieldsForUser(User user)
 	{
-		if(words.isEmpty())
+		if (words.isEmpty())
 		{
 			return;
 		}
 		String word = words.get(0).getName();
-		
-		
-		loggedInLabel.setText(word);
 
-		saveButton.setText(getTranslation("save"));
-		saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		loggedInLabel.setText(word);
+		prepareSaveButton();
+		prepareTextFields();
 
 		add(loggedInLabel, associationField1, associationField2, associationField3, saveButton);
+	}
+
+	private void prepareTextFields()
+	{
+		associationField1.setValueChangeMode(ValueChangeMode.EAGER);
+		associationField1.addValueChangeListener(event -> checkValueForSaveButton());
+		associationField2.setValueChangeMode(ValueChangeMode.EAGER);
+		associationField2.addValueChangeListener(event -> checkValueForSaveButton());
+		associationField3.setValueChangeMode(ValueChangeMode.EAGER);
+		associationField3.addValueChangeListener(event -> checkValueForSaveButton());
+	}
+
+	private void checkValueForSaveButton()
+	{
+		saveButton.setEnabled(
+				!associationField1.isEmpty() && !associationField2.isEmpty() && !associationField3.isEmpty());
+	}
+
+	private void prepareSaveButton()
+	{
+		saveButton.setText(getTranslation("save"));
+		saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		saveButton.setEnabled(false);
 	}
 
 	private void saveAndClear(String language)
@@ -109,8 +131,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		if (words.isEmpty())
 		{
 			removeAll();
-			loggedInLabel.setText(getTranslation("finishedExercise") + " "
-					+ getTranslation("yourAssociationsView"));
+			loggedInLabel.setText(getTranslation("finishedExercise") + " " + getTranslation("yourAssociationsView"));
 			add(loggedInLabel);
 		} else
 		{
@@ -124,13 +145,13 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	{
 		Association associationEntity1 = createAssocitaion(word);
 		associationEntity1.setAssociation(associationField1.getValue());
-		
+
 		Association associationEntity2 = createAssocitaion(word);
 		associationEntity2.setAssociation(associationField2.getValue());
-		
+
 		Association associationEntity3 = createAssocitaion(word);
 		associationEntity3.setAssociation(associationField3.getValue());
-		
+
 		associationService.save(associationEntity1);
 		associationService.save(associationEntity2);
 		associationService.save(associationEntity3);
@@ -139,7 +160,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		addAssociationAsWord(associationField2.getValue(), word.getLanguage());
 		addAssociationAsWord(associationField3.getValue(), word.getLanguage());
 	}
-	
+
 	private Association createAssocitaion(Word word)
 	{
 		Association associationEntity = new Association();
@@ -148,10 +169,10 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
 		return associationEntity;
 	}
-	
+
 	private void addAssociationAsWord(String association, String language)
 	{
-		if(wordService.findByNameAndLanguage(association, language) == null)
+		if (wordService.findByNameAndLanguage(association, language) == null)
 		{
 			Word newWord = new Word();
 			newWord.setName(association);
@@ -180,7 +201,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
 		{
-			if(clickListenerRegistration == null)
+			if (clickListenerRegistration == null)
 			{
 				clickListenerRegistration = saveButton.addClickListener(evt -> saveAndClear(user.getLanguage()));
 			}
