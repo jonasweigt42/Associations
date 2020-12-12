@@ -1,11 +1,18 @@
 package com.associations.app.component.login;
 
+import java.util.Random;
+
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.associations.app.component.AssociationsNotification;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.user.User;
+import com.associations.app.entity.user.UserService;
+import com.associations.app.service.MailService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -18,6 +25,8 @@ import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.spring.annotation.UIScope;
+
+import ch.qos.logback.classic.Logger;
 
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @Component
@@ -32,6 +41,18 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 	private H2 title = new H2();
 	private Button submit = new Button();
 	private VerticalLayout layout = new VerticalLayout();
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PasswordEncoder encoder;
+	
+	@Autowired
+	private MailService mailService;
+	
+	@Autowired
+	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -70,21 +91,21 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 
 	private void validate(String mailAddress)
 	{
-//		User user = userService.getUserByMailAddress(mailAddress);
-//
-//		if (user == null)
-//		{
-//			errorLabel.setText("Benutzer ist nicht registriert");
-//
-//		} else
-//		{
-//			 TODO add send mail and generate random password
-//			user.setPassword(encoder.encode(randomPassword));
-//			userService.update(user);
-//			Notification.show("Passwort für " + user.getMailAddress() + " zurückgesetzt");
-//			Notification.show("not implemented yet");
-//			close();
-//		}
+		User user = userService.getUserByMailAddress(mailAddress);
+
+		if (user == null)
+		{
+			errorLabel.setText("Benutzer ist nicht registriert");
+
+		} else
+		{
+			String newPassword = generateRandomPassword();
+			user.setPassword(encoder.encode(newPassword));
+			userService.update(user);
+			AssociationsNotification.show("Passwort für " + mailAddress + " zurückgesetzt");
+			mailService.sendResetPasswordMail(mailAddress, newPassword);
+			close();
+		}
 	}
 
 	@Override
@@ -95,4 +116,20 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 		mailAddress.setLabel(getTranslation("email"));
 	}
 
+	private String generateRandomPassword()
+	{
+		int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = 10;
+	    Random random = new Random();
+
+	    String result = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+	    logger.info(result);
+	    return result;
+	}
+	
 }
