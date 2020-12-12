@@ -15,4 +15,12 @@ public class AssociationsNotification extends Notification
         notification.open();
         return notification;
 	}
+	
+	public static Notification showError(String text)
+	{
+		Notification notification = new Notification(text);
+		notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        notification.open();
+        return notification;
+	}
 }

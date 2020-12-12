@@ -3,6 +3,7 @@ package com.associations.app.component.login;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import com.associations.app.component.AssociationsNotification;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.user.User;
 import com.associations.app.entity.user.UserService;
+import com.associations.app.exception.ResetPasswordException;
 import com.associations.app.service.MailService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -95,15 +97,22 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 
 		if (user == null)
 		{
-			errorLabel.setText("Benutzer ist nicht registriert");
+			errorLabel.setText(getTranslation("userNotRegistered"));
 
 		} else
 		{
 			String newPassword = generateRandomPassword();
 			user.setPassword(encoder.encode(newPassword));
 			userService.update(user);
-			AssociationsNotification.show("Passwort für " + mailAddress + " zurückgesetzt");
-			mailService.sendResetPasswordMail(mailAddress, newPassword);
+			try
+			{
+				mailService.sendResetPasswordMail(mailAddress, user.getLanguage(), newPassword);
+				AssociationsNotification.show(getTranslation("resetPasswordMail"));
+			} catch (MessagingException | ResetPasswordException e)
+			{
+				logger.error(e.getMessage(), e);
+				AssociationsNotification.showError(getTranslation("resetPasswordMailError"));
+			}
 			close();
 		}
 	}

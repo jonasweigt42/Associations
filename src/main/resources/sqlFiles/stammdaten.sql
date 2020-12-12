@@ -1,5 +1,6 @@
 INSERT INTO USER (first_name, last_name, mail_address, password, language)
-values ('Jonas', 'Weigt', 'jonas@test.at', '$2a$10$uhLqWYxSDcY7kXycCOx17uZJuDeKsgHyk1ikT2dVGduT4DE4GDgl6', 'en');
+values ('Jonas', 'Weigt', 'jonas@test.at', '$2a$10$uhLqWYxSDcY7kXycCOx17uZJuDeKsgHyk1ikT2dVGduT4DE4GDgl6', 'en'),
+values ('Pansen', 'Pansmann', 'pansen@mailinator.com', '$2a$10$0sc.iJa8qEEGAd1wh7m0tuwyB4U3Fidhr1R0dWD.xTycsB2zdiiza', 'en');
 
 INSERT INTO WORD (name, language) 
 values 

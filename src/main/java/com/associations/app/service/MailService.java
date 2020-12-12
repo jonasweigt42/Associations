@@ -1,6 +1,7 @@
 package com.associations.app.service;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -16,43 +17,76 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.associations.app.constants.TextConstants;
+import com.associations.app.exception.ResetPasswordException;
+
 @Service
 public class MailService
 {
-	
+
 	@Autowired
 	private Logger logger;
 
-	public void sendResetPasswordMail(String mailAddress, String newPassword)
+	public void sendResetPasswordMail(String mailAddress, String language, String newPassword) throws MessagingException, ResetPasswordException
+	{
+		Session session = prepareSession();
+		Message msg = buildForgotPasswordMessage(mailAddress, newPassword, language, session);
+		Transport.send(msg);
+		logger.info("Message sent.");
+	}
+
+	private Session prepareSession()
 	{
 		Properties props = prepareSystemProperties();
 		final String username = "associations.info42@gmail.com";
 		final String password = "Yolorolf142857.!";
-		try
+		return Session.getInstance(props, new Authenticator()
 		{
-			Session session = Session.getInstance(props, new Authenticator()
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication()
 			{
-				protected PasswordAuthentication getPasswordAuthentication()
-				{
-					return new PasswordAuthentication(username, password);
-				}
-			});
+				return new PasswordAuthentication(username, password);
+			}
+		});
+	}
 
-			Message msg = new MimeMessage(session);
+	private Message buildForgotPasswordMessage(String mailAddress, String newPassword, String language, Session session)
+			throws MessagingException, ResetPasswordException
+	{
+		Message msg = new MimeMessage(session);
 
-			msg.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(mailAddress, false));
-			msg.setSubject("Associations - Password zurückgesetzt");
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailAddress, false));
+		msg.setSubject(TextConstants.TITLE + " - " + prepareForgotPasswordSubject(language));
 
-			msg.setText("Password wurde auf '" + newPassword + "' zurückgesetzt");
-			msg.setSentDate(new Date());
-			Transport.send(msg);
-			logger.info("Message sent.");
-		} catch (MessagingException e)
+		msg.setText(prepareForgorPasswordText(newPassword, language));
+		msg.setSentDate(new Date());
+		return msg;
+	}
+
+	private String prepareForgorPasswordText(String newPassword, String language) throws ResetPasswordException
+	{
+		if (Locale.GERMAN.toString().equals(language))
 		{
-			logger.error(e.getMessage(), e);
+			return "Passwort wurde auf '" + newPassword + "' zurückgesetzt.";
 		}
+		if (Locale.ENGLISH.toString().equals(language))
+		{
+			return "Password reset to '" + newPassword + "'.";
+		}
+		throw new ResetPasswordException(TextConstants.USER_LOCALE_NOT_AVAILABLE);
+	}
 
+	private String prepareForgotPasswordSubject(String language) throws ResetPasswordException
+	{
+		if (Locale.GERMAN.toString().equals(language))
+		{
+			return "Passwort zurückgesetzt";
+		}
+		if (Locale.ENGLISH.toString().equals(language))
+		{
+			return "reset password";
+		}
+		throw new ResetPasswordException(TextConstants.USER_LOCALE_NOT_AVAILABLE);
 	}
 
 	private Properties prepareSystemProperties()
