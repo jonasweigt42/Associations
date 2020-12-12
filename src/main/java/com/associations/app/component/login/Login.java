@@ -10,6 +10,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.associations.app.component.AssociationsNotification;
 import com.associations.app.component.ViewUpdater;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.constants.ComponentIdConstants;
@@ -30,7 +31,6 @@ import com.vaadin.flow.component.login.AbstractLogin.LoginEvent;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginI18n.ErrorMessage;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
 import com.vaadin.flow.server.VaadinSession;
@@ -154,7 +154,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 		User user = userService.getUserByMailAddress(mailAddress);
 		if (user == null)
 		{
-			Notification.show(getTranslation("userNotRegistered"));
+			AssociationsNotification.show(getTranslation("userNotRegistered"));
 			loginForm.setError(true);
 			return;
 		}

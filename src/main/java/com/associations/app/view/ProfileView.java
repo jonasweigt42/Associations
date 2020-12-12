@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.associations.app.component.AssociationsNotification;
 import com.associations.app.component.ChangeLanguageComponent;
 import com.associations.app.component.login.ChangePasswordDialog;
 import com.associations.app.constants.CSSConstants;
@@ -16,7 +17,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -127,7 +127,7 @@ public class ProfileView extends VerticalLayout implements LocaleChangeObserver
 		user.setMailAddress(username);
 
 		userService.update(user);
-		Notification.show(getTranslation("userWasUpdated"));
+		AssociationsNotification.show(getTranslation("userWasUpdated"));
 		logger.info("user was updated");
 	}
 

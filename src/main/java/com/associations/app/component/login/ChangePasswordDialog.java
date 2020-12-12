@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.associations.app.component.AssociationsNotification;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.constants.TextConstants;
 import com.associations.app.entity.user.User;
@@ -16,7 +17,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
@@ -95,7 +95,7 @@ public class ChangePasswordDialog extends Dialog implements LocaleChangeObserver
 			user.setPassword(encoder.encode(newPasswordRetype.getValue()));
 
 			userService.update(user);
-			Notification.show(getTranslation("userWasUpdated"));
+			AssociationsNotification.show(getTranslation("userWasUpdated"));
 			close();
 			clearAll();
 		}
