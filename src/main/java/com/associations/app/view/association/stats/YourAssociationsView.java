@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.associations.app.component.buttons.CanvasButton;
+import com.associations.app.component.buttons.AssociationCycleButton;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.association.Association;
 import com.associations.app.entity.association.AssociationService;
@@ -72,7 +72,7 @@ public class YourAssociationsView extends VerticalLayout implements LocaleChange
 				Word word = wordService.findById(wordId);
 				if (word.getLanguage().equals(VaadinSession.getCurrent().getLocale().getLanguage()))
 				{
-					add(new CanvasButton(word.getName()));
+					add(new AssociationCycleButton(word.getName()));
 				}
 			}
 		} else

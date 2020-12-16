@@ -10,4 +10,6 @@ public interface AssociationService extends Service<Association>
 	List<Association> findByUserId(int userId);
 	
 	List<Association> findByWordId(int wordId);
+	
+	Association findByKey(int userId, int wordId, String association);
 }

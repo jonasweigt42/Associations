@@ -8,11 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "ASSOCIATION")
+@NamedQuery(query = "SELECT a FROM Association a WHERE a.userId = ?1 AND a.wordId = ?2 AND a.association = ?3", name = "Association.findbyKey")
 public class Association implements Serializable
 {
 

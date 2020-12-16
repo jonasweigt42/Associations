@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.associations.app.component.buttons.CanvasButton;
+import com.associations.app.component.buttons.AssociationCycleButton;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.association.Association;
 import com.associations.app.entity.association.AssociationService;
@@ -77,7 +77,7 @@ public class YourAssociationsCycleView extends VerticalLayout implements HasUrlP
 				add(wordLabel);
 			} else
 			{
-				CanvasButton button = new CanvasButton(association.getAssociation());
+				AssociationCycleButton button = new AssociationCycleButton(association.getAssociation());
 				button.getElement().setProperty("title", association.getAssociationDate().toString());
 				add(button);
 			}

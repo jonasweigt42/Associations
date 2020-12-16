@@ -18,6 +18,8 @@ import com.associations.app.entity.word.Word;
 import com.associations.app.entity.word.WordService;
 import com.associations.app.userinfo.UserInfo;
 import com.associations.app.view.MainView;
+import com.associations.app.view.association.stats.YourAssociationsView;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -125,49 +127,65 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	{
 		String wordString = loggedInLabel.getText();
 		Word word = wordService.findByNameAndLanguage(wordString, language);
-		saveNewAssociationEntity(word);
+		saveAssociations(word);
 
 		words.remove(word);
 		if (words.isEmpty())
 		{
 			removeAll();
-			loggedInLabel.setText(getTranslation("finishedExercise") + " " + getTranslation("yourAssociationsView"));
-			add(loggedInLabel);
+			loggedInLabel.setText(getTranslation("finishedExercise"));
+			Button button = prepareRedirectButton();
+			add(loggedInLabel, button);
 		} else
 		{
 			String nextWord = words.get(0).getName();
 			loggedInLabel.setText(nextWord);
-			clearAssociationFields();
 		}
+		clearAssociationFields();
 	}
 
-	private void saveNewAssociationEntity(Word word)
+	private Button prepareRedirectButton()
 	{
-		Association associationEntity1 = createAssocitaion(word);
-		associationEntity1.setAssociation(associationField1.getValue());
+		Button button = new Button();
+		button.setText(getTranslation("yourAssociationsView"));
+		button.getElement().addEventListener("click", event -> UI.getCurrent().navigate(YourAssociationsView.class));
+		button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+		return button;
+	}
 
-		Association associationEntity2 = createAssocitaion(word);
-		associationEntity2.setAssociation(associationField2.getValue());
-
-		Association associationEntity3 = createAssocitaion(word);
-		associationEntity3.setAssociation(associationField3.getValue());
-
-		associationService.save(associationEntity1);
-		associationService.save(associationEntity2);
-		associationService.save(associationEntity3);
+	private void saveAssociations(Word word)
+	{
+		saveAssocitaion(word, associationField1.getValue());
+		saveAssocitaion(word, associationField2.getValue());
+		saveAssocitaion(word, associationField3.getValue());
 
 		addAssociationAsWord(associationField1.getValue(), word.getLanguage());
 		addAssociationAsWord(associationField2.getValue(), word.getLanguage());
 		addAssociationAsWord(associationField3.getValue(), word.getLanguage());
 	}
 
-	private Association createAssocitaion(Word word)
+	private void saveAssocitaion(Word word, String association)
+	{
+		Association alreadyThere = associationService.findByKey(userInfo.getLoggedInUser().getId(), word.getId(),
+				association);
+		if (alreadyThere == null)
+		{
+			saveNewAssociation(word, association);
+		} else
+		{
+			alreadyThere.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
+			associationService.update(alreadyThere);
+		}
+	}
+
+	private void saveNewAssociation(Word word, String association)
 	{
 		Association associationEntity = new Association();
 		associationEntity.setUserId(userInfo.getLoggedInUser().getId());
 		associationEntity.setWordId(word.getId());
 		associationEntity.setAssociationDate(new Date(Calendar.getInstance().getTime().getTime()));
-		return associationEntity;
+		associationEntity.setAssociation(association);
+		associationService.save(associationEntity);
 	}
 
 	private void addAssociationAsWord(String association, String language)
