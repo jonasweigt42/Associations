@@ -67,20 +67,25 @@ public class YourAssociationsView extends VerticalLayout implements LocaleChange
 			Set<Integer> wordIds = associationService.findByUserId(userInfo.getLoggedInUser().getId()).stream()
 					.map(Association::getWordId).collect(Collectors.toSet());
 
-			for (int wordId : wordIds)
-			{
-				Word word = wordService.findById(wordId);
-				if (word.getLanguage().equals(VaadinSession.getCurrent().getLocale().getLanguage()))
-				{
-					add(new AssociationCycleButton(word.getName()));
-				}
-			}
+			addAssociationsToView(wordIds);
 		} else
 		{
 			H4 label = new H4(getTranslation("notLoggedInMessage"));
 			add(label);
 		}
 
+	}
+
+	private void addAssociationsToView(Set<Integer> wordIds)
+	{
+		for (int wordId : wordIds)
+		{
+			Word word = wordService.findById(wordId);
+			if (word.getLanguage().equals(VaadinSession.getCurrent().getLocale().getLanguage()))
+			{
+				add(new AssociationCycleButton(word.getName()));
+			}
+		}
 	}
 
 	@Override

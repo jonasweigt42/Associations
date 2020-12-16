@@ -69,18 +69,23 @@ public class YourAssociationsCycleView extends VerticalLayout implements HasUrlP
 		List<Association> associations = associationService.findByWordId(word.getId());
 		for (Association association : associations)
 		{
-			Word associatedWord = wordService.findByNameAndLanguage(association.getAssociation(),
-					VaadinSession.getCurrent().getLocale().getLanguage());
-			if (associatedWord == null || associationService.findByWordId(associatedWord.getId()).isEmpty())
-			{
-				Label wordLabel = new Label(association.getAssociation());
-				add(wordLabel);
-			} else
-			{
-				AssociationCycleButton button = new AssociationCycleButton(association.getAssociation());
-				button.getElement().setProperty("title", association.getAssociationDate().toString());
-				add(button);
-			}
+			addAssociationToView(association);
+		}
+	}
+
+	private void addAssociationToView(Association association)
+	{
+		Word associatedWord = wordService.findByNameAndLanguage(association.getAssociation(),
+				VaadinSession.getCurrent().getLocale().getLanguage());
+		if (associatedWord == null || associationService.findByWordId(associatedWord.getId()).isEmpty())
+		{
+			Label wordLabel = new Label(association.getAssociation());
+			add(wordLabel);
+		} else
+		{
+			AssociationCycleButton button = new AssociationCycleButton(association.getAssociation());
+			button.getElement().setProperty("title", association.getAssociationDate().toString());
+			add(button);
 		}
 	}
 
