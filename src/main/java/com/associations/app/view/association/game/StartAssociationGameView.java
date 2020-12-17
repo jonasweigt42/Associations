@@ -1,5 +1,7 @@
 package com.associations.app.view.association.game;
 
+import java.util.Arrays;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.associations.app.view.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +35,7 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 
 	private H4 notLoggedInLabel = new H4();
 	private H4 startExerciseLabel = new H4();
+	private ComboBox<Integer> countOfWords = new ComboBox<>();
 	private Button startButton = new Button();
 
 	@Autowired
@@ -63,16 +67,22 @@ public class StartAssociationGameView extends VerticalLayout implements LocaleCh
 	public void addFieldsForUser()
 	{
 		startExerciseLabel.setText(getTranslation("exercise"));
-
+		
+		Integer[] array =
+			{ 3, 5, 10 };
+		
+		countOfWords.setItems(Arrays.asList(array));
+		countOfWords.setValue(10);
+		
 		startButton.setText(getTranslation("start"));
 		startButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-		add(startExerciseLabel, startButton);
+		add(startExerciseLabel, countOfWords, startButton);
 	}
 
 	private void navigate()
 	{
-		UI.getCurrent().navigate(AssociationGameView.class);
+		UI.getCurrent().navigate(AssociationGameView.class, countOfWords.getValue());
 	}
 
 	@Override

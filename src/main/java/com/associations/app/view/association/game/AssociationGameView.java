@@ -29,8 +29,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.i18n.LocaleChangeEvent;
 import com.vaadin.flow.i18n.LocaleChangeObserver;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -40,7 +40,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 @UIScope
 @Component
-public class AssociationGameView extends VerticalLayout implements LocaleChangeObserver, BeforeEnterObserver
+public class AssociationGameView extends VerticalLayout implements LocaleChangeObserver, HasUrlParameter<Integer>
 {
 
 	private static final long serialVersionUID = 4153761837545371752L;
@@ -62,7 +62,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 
 	@Autowired
 	private AssociationService associationService;
-
+	
 	@PostConstruct
 	public void init()
 	{
@@ -214,7 +214,7 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 	}
 
 	@Override
-	public void beforeEnter(BeforeEnterEvent event)
+	public void setParameter(BeforeEvent event, Integer parameter)
 	{
 		User user = userInfo.getLoggedInUser();
 		if (user != null)
@@ -223,9 +223,10 @@ public class AssociationGameView extends VerticalLayout implements LocaleChangeO
 			{
 				clickListenerRegistration = saveButton.addClickListener(evt -> saveAndClear(user.getLanguage()));
 			}
-			words = wordService.getRandomWords(10, user.getLanguage());
+			words = wordService.getRandomWords(parameter, user.getLanguage());
 		}
 		updateUi();
+		
 	}
 
 }

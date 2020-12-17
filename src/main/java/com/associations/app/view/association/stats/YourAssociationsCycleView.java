@@ -80,6 +80,7 @@ public class YourAssociationsCycleView extends VerticalLayout implements HasUrlP
 		if (associatedWord == null || associationService.findByWordId(associatedWord.getId()).isEmpty())
 		{
 			Label wordLabel = new Label(association.getAssociation());
+			wordLabel.getElement().setProperty("title", association.getAssociationDate().toString());
 			add(wordLabel);
 		} else
 		{
