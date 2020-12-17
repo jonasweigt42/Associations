@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -33,6 +34,19 @@ public class MailService
 		Message msg = buildForgotPasswordMessage(mailAddress, newPassword, language, session);
 		Transport.send(msg);
 		logger.info("Message sent.");
+	}
+	
+	public void sendVerificationMail(String mailAddress, String language, String token) throws AddressException, MessagingException
+	{
+		Session session = prepareSession();
+		Message msg = new MimeMessage(session);
+
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailAddress, false));
+		msg.setSubject(TextConstants.TITLE + " - Verification");
+
+		msg.setText("http://localhost:8080/confirmRegistration/" + token);
+		msg.setSentDate(new Date());
+		Transport.send(msg);
 	}
 
 	private Session prepareSession()

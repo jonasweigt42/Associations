@@ -7,10 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER")
+@NamedQuery(query = "SELECT u FROM User u WHERE u.id = ?1", name = "User.findbyId")
+@NamedQuery(query = "SELECT u FROM User u WHERE u.mailAddress = ?1", name = "User.findbymailAddress")
 public class User implements Serializable
 {
 
@@ -30,7 +33,19 @@ public class User implements Serializable
 	private String password;
 	@Column
 	private String language;
+	@Column
+	private boolean enabled;
 	
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled)
+	{
+		this.enabled = enabled;
+	}
+
 	public String getLanguage()
 	{
 		return language;

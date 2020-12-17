@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS USER;
 DROP TABLE IF EXISTS WORD;
 DROP TABLE IF EXISTS ASSOCIATION;
+DROP TABLE IF EXISTS VERIFICATION_TOKEN;
 
 CREATE TABLE USER (
   id INT AUTO_INCREMENT  PRIMARY KEY,
@@ -9,6 +10,7 @@ CREATE TABLE USER (
   mail_address VARCHAR(250) NOT NULL,
   password VARCHAR(250) NOT NULL,
   language VARCHAR(2) NOT NULL,
+  enabled BOOLEAN,
   UNIQUE KEY user_constraint (mail_address)
 );
  
@@ -29,3 +31,15 @@ CREATE TABLE ASSOCIATION (
  FOREIGN KEY (word_id) REFERENCES WORD(id),
  UNIQUE KEY association_constraint (user_id, word_id, association)
  );
+ 
+ CREATE TABLE VERIFICATION_TOKEN (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ token VARCHAR(250) NOT NULL,
+ user_id INT NOT NULL,
+ create_date DATE NOT NULL,
+ expiry_date DATE NOT NULL,
+ FOREIGN KEY (user_id) REFERENCES USER(id),
+ UNIQUE KEY verification_constraint (user_id)
+ );
+ 
+ 

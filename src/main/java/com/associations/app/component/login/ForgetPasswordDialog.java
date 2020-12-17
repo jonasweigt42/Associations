@@ -93,7 +93,7 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 
 	private void validate(String mailAddress)
 	{
-		User user = userService.getUserByMailAddress(mailAddress);
+		User user = userService.findByMailAddress(mailAddress);
 
 		if (user == null)
 		{

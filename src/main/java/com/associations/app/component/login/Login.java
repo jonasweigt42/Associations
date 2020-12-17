@@ -151,7 +151,7 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	private void login(String mailAddress, String password)
 	{
-		User user = userService.getUserByMailAddress(mailAddress);
+		User user = userService.findByMailAddress(mailAddress);
 		if (user == null)
 		{
 			AssociationsNotification.show(getTranslation("userNotRegistered"));

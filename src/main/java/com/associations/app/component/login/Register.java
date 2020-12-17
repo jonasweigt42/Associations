@@ -1,5 +1,6 @@
 package com.associations.app.component.login;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
@@ -9,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.associations.app.component.AssociationsNotification;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.user.User;
 import com.associations.app.entity.user.UserService;
+import com.associations.app.entity.verification.VerificationToken;
+import com.associations.app.entity.verification.VerificationTokenService;
 import com.associations.app.event.Publisher;
-import com.associations.app.event.UpdateLoginEvent;
+import com.associations.app.service.MailService;
 import com.associations.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -58,6 +62,12 @@ public class Register extends Dialog implements LocaleChangeObserver
 	@Autowired
 	private Publisher publisher;
 
+	@Autowired
+	private VerificationTokenService verficationTokenService;
+	
+	@Autowired
+	private MailService mailService;
+	
 	@Autowired
 	private PasswordEncoder encoder;
 	
@@ -109,7 +119,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 	{
 		try
 		{
-			User user = userService.getUserByMailAddress(mailAddress.getValue());
+			User user = userService.findByMailAddress(mailAddress.getValue());
 			validateUser(user);
 			
 		} catch (InterruptedException | ExecutionException e)
@@ -133,9 +143,20 @@ public class Register extends Dialog implements LocaleChangeObserver
 		{
 			User newUser = createUser();
 			userService.save(newUser);
-			userInfo.loginAfterRegistration(newUser);
+//			userInfo.loginAfterRegistration(newUser);
 			close();
-			publisher.publishEvent(new UpdateLoginEvent(this));
+			
+			try
+			{
+				VerificationToken token = new VerificationToken(UUID.randomUUID().toString(), newUser.getId());
+				verficationTokenService.save(token);
+				mailService.sendVerificationMail(newUser.getMailAddress(), newUser.getLanguage(), token.getToken());
+				AssociationsNotification.show("Please check your mails!");
+			} catch (Exception e)
+			{
+				AssociationsNotification.showError("Something went wrong");
+			}
+//			publisher.publishEvent(new UpdateLoginEvent(this));
 		}
 	}
 

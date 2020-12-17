@@ -4,5 +4,7 @@ import com.associations.app.entity.Service;
 
 public interface UserService extends Service<User>
 {
-	User getUserByMailAddress(String mailAddress);
+	User findByMailAddress(String mailAddress);
+	
+	User findById(int id);
 }

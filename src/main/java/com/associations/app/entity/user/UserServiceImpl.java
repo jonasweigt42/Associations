@@ -23,21 +23,6 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public User getUserByMailAddress(String mailAddress)
-	{
-		List<User> users = dao.findAll();
-
-		for (User user : users)
-		{
-			if (user.getMailAddress().equals(mailAddress))
-			{
-				return user;
-			}
-		}
-		return null;
-	}
-
-	@Override
 	public void update(User user)
 	{
 		dao.update(user);
@@ -62,6 +47,18 @@ public class UserServiceImpl implements UserService
 	{
 		dao.delete(user);
 		logger.info("deleted user {}", user.getMailAddress());
+	}
+
+	@Override
+	public User findByMailAddress(String mailAddress)
+	{
+		return dao.findByMailAddress(mailAddress);
+	}
+
+	@Override
+	public User findById(int id)
+	{
+		return dao.findById(id);
 	}
 
 }
