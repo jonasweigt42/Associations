@@ -4,9 +4,7 @@ import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +16,6 @@ import com.associations.app.constants.TextConstants;
 import com.associations.app.entity.user.User;
 import com.associations.app.entity.user.UserService;
 import com.associations.app.event.Publisher;
-import com.associations.app.event.UpdateLoginEvent;
 import com.associations.app.event.UpdateMainViewEvent;
 import com.associations.app.userinfo.UserInfo;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -70,9 +67,6 @@ public class Login extends Dialog implements LocaleChangeObserver
 
 	@Autowired
 	private Publisher publisher;
-
-	@Autowired
-	private Logger logger;
 
 	@PostConstruct
 	public void init()
@@ -154,12 +148,18 @@ public class Login extends Dialog implements LocaleChangeObserver
 		User user = userService.findByMailAddress(mailAddress);
 		if (user == null)
 		{
-			AssociationsNotification.show(getTranslation("userNotRegistered"));
+			AssociationsNotification.showError(getTranslation("userNotRegistered"));
 			loginForm.setError(true);
 			return;
 		}
 		if (!encoder.matches(password, user.getPassword()))
 		{
+			loginForm.setError(true);
+			return;
+		}
+		if(!user.isEnabled())
+		{
+			AssociationsNotification.showError(getTranslation("userNotVerified"));
 			loginForm.setError(true);
 			return;
 		}
@@ -223,20 +223,11 @@ public class Login extends Dialog implements LocaleChangeObserver
 		return mainViewloginButton;
 	}
 
-	public void updateUI()
+	public void updateAllLoginUis()
 	{
 		updateUi();
 		register.updateUi();
 		forgetPasswordDialog.updateUi();
-	}
-
-	@EventListener
-	public void onApplicationEvent(UpdateLoginEvent event)
-	{
-		logger.info("catched UpdateLoginEvent");
-		close();
-		updateButtonLabel();
-		viewUpdater.updateViews();
 	}
 
 	@Override

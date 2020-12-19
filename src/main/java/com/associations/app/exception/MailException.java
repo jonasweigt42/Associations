@@ -1,16 +1,16 @@
 package com.associations.app.exception;
 
-public class ResetPasswordException extends Exception
+public class MailException extends Exception
 {
 
 	private static final long serialVersionUID = -52381831733012454L;
 
-	public ResetPasswordException(String text)
+	public MailException(String text)
 	{
 		super(text);
 	}
 	
-	public ResetPasswordException(String text, Throwable e)
+	public MailException(String text, Throwable e)
 	{
 		super(text, e);
 	}

@@ -40,7 +40,6 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 import ch.qos.logback.classic.Logger;
 
-
 @PWA(name = TextConstants.TITLE, shortName = TextConstants.TITLE, iconPath = "/icons/icon-512x512.png")
 @JsModule("./styles/shared-styles.js")
 @CssImport("./styles/shared-styles.css")
@@ -60,7 +59,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	@Autowired
 	private Login login;
-	
+
 	@Autowired
 	private ChangeLanguageComponent clComponent;
 
@@ -81,7 +80,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private void prepareNavbarLayout()
 	{
-		navbarLayout.add(clComponent , login.getMainViewLoginButton());
+		navbarLayout.add(clComponent, login.getMainViewLoginButton());
 		navbarLayout.addClassName(CSSConstants.MARGIN_LEFT);
 	}
 
@@ -131,7 +130,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 
 	private void selectTab()
 	{
-		if(HasUrlParameter.class.isAssignableFrom(getContent().getClass()))
+		if (HasUrlParameter.class.isAssignableFrom(getContent().getClass()))
 		{
 			return;
 		}
@@ -148,7 +147,7 @@ public class MainView extends AppLayout implements LocaleChangeObserver
 		int selectedIndex = menu.getSelectedIndex();
 		prepareMenuTabs();
 		menu.setSelectedIndex(selectedIndex);
-		login.updateUI();
+		login.updateAllLoginUis();
 	}
 
 	@EventListener

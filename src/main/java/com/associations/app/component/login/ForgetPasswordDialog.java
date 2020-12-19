@@ -13,7 +13,7 @@ import com.associations.app.component.AssociationsNotification;
 import com.associations.app.constants.CSSConstants;
 import com.associations.app.entity.user.User;
 import com.associations.app.entity.user.UserService;
-import com.associations.app.exception.ResetPasswordException;
+import com.associations.app.exception.MailException;
 import com.associations.app.service.MailService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -108,7 +108,7 @@ public class ForgetPasswordDialog extends Dialog implements LocaleChangeObserver
 			{
 				mailService.sendResetPasswordMail(mailAddress, user.getLanguage(), newPassword);
 				AssociationsNotification.show(getTranslation("resetPasswordMail"));
-			} catch (MessagingException | ResetPasswordException e)
+			} catch (MessagingException | MailException e)
 			{
 				logger.error(e.getMessage(), e);
 				AssociationsNotification.showError(getTranslation("resetPasswordMailError"));

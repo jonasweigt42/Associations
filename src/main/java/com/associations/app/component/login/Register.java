@@ -16,9 +16,7 @@ import com.associations.app.entity.user.User;
 import com.associations.app.entity.user.UserService;
 import com.associations.app.entity.verification.VerificationToken;
 import com.associations.app.entity.verification.VerificationTokenService;
-import com.associations.app.event.Publisher;
 import com.associations.app.service.MailService;
-import com.associations.app.userinfo.UserInfo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -55,12 +53,6 @@ public class Register extends Dialog implements LocaleChangeObserver
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private UserInfo userInfo;
-
-	@Autowired
-	private Publisher publisher;
 
 	@Autowired
 	private VerificationTokenService verficationTokenService;
@@ -143,7 +135,6 @@ public class Register extends Dialog implements LocaleChangeObserver
 		{
 			User newUser = createUser();
 			userService.save(newUser);
-//			userInfo.loginAfterRegistration(newUser);
 			close();
 			
 			try
@@ -156,7 +147,6 @@ public class Register extends Dialog implements LocaleChangeObserver
 			{
 				AssociationsNotification.showError("Something went wrong");
 			}
-//			publisher.publishEvent(new UpdateLoginEvent(this));
 		}
 	}
 
