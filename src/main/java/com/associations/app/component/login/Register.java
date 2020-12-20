@@ -1,7 +1,6 @@
 package com.associations.app.component.login;
 
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
 
@@ -56,13 +55,13 @@ public class Register extends Dialog implements LocaleChangeObserver
 
 	@Autowired
 	private VerificationTokenService verficationTokenService;
-	
+
 	@Autowired
 	private MailService mailService;
-	
+
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	@Autowired
 	private Logger logger;
 
@@ -74,7 +73,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 		submit.addClickListener(evt -> validateRegistration());
 		updateUi();
 	}
-	
+
 	public void updateUi()
 	{
 		removeAll();
@@ -109,20 +108,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 
 	private void validateRegistration()
 	{
-		try
-		{
-			User user = userService.findByMailAddress(mailAddress.getValue());
-			validateUser(user);
-			
-		} catch (InterruptedException | ExecutionException e)
-		{
-			errorLabel.setText(getTranslation("registrationErrorMessage"));
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	private void validateUser(User user) throws InterruptedException, ExecutionException
-	{
+		User user = userService.findByMailAddress(mailAddress.getValue());
 		if (user != null)
 		{
 			errorLabel.setText(getTranslation("userAlreadyRegistered"));
@@ -133,20 +119,25 @@ public class Register extends Dialog implements LocaleChangeObserver
 		}
 		if (user == null && password.getValue().equals(passwordRetype.getValue()))
 		{
-			User newUser = createUser();
-			userService.save(newUser);
-			close();
-			
-			try
-			{
-				VerificationToken token = new VerificationToken(UUID.randomUUID().toString(), newUser.getId());
-				verficationTokenService.save(token);
-				mailService.sendVerificationMail(newUser.getMailAddress(), newUser.getLanguage(), token.getToken());
-				AssociationsNotification.show("Please check your mails!");
-			} catch (Exception e)
-			{
-				AssociationsNotification.showError("Something went wrong");
-			}
+			registerNewUser();
+		}
+	}
+
+	private void registerNewUser()
+	{
+		User newUser = createUser();
+		userService.save(newUser);
+		close();
+		try
+		{
+			VerificationToken token = new VerificationToken(UUID.randomUUID().toString(), newUser.getId());
+			verficationTokenService.save(token);
+			mailService.sendVerificationMail(newUser.getMailAddress(), newUser.getLanguage(), token.getToken());
+			AssociationsNotification.show(getTranslation("checkMails"));
+		} catch (Exception e)
+		{
+			errorLabel.setText(getTranslation("registrationErrorMessage"));
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -159,7 +150,7 @@ public class Register extends Dialog implements LocaleChangeObserver
 		newUser.setMailAddress(mailAddress.getValue());
 		newUser.setLanguage(VaadinSession.getCurrent().getLocale().getLanguage());
 		newUser.setPassword(encodedPassword);
-		
+
 		return newUser;
 	}
 
