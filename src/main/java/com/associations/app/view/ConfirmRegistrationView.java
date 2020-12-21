@@ -61,29 +61,39 @@ public class ConfirmRegistrationView extends VerticalLayout implements HasUrlPar
 		VerificationToken verificationToken = service.findByToken(parameter);
 		if (verificationToken == null)
 		{
-			logger.info("invalid token!");
-			label.setText("invalid token!");
+			logger.error("invalid token!");
+			label.setText(getTranslation("genericError"));
 			add(label);
 			return;
 		}
-		User user = userService.findById(verificationToken.getUserId());
 		Calendar calendar = Calendar.getInstance();
 		if ((verificationToken.getExpiryDate().getTime() - calendar.getTime().getTime()) <= 0)
 		{
 			logger.info("token expired");
-			label.setText("invalid token!");
+			label.setText(getTranslation("verificationExpired"));
 			add(label);
 			return;
 		}
-		user.setEnabled(true);
-		userService.update(user);
-		label.setText("Confirmation succeed");
-		add(label);
-		Button button = new Button("zum login");
+		enableUser(verificationToken);
+		addBackToLoginButton();
+		
+	}
+
+	private void addBackToLoginButton()
+	{
+		Button button = new Button(getTranslation("toLogin"));
 		button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		button.addClickListener(clickEvent -> navigateToLogin());
 		add(button);
-		
+	}
+
+	private void enableUser(VerificationToken verificationToken)
+	{
+		User user = userService.findById(verificationToken.getUserId());
+		user.setEnabled(true);
+		userService.update(user);
+		label.setText(getTranslation("confirmationSucceed"));
+		add(label);
 	}
 	
 	private void navigateToLogin()

@@ -96,11 +96,11 @@ public class MailService
 		
 		if (Locale.GERMAN.toString().equals(language))
 		{
-			return "Bitte die Mail bestätigen unter: " + verificationUrl;
+			return "Bitte die Mail innerhalb 24 Stunden bestätigen unter: " + verificationUrl;
 		}
 		if (Locale.ENGLISH.toString().equals(language))
 		{
-			return "please verify mail here: " + verificationUrl;
+			return "please verify mail within 24 hours here: " + verificationUrl;
 		}
 		throw new MailException(TextConstants.USER_LOCALE_NOT_AVAILABLE);
 	}

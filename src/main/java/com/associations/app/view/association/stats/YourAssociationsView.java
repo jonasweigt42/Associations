@@ -61,7 +61,7 @@ public class YourAssociationsView extends VerticalLayout implements LocaleChange
 		if (user != null)
 		{
 			
-			H4 label = new H4(getTranslation("yourAssociations"));
+			H4 label = new H4(getTranslation("yourAssociationsViewHeadline"));
 			add(label);
 			
 			Set<Integer> wordIds = associationService.findByUserId(userInfo.getLoggedInUser().getId()).stream()
