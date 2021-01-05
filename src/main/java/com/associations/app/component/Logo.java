@@ -21,7 +21,7 @@ public class Logo extends HorizontalLayout
 	public void init()
 	{
 
-		Image image = new Image("frontend/icon.png", "Image not found");
+		Image image = new Image("frontend/icon.png", "");
 		image.setHeight("40px");
 		image.setWidth("40px");
 		image.addClickListener(event -> UI.getCurrent().navigate(StartView.class));
